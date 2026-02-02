@@ -1,0 +1,17 @@
+import { Controller, Get } from '@nestjs/common';
+import { GithubService } from './github.service';
+
+@Controller('github')
+export class GithubController {
+  constructor(private readonly githubService: GithubService) {}
+
+  @Get('profile')
+  getProfile() {
+    return this.githubService.getProfile();
+  }
+
+  @Get('repos')
+  getRepos() {
+    return this.githubService.getRepos();
+  }
+}
