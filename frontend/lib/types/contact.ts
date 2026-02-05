@@ -6,5 +6,4 @@ export type Contact = {
   message: string;
   isRead: boolean;
   createdAt: string;
-  updatedAt: string;
 };

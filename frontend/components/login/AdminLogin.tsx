@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../lib/context/AuthContext";
+import { useAuth } from "../../lib/context/AuthContext";
 
 const Login = () => {
   const { login, loading, admin } = useAuth();
