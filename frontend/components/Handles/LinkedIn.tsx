@@ -1,11 +1,19 @@
 import Link from "next/link";
 
-export default function LinkedInButton() {
+type LinkedInButtonProps = {
+  url?: string; // optional if you want to override sometimes
+};
+
+export default function LinkedInButton({
+  url = "https://www.linkedin.com/in/YOUR_USERNAME/",
+}: LinkedInButtonProps) {
   return (
     <section className="flex justify-center items-center">
       <Link
-        href="/"
-        className="group relative flex justify-center p-2 rounded-md drop-shadow-xl bg-[#0077b5] text-white font-semibold transition-all duration-500 hover:translate-y-3 hover:rounded-[50%] hover:from-[#331029] hover:to-[#310413]">
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group relative flex justify-center p-2 rounded-md drop-shadow-xl bg-[#0077b5] text-white font-semibold transition-all duration-500 hover:translate-y-3 hover:rounded-[50%]">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="1em"
@@ -17,7 +25,7 @@ export default function LinkedInButton() {
         </svg>
 
         <span className="absolute opacity-0 group-hover:opacity-100 group-hover:text-gray-700 group-hover:text-sm group-hover:-translate-y-10 duration-700">
-          Linkedin
+          LinkedIn
         </span>
       </Link>
     </section>

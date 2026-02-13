@@ -9,6 +9,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ContactModule } from './contact/contact.module';
 import { LeetcodeModule } from './leetcode/leetcode.module';
 import { GithubModule } from './github/github.module';
+import { HeroImagesModule } from './hero-image/hero-images.module';
+import { VideosModule } from './videos/videos.module';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { GithubModule } from './github/github.module';
     ContactModule,
     LeetcodeModule,
     GithubModule,
+    HeroImagesModule,
+    VideosModule
   ],
   controllers: [AppController],
   providers: [AppService],

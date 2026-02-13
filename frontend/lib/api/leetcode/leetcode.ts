@@ -1,26 +1,31 @@
-import { NextResponse } from "next/server";
+// lib/leetcode.ts
+
 import { BACKEND_URL } from "../../env";
 
-export async function GET() {
+export interface LeetcodeStats {
+  username: string;
+  totalSolved: number;
+  easySolved: number;
+  mediumSolved: number;
+  hardSolved: number;
+  lastUpdated: string;
+}
+
+export async function getLeetcodeStats(): Promise<LeetcodeStats> {
   try {
     const res = await fetch(`${BACKEND_URL}/leetcode/stats`, {
       method: "GET",
-      cache: "no-store", // avoid Next.js caching
+      cache: "no-store", // always fetch fresh data
     });
 
     if (!res.ok) {
-      return NextResponse.json(
-        { error: "Failed to fetch LeetCode stats" },
-        { status: res.status },
-      );
+      throw new Error("Failed to fetch LeetCode stats");
     }
 
     const data = await res.json();
-    return NextResponse.json(data);
+    return data;
   } catch (error) {
-    return NextResponse.json(
-      { error: "Server error while fetching LeetCode stats" },
-      { status: 500 },
-    );
+    console.error("LeetCode API Error:", error);
+    throw error;
   }
 }

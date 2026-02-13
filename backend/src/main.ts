@@ -1,8 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Enable validation globally
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // remove unknown fields
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
 
   // Combine backend + frontend allowed origins
   const allowedOrigins = [
@@ -12,7 +22,6 @@ async function bootstrap() {
 
   app.enableCors({
     origin: (origin, callback) => {
-      // allow requests with no origin (like Postman, mobile apps)
       if (!origin) return callback(null, true);
 
       if (allowedOrigins.includes(origin)) {

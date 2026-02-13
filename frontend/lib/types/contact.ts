@@ -1,4 +1,4 @@
-export type Contact = {
+export interface Contact {
   _id: string;
   name: string;
   email: string;
@@ -6,4 +6,12 @@ export type Contact = {
   message: string;
   isRead: boolean;
   createdAt: string;
-};
+  updatedAt: string;
+}
+
+export interface CreateContactDto {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+}

@@ -1,100 +1,105 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import {
+  getGithubProfile,
+  getGithubRepos,
+  GithubProfile,
+  GithubRepo,
+} from "../../lib/api/github/github";
 
-type GithubProfile = {
-  username: string;
-  name: string;
-  avatar: string;
-  bio: string;
-  followers: number;
-  following: number;
-  publicRepos: number;
-  profileUrl: string;
-  joinedAt: string;
-};
-
-type GithubRepo = {
-  name: string;
-  description: string;
-  stars: number;
-  language: string;
-  repoUrl: string;
-};
-
-export default function GithubStats() {
+export default function GithubProfileCard() {
   const [profile, setProfile] = useState<GithubProfile | null>(null);
   const [repos, setRepos] = useState<GithubRepo[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchGithub = async () => {
+    async function fetchData() {
       try {
-        const res = await fetch("/api/github");
-        if (!res.ok) throw new Error("Failed to fetch GitHub data");
+        const [profileData, reposData] = await Promise.all([
+          getGithubProfile(),
+          getGithubRepos(),
+        ]);
 
-        const data = await res.json();
-        setProfile(data.profile);
-        setRepos(data.repos);
-      } catch {
-        setError("Unable to load GitHub stats");
+        setProfile(profileData);
+        setRepos(reposData);
+      } catch (err: any) {
+        setError(err.message || "Something went wrong");
       } finally {
         setLoading(false);
       }
-    };
+    }
 
-    fetchGithub();
+    fetchData();
   }, []);
 
-  if (loading) return <p>Loading GitHub data...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (loading) {
+    return (
+      <div className="p-6 border rounded-xl shadow-md">
+        Loading GitHub data...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 border rounded-xl shadow-md text-red-500">
+        Error: {error}
+      </div>
+    );
+  }
+
   if (!profile) return null;
 
   return (
-    <div className="space-y-4 max-w-xl">
-      {/* Profile Card */}
-      <div className="flex items-center gap-4 p-4 border rounded-xl shadow-sm">
+    <div className="p-6 border rounded-2xl shadow-lg bg-white dark:bg-gray-900 space-y-6">
+      {/* Profile Section */}
+      <div className="flex items-center gap-6">
         <img
           src={profile.avatar}
           alt={profile.username}
-          className="w-16 h-16 rounded-full"
+          className="w-24 h-24 rounded-full border"
         />
 
         <div>
-          <h2 className="text-lg font-semibold">{profile.name}</h2>
-          <p className="text-sm text-gray-500">@{profile.username}</p>
-          <p className="text-sm mt-1">{profile.bio}</p>
+          <h2 className="text-2xl font-bold">{profile.name}</h2>
+          <p className="text-gray-500">@{profile.username}</p>
+          <p className="mt-2 text-sm">{profile.bio}</p>
 
-          <div className="text-xs text-gray-600 mt-2 space-x-3">
-            <span>👥 {profile.followers} followers</span>
-            <span>➡️ {profile.following} following</span>
-            <span>📦 {profile.publicRepos} repos</span>
+          <div className="flex gap-4 mt-3 text-sm">
+            <span>⭐ {profile.publicRepos} Repos</span>
+            <span>👥 {profile.followers} Followers</span>
+            <span>➡ {profile.following} Following</span>
           </div>
+
+          <a
+            href={profile.profileUrl}
+            target="_blank"
+            className="inline-block mt-3 text-blue-600 hover:underline text-sm">
+            View GitHub Profile
+          </a>
         </div>
       </div>
 
       {/* Top Repos */}
       <div>
-        <h3 className="font-semibold mb-2">⭐ Top Repositories</h3>
+        <h3 className="text-xl font-semibold mb-3">Top Repositories</h3>
 
-        <div className="grid gap-3">
+        <div className="grid md:grid-cols-2 gap-4">
           {repos.map((repo) => (
             <a
               key={repo.name}
               href={repo.repoUrl}
               target="_blank"
-              className="block p-3 border rounded-lg hover:shadow transition">
-              <div className="flex justify-between">
-                <span className="font-medium">{repo.name}</span>
-                <span className="text-sm">⭐ {repo.stars}</span>
+              className="p-4 border rounded-xl hover:shadow-md transition">
+              <h4 className="font-semibold">{repo.name}</h4>
+              <p className="text-sm text-gray-500 mt-1">{repo.description}</p>
+
+              <div className="flex justify-between mt-3 text-xs text-gray-600">
+                <span>⭐ {repo.stars}</span>
+                <span>{repo.language}</span>
               </div>
-
-              <p className="text-sm text-gray-600 mt-1">{repo.description}</p>
-
-              {repo.language && (
-                <p className="text-xs text-gray-500 mt-1">🧠 {repo.language}</p>
-              )}
             </a>
           ))}
         </div>

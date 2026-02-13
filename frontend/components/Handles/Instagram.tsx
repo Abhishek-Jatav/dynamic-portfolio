@@ -1,8 +1,18 @@
-const InstagramHoverButton = () => {
+import Link from "next/link";
+
+type InstagramButtonProps = {
+  url?: string;
+};
+
+const InstagramButton = ({
+  url = "https://www.instagram.com/YOUR_USERNAME/",
+}: InstagramButtonProps) => {
   return (
     <section className="flex justify-center items-center">
-      <button
-        type="button"
+      <Link
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
         className="relative group flex justify-center p-2 rounded-md drop-shadow-xl bg-[#a21caf] text-white font-semibold
                    transition-all duration-500 hover:translate-y-3 hover:rounded-[50%]">
         <svg
@@ -22,9 +32,9 @@ const InstagramHoverButton = () => {
                      text-sm text-gray-700">
           Instagram
         </span>
-      </button>
+      </Link>
     </section>
   );
 };
 
-export default InstagramHoverButton;
+export default InstagramButton;

@@ -1,31 +1,49 @@
-import { NextResponse } from "next/server";
+// lib/github.ts
+
 import { BACKEND_URL } from "../../env";
 
-export async function GET() {
-  try {
-    const [profileRes, reposRes] = await Promise.all([
-      fetch(`${BACKEND_URL}/github/profile`, { cache: "no-store" }),
-      fetch(`${BACKEND_URL}/github/repos`, { cache: "no-store" }),
-    ]);
+export interface GithubProfile {
+  username: string;
+  name: string;
+  avatar: string;
+  bio: string;
+  followers: number;
+  following: number;
+  publicRepos: number;
+  profileUrl: string;
+  joinedAt: string;
+}
 
-    if (!profileRes.ok || !reposRes.ok) {
-      return NextResponse.json(
-        { error: "Failed to fetch GitHub data" },
-        { status: 500 },
-      );
-    }
+export interface GithubRepo {
+  name: string;
+  description: string;
+  stars: number;
+  language: string;
+  repoUrl: string;
+}
 
-    const profile = await profileRes.json();
-    const repos = await reposRes.json();
+export async function getGithubProfile(): Promise<GithubProfile> {
+  const res = await fetch(`${BACKEND_URL}/github/profile`, {
+    method: "GET",
+    cache: "no-store",
+  });
 
-    return NextResponse.json({
-      profile,
-      repos,
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Server error while fetching GitHub data" },
-      { status: 500 },
-    );
+  if (!res.ok) {
+    throw new Error("Failed to fetch GitHub profile");
   }
+
+  return res.json();
+}
+
+export async function getGithubRepos(): Promise<GithubRepo[]> {
+  const res = await fetch(`${BACKEND_URL}/github/repos`, {
+    method: "GET",
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch GitHub repos");
+  }
+
+  return res.json();
 }

@@ -1,6 +1,7 @@
 import { BACKEND_URL } from "../../env";
+import { Contact } from "../../types/contact";
 
-export async function getAllContacts(token: string) {
+export async function getAllContacts(token: string): Promise<Contact[]> {
   const res = await fetch(`${BACKEND_URL}/contact/admin/all`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -8,6 +9,9 @@ export async function getAllContacts(token: string) {
     cache: "no-store",
   });
 
-  if (!res.ok) throw new Error("Failed to fetch contacts");
+  if (!res.ok) {
+    throw new Error("Failed to fetch contacts");
+  }
+
   return res.json();
 }

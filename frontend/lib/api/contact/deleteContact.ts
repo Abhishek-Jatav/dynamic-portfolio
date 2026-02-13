@@ -8,5 +8,9 @@ export async function deleteContact(id: string, token: string) {
     },
   });
 
-  if (!res.ok) throw new Error("Failed to delete");
+  if (!res.ok) {
+    throw new Error("Failed to delete message");
+  }
+
+  return res.json();
 }

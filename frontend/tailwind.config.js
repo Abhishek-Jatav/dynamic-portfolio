@@ -1,4 +1,5 @@
 export default {
+  darkMode: "class", // 👈 ADD THIS LINE
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
