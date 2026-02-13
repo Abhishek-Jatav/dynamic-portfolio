@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../../lib/context/AuthContext";
-import { ContactList } from "../../../components/contact/ContactList";
 
 export default function AdminContactPage() {
   const { admin, logout } = useAuth();
@@ -38,7 +37,7 @@ export default function AdminContactPage() {
       </div>
 
       {/* Contact List */}
-      <ContactList />
+      
     </div>
   );
 }
