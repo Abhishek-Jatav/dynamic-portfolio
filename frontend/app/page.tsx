@@ -1,15 +1,15 @@
 import React from "react";
 import Navbar from "../components/common/Navbar/Navbar";
 import ThemeToggle from "../components/common/Toggle/ThemeToggle";
-import HeroCarousel from "@/components/HeroImage/HeroCarousel";
-import ProjectCarousel from "@/components/projects/ProjectCarousel";
-import LeetcodeStats from "../components/Leetcode/Leetcode";
-import GithubStats from "../components/Github/GithubStats";
-import LinkedInButton from "@/components/Handles/LinkedIn";
-import InstagramButton from "@/components/Handles/Instagram";
-import SubmitContactForm from "@/components/contact/SubmitContactForm";
-import HomeVideoSection from "@/components/videos/HomeVideoSection";
+import HeroCarousel from "../components/HeroImage/HeroCarousel";
+import ProjectCarousel from "../components/projects/ProjectCarousel";
+import LinkedInButton from "../components/Handles/LinkedIn";
+import InstagramButton from "../components/Handles/Instagram";
+import SubmitContactForm from "../components/contact/SubmitContactForm";
+import HomeVideoSection from "../components/videos/HomeVideoSection";
 import Footer from "../components/footer/Footer";
+import LeetcodeStats from "../components/Leetcode/Leetcode";
+import GithubProfileCard from "../components/Github/GithubStats";
 
 export default function Home() {
   return (
@@ -59,7 +59,7 @@ export default function Home() {
 
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <LeetcodeStats />
-          <GithubStats />
+          <GithubProfileCard />
           <LinkedInButton />
           <InstagramButton />
         </div>
