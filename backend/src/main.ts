@@ -14,6 +14,7 @@ function normalizeOrigins(origins?: string) {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // ✅ Global validation
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -22,13 +23,18 @@ async function bootstrap() {
     }),
   );
 
+  // ✅ Allowed origins from ENV
   const allowedOrigins = [
-    ...normalizeOrigins(process.env.BACKEND_URI),
-    ...normalizeOrigins(process.env.FRONTEND_URI),
+    ...normalizeOrigins(process.env.FRONTEND_URI_PROD),
+    ...normalizeOrigins(process.env.FRONTEND_URI_DEV),
   ];
 
+  console.log('✅ Allowed CORS Origins:', allowedOrigins);
+
+  // ✅ CORS setup
   app.enableCors({
     origin: (origin, callback) => {
+      // allow server-to-server / postman
       if (!origin) return callback(null, true);
 
       const normalizedOrigin = origin.toLowerCase().replace(/\/$/, '');
@@ -43,7 +49,9 @@ async function bootstrap() {
     credentials: true,
   });
 
-  const port = process.env.BACKEND_PORT || 4000;
+  // ✅ PORT
+  const port = process.env.PORT || 4000;
+
   await app.listen(port);
 
   console.log(`🚀 Backend running on port ${port}`);
