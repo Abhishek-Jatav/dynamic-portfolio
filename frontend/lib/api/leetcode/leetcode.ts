@@ -11,7 +11,7 @@ export interface LeetcodeStats {
   lastUpdated: string;
 }
 
-export async function getLeetcodeStats(): Promise<LeetcodeStats> {
+export async function leetcodeStats(): Promise<LeetcodeStats> {
   try {
     const res = await fetch(`${BACKEND_URL}/leetcode/stats`, {
       method: "GET",

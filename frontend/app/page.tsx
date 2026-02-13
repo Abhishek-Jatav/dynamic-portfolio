@@ -8,8 +8,8 @@ import InstagramButton from "../components/Handles/Instagram";
 import SubmitContactForm from "../components/contact/SubmitContactForm";
 import HomeVideoSection from "../components/videos/HomeVideoSection";
 import Footer from "../components/footer/Footer";
-import LeetcodeStats from "../components/Leetcode/Leetcode";
-import GithubProfileCard from "../components/Github/GithubStats";
+import LeetcodeStats from "../components/leetcode/leetcode";
+import GithubStats from "../components/github/GithubStats"; // ✅ FIXED
 
 export default function Home() {
   return (
@@ -59,7 +59,7 @@ export default function Home() {
 
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <LeetcodeStats />
-          <GithubProfileCard />
+          <GithubStats /> {/* ✅ FIXED */}
           <LinkedInButton />
           <InstagramButton />
         </div>

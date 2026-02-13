@@ -8,7 +8,8 @@ import {
   GithubRepo,
 } from "../../lib/api/github/github";
 
-export default function GithubProfileCard() {
+export default function GithubStats() {
+  // ✅ FIXED
   const [profile, setProfile] = useState<GithubProfile | null>(null);
   const [repos, setRepos] = useState<GithubRepo[]>([]);
   const [loading, setLoading] = useState(true);
@@ -76,6 +77,7 @@ export default function GithubProfileCard() {
           <a
             href={profile.profileUrl}
             target="_blank"
+            rel="noreferrer"
             className="inline-block mt-3 text-blue-600 hover:underline text-sm">
             View GitHub Profile
           </a>
@@ -92,6 +94,7 @@ export default function GithubProfileCard() {
               key={repo.name}
               href={repo.repoUrl}
               target="_blank"
+              rel="noreferrer"
               className="p-4 border rounded-xl hover:shadow-md transition">
               <h4 className="font-semibold">{repo.name}</h4>
               <p className="text-sm text-gray-500 mt-1">{repo.description}</p>
