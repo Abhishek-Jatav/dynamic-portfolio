@@ -33,7 +33,7 @@ async function bootstrap() {
     credentials: true,
   });
 
-  const port = process.env.BACKEND_PORT || 3000;
+  const port = process.env.BACKEND_PORT || 4000;
   await app.listen(port);
 
   console.log(`🚀 Backend running on port ${port}`);
