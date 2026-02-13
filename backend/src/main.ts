@@ -2,33 +2,43 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
+function normalizeOrigins(origins?: string) {
+  if (!origins) return [];
+
+  return origins
+    .split(',')
+    .map((o) => o.trim().toLowerCase().replace(/\/$/, ''))
+    .filter(Boolean);
+}
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Enable validation globally
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // remove unknown fields
+      whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
     }),
   );
 
-  // Combine backend + frontend allowed origins
   const allowedOrigins = [
-    ...(process.env.BACKEND_URI?.split(',') || []),
-    ...(process.env.FRONTEND_URI?.split(',') || []),
+    ...normalizeOrigins(process.env.BACKEND_URI),
+    ...normalizeOrigins(process.env.FRONTEND_URI),
   ];
 
   app.enableCors({
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
 
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
+      const normalizedOrigin = origin.toLowerCase().replace(/\/$/, '');
+
+      if (allowedOrigins.includes(normalizedOrigin)) {
+        return callback(null, true);
       }
+
+      console.error('❌ Blocked CORS origin:', origin);
+      return callback(new Error('Not allowed by CORS'));
     },
     credentials: true,
   });
