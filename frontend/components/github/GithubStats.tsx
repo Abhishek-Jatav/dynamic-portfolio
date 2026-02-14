@@ -64,9 +64,8 @@ export default function GithubStats() {
         />
 
         <div>
-          <h2 className="text-2xl font-bold">{profile.name}</h2>
+          <h2 className="text-2xl font-bold">GitHub</h2>
           <p className="text-gray-500">@{profile.username}</p>
-          <p className="mt-2 text-sm">{profile.bio}</p>
 
           <div className="flex gap-4 mt-3 text-sm">
             <span>⭐ {profile.publicRepos} Repos</span>
@@ -84,29 +83,6 @@ export default function GithubStats() {
         </div>
       </div>
 
-      {/* Top Repos */}
-      <div>
-        <h3 className="text-xl font-semibold mb-3">Top Repositories</h3>
-
-        <div className="grid md:grid-cols-2 gap-4">
-          {repos.map((repo) => (
-            <a
-              key={repo.name}
-              href={repo.repoUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="p-4 border rounded-xl hover:shadow-md transition">
-              <h4 className="font-semibold">{repo.name}</h4>
-              <p className="text-sm text-gray-500 mt-1">{repo.description}</p>
-
-              <div className="flex justify-between mt-3 text-xs text-gray-600">
-                <span>⭐ {repo.stars}</span>
-                <span>{repo.language}</span>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }

@@ -9,6 +9,7 @@ export default function HomeVideoSection() {
   const [video, setVideo] = useState<Video | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     async function loadVideo() {
@@ -16,7 +17,7 @@ export default function HomeVideoSection() {
         const videos = await getAllVideos();
 
         if (videos.length > 0) {
-          setVideo(videos[0]); // show latest video
+          setVideo(videos[0]);
         }
       } catch (err: any) {
         setError(err.message);
@@ -28,31 +29,39 @@ export default function HomeVideoSection() {
     loadVideo();
   }, []);
 
-  if (loading) {
-    return (
-      <section className="w-full px-4 sm:px-8 lg:px-16 py-14 text-center text-gray-500">
-        Loading featured video...
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section className="w-full px-4 sm:px-8 lg:px-16 py-14 text-center text-red-500">
-        Error: {error}
-      </section>
-    );
-  }
-
-  if (!video) return null;
+  if (loading || error || !video) return null;
 
   return (
-    <section className="w-full px-4 sm:px-8 lg:px-16 py-14">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl sm:text-3xl font-bold">Featured Video 🎬</h2>
+    <>
+      {/* Click Button */}
+      <div className="w-full flex justify-center py-10">
+        <button
+          onClick={() => setOpen(true)}
+          className="px-6 py-3 rounded-full bg-black text-white font-semibold hover:scale-105 transition">
+          ▶ Watch Featured Video
+        </button>
       </div>
 
-      <VideoPlayer videoId={video._id} />
-    </section>
+      {/* Floating Modal */}
+      {open && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
+          {/* Close Button ALWAYS TOP */}
+          <button
+            onClick={() => setOpen(false)}
+            className="fixed top-5 right-5 z-[10000] bg-red-600 hover:bg-red-700 text-white w-10 h-10 rounded-full text-xl font-bold flex items-center justify-center shadow-lg">
+            ✕
+          </button>
+
+          {/* Modal Content */}
+          <div
+            className="relative w-full max-w-4xl bg-black rounded-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}>
+            <div className="w-full aspect-video">
+              <VideoPlayer videoId={video._id} />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

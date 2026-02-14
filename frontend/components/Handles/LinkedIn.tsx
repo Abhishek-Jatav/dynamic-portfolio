@@ -5,7 +5,7 @@ type LinkedInButtonProps = {
 };
 
 export default function LinkedInButton({
-  url = "https://www.linkedin.com/in/YOUR_USERNAME/",
+  url = "https://www.linkedin.com/in/abhishek-jatav-067946261/",
 }: LinkedInButtonProps) {
   return (
     <section className="flex justify-center items-center">

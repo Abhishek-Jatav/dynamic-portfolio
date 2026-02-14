@@ -60,7 +60,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://linkedin.com/in/yourusername"
+              href="https://www.linkedin.com/in/abhishek-jatav-067946261/"
               target="_blank"
               className="hover:text-white transition">
               <Linkedin size={20} />

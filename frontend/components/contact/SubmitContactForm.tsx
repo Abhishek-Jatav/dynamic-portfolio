@@ -30,47 +30,75 @@ export default function SubmitContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
-      <input
-        placeholder="Name"
-        value={form.name}
-        onChange={(e) => setForm({ ...form, name: e.target.value })}
-        className="border p-2 w-full"
-        required
-      />
+    <div className="w-full">
+      <div className="w-full bg-indigo-50 rounded-lg shadow-lg flex flex-col justify-between p-6">
+        <form onSubmit={handleSubmit} className="text-indigo-500">
+          <fieldset className="border-4 border-dotted border-indigo-500 p-6 rounded-lg">
+            <legend className="px-2 italic -mx-2">Contact Me</legend>
 
-      <input
-        placeholder="Email"
-        value={form.email}
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-        className="border p-2 w-full"
-        required
-      />
+            {/* Name */}
+            <label className="text-xs font-bold after:content-['*'] after:text-red-400">
+              Name
+            </label>
+            <input
+              type="text"
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              required
+              className="w-full rounded-md border border-gray-400 bg-white px-3 py-2 mb-3 mt-1 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+            />
 
-      <input
-        placeholder="Phone"
-        value={form.phone}
-        onChange={(e) => setForm({ ...form, phone: e.target.value })}
-        className="border p-2 w-full"
-        required
-      />
+            {/* Email */}
+            <label className="text-xs font-bold after:content-['*'] after:text-red-400">
+              Email
+            </label>
+            <input
+              type="email"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              required
+              className="w-full rounded-md border border-gray-400 bg-white px-3 py-2 mb-3 mt-1 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+            />
 
-      <textarea
-        placeholder="Message"
-        value={form.message}
-        onChange={(e) => setForm({ ...form, message: e.target.value })}
-        className="border p-2 w-full"
-        required
-      />
+            {/* Phone */}
+            <label className="text-xs font-bold after:content-['*'] after:text-red-400">
+              Phone
+            </label>
+            <input
+              type="text"
+              value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              required
+              className="w-full rounded-md border border-gray-400 bg-white px-3 py-2 mb-3 mt-1 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+            />
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="bg-black text-white px-4 py-2">
-        {loading ? "Sending..." : "Send"}
-      </button>
+            {/* Message */}
+            <label className="text-xs font-bold after:content-['*'] after:text-red-400">
+              Message
+            </label>
+            <textarea
+              value={form.message}
+              onChange={(e) => setForm({ ...form, message: e.target.value })}
+              required
+              rows={5}
+              className="w-full rounded-md border border-gray-400 bg-white px-3 py-2 mb-4 mt-1 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+            />
 
-      {success && <p className="text-green-600">{success}</p>}
-    </form>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full rounded bg-indigo-500 text-indigo-50 p-3 font-bold hover:bg-indigo-400 transition">
+              {loading ? "Sending..." : "Send Message"}
+            </button>
+
+            {/* Success Message */}
+            {success && (
+              <p className="text-green-600 text-xs mt-3">{success}</p>
+            )}
+          </fieldset>
+        </form>
+      </div>
+    </div>
   );
 }
