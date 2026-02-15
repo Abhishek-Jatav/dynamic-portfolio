@@ -7,7 +7,7 @@ import SubmitContactForm from "../components/contact/SubmitContactForm";
 import HomeVideoSection from "../components/videos/HomeVideoSection";
 import Footer from "../components/footer/Footer";
 import LeetcodeStats from "../components/leetcode/leetcode";
-import GithubStats from "../components/github/temp";
+import GithubStats from "../components/github/GithubStats";
 import SocialHandlesColumn from "../components/Handles/SocialHandlesColumn";
 
 export default function Home() {
