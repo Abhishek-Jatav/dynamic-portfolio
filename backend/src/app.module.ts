@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProjectsModule } from './projects/projects.module';
-import { BlogsModule } from './blogs/blogs.module';
 import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -26,7 +25,6 @@ import { VideosModule } from './videos/videos.module';
     }),
 
     ProjectsModule,
-    BlogsModule,
     AuthModule,
     ContactModule,
     LeetcodeModule,

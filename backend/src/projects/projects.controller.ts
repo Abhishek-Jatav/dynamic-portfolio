@@ -33,12 +33,16 @@ export class ProjectsController {
     return this.projectsService.findAll();
   }
 
-  // 🔐 Admin only
-  @Get(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
-  async getProjectById(@Param('id') id: string) {
-    return this.projectsService.findOne(id);
+  // 🌍 Public - Get by Project ID
+  @Get('id/:id')
+  getProjectById(@Param('id') id: string) {
+    return this.projectsService.findOneById(id);
+  }
+
+  // 🌍 Public - Get by Project Name
+  @Get('name/:name')
+  getProjectByName(@Param('name') name: string) {
+    return this.projectsService.findOneByName(name);
   }
 
   // 🔐 Admin only
