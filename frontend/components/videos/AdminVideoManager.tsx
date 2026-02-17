@@ -55,7 +55,7 @@ export default function AdminVideoManager() {
 
   return (
     <div className="max-w-5xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Admin Video Manager</h1>
+      {/* <h1 className="text-2xl font-bold mb-6">Admin Video Manager</h1> */}
 
       {error && (
         <div className="bg-red-100 text-red-600 p-3 rounded mb-4">{error}</div>

@@ -20,39 +20,52 @@ export default function ProjectEditor({ project, onUpdate, onDelete }: Props) {
   };
 
   return (
-    <div className="bg-gray-50 p-6 rounded shadow space-y-4">
-      <h2 className="text-xl font-bold">Project Details</h2>
+    <div className="rounded-2xl border border-gray-800 bg-gray-950 p-6 shadow-sm space-y-4">
+      <h2 className="text-xl font-bold text-gray-100">Project Details</h2>
 
+      {/* Name */}
       <input
-        className="border p-2 w-full rounded"
+        className="w-full rounded-lg border border-gray-700 bg-gray-900 p-2 text-gray-100 placeholder:text-gray-500
+        focus:outline-none focus:ring-2 focus:ring-yellow-500"
         value={form.name}
         onChange={(e) => setForm({ ...form, name: e.target.value })}
+        placeholder="Project name"
       />
 
+      {/* Description */}
       <textarea
-        className="border p-2 w-full rounded"
+        className="w-full rounded-lg border border-gray-700 bg-gray-900 p-2 text-gray-100 placeholder:text-gray-500
+        focus:outline-none focus:ring-2 focus:ring-yellow-500"
         value={form.description}
         onChange={(e) => setForm({ ...form, description: e.target.value })}
+        placeholder="Project description"
+        rows={4}
       />
 
+      {/* Progress */}
       <input
         type="number"
-        className="border p-2 w-full rounded"
+        className="w-full rounded-lg border border-gray-700 bg-gray-900 p-2 text-gray-100
+        focus:outline-none focus:ring-2 focus:ring-yellow-500"
         value={form.progress || 0}
         onChange={(e) => setForm({ ...form, progress: Number(e.target.value) })}
+        min={0}
+        max={100}
       />
 
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-4 pt-2">
         <button
           onClick={handleUpdate}
           disabled={loading}
-          className="bg-yellow-500 text-white px-4 py-2 rounded">
-          Update
+          className="rounded-lg bg-yellow-500 px-4 py-2 font-medium text-black transition
+          hover:bg-yellow-400 disabled:opacity-60 disabled:cursor-not-allowed">
+          {loading ? "Updating..." : "Update"}
         </button>
 
         <button
           onClick={onDelete}
-          className="bg-red-600 text-white px-4 py-2 rounded">
+          className="rounded-lg bg-red-600 px-4 py-2 font-medium text-white transition
+          hover:bg-red-500">
           Delete
         </button>
       </div>

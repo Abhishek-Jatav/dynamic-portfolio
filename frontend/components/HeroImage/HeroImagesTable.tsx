@@ -25,7 +25,7 @@ export default function HeroImagesTable({
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow p-5 overflow-x-auto">
+    <div className="bg-black rounded-2xl shadow p-5 overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
           <tr className="text-left border-b">

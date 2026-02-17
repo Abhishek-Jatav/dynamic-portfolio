@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-
 import BackendGate from "../components/BackendGate";
 import Providers from "../lib/context/Providers";
+import Header from "../components/Header/Header";
+import Footer from "../components/footer/Footer";
 
 export const metadata: Metadata = {
   title: "My Portfolio",
@@ -17,9 +18,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body className="flex flex-col min-h-screen">
         <Providers>
-          <BackendGate>{children}</BackendGate>
+          <BackendGate>
+            {/* Global Header */}
+            <Header />
+
+            {/* Page Content */}
+            <main className="flex-grow">{children}</main>
+
+            {/* Global Footer */}
+            <Footer />
+          </BackendGate>
         </Providers>
       </body>
     </html>

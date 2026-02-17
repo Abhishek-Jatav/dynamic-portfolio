@@ -1,11 +1,20 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../../lib/context/AuthContext";
+import AdminContactList from "../../../components/contact/AdminContactList";
 
 export default function AdminContactPage() {
   const { admin, logout } = useAuth();
   const router = useRouter();
+
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    const t = localStorage.getItem("token"); // change key if yours is different
+    if (t) setToken(t);
+  }, []);
 
   if (!admin) {
     return <p>Please login first</p>;
@@ -37,7 +46,11 @@ export default function AdminContactPage() {
       </div>
 
       {/* Contact List */}
-      
+      {!token ? (
+        <p className="text-sm text-gray-500">Loading token...</p>
+      ) : (
+        <AdminContactList token={token} />
+      )}
     </div>
   );
 }

@@ -1,15 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { firstValueFrom } from 'rxjs';
+import { GitHub } from './github.schema';
 
 @Injectable()
 export class GithubService {
   private readonly username = 'Abhishek-Jatav';
   private readonly baseUrl = 'https://api.github.com';
 
-  constructor(private readonly httpService: HttpService) {}
+  // 24 hours in milliseconds
+  private readonly CACHE_DURATION = 24 * 60 * 60 * 1000;
 
-  async getProfile() {
+  constructor(
+    private readonly httpService: HttpService,
+
+    @InjectModel(GitHub.name)
+    private readonly githubModel: Model<GitHub>,
+  ) {}
+
+  // 🔥 Fetch profile from GitHub API
+  private async fetchProfileFromGithub() {
     const response = await firstValueFrom(
       this.httpService.get(`${this.baseUrl}/users/${this.username}`),
     );
@@ -27,23 +39,41 @@ export class GithubService {
     };
   }
 
-  async getRepos() {
-    const response = await firstValueFrom(
-      this.httpService.get(
-        `${this.baseUrl}/users/${this.username}/repos?per_page=100`,
-      ),
-    );
+  // ⏳ Cache check
+  private isCacheExpired(lastFetchedAt: Date) {
+    const now = Date.now();
+    const lastTime = new Date(lastFetchedAt).getTime();
+    return now - lastTime > this.CACHE_DURATION;
+  }
 
-    return response.data
-      .filter((repo: any) => !repo.fork && repo.description)
-      .sort((a: any, b: any) => b.stargazers_count - a.stargazers_count)
-      .slice(0, 6)
-      .map((repo: any) => ({
-        name: repo.name,
-        description: repo.description,
-        stars: repo.stargazers_count,
-        language: repo.language,
-        repoUrl: repo.html_url,
-      }));
+  /**
+   * ✅ GET /github/profile
+   * Returns saved DB data.
+   * If missing/expired -> fetch fresh and update DB.
+   */
+  async getProfile() {
+    let doc = await this.githubModel.findOne({ type: 'profile' });
+
+    // If no data OR expired -> refresh
+    if (!doc || this.isCacheExpired(doc.lastFetchedAt)) {
+      const profile = await this.fetchProfileFromGithub();
+
+      doc = await this.githubModel.findOneAndUpdate(
+        { type: 'profile' },
+        {
+          type: 'profile',
+          data: profile,
+          lastFetchedAt: new Date(),
+        },
+        { upsert: true, new: true },
+      );
+    }
+
+    // ✅ Safety check (fixes TS18047)
+    if (!doc) {
+      throw new Error('GitHub profile could not be loaded');
+    }
+
+    return doc.data;
   }
 }

@@ -73,7 +73,7 @@ export default function HeroImageForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white rounded-2xl shadow p-5 space-y-4">
+      className="bg-black rounded-2xl shadow p-5 space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">
           {initial ? "Edit Hero Image" : "Add Hero Image"}
@@ -142,7 +142,7 @@ export default function HeroImageForm({
 
       <button
         disabled={loading}
-        className="bg-black text-white px-4 py-2 rounded-xl disabled:opacity-60">
+        className="bg-black text-white px-4 py-2 rounded-xl border border-white disabled:opacity-60">
         {loading ? "Saving..." : submitText}
       </button>
     </form>

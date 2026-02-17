@@ -5,15 +5,20 @@ import { useRouter } from "next/navigation";
 
 import { useAuth } from "@/lib/context/AuthContext";
 import Login from "@/components/login/AdminLogin";
+
 import CreateProjectForm from "../../components/projects/CreateProjectForm";
 import AdminProjectManager from "@/components/projects/AdminProjectManager";
+
+import AdminHeroImagesManager from "../../components/HeroImage/AdminHeroImagesManager";
+
+// ✅ VIDEO MANAGER IMPORT
+import AdminVideoManager from "../../components/videos/AdminVideoManager";
 
 export default function AdminPage() {
   const { admin, logout } = useAuth();
   const router = useRouter();
   const [refresh, setRefresh] = useState(0);
 
-  // 🔐 If not logged in → show login
   if (!admin) {
     return (
       <div className="max-w-md mx-auto mt-10">
@@ -44,13 +49,28 @@ export default function AdminPage() {
         </div>
       </div>
 
+      {/* ================= HERO IMAGES SECTION ================= */}
+      <div className="space-y-5">
+        <h2 className="text-2xl font-bold">Hero Images</h2>
+        <AdminHeroImagesManager />
+      </div>
+
       {/* ================= PROJECT SECTION ================= */}
-      <div>
+      <div className="space-y-5">
+        <h2 className="text-2xl font-bold">Projects</h2>
+
         <CreateProjectForm
           key={refresh}
           onSuccess={() => setRefresh((prev) => prev + 1)}
         />
+
         <AdminProjectManager />
+      </div>
+
+      {/* ================= VIDEOS SECTION ================= */}
+      <div className="space-y-5">
+        <h2 className="text-2xl font-bold">Videos</h2>
+        <AdminVideoManager />
       </div>
     </div>
   );

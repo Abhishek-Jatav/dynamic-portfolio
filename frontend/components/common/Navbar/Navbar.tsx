@@ -23,25 +23,25 @@ export default function Navbar() {
         <p>Home</p>
       </Link>
 
-      {/* Search */}
+      {/* About */}
       <Link
-        href="/search"
+        href="/about"
         className="w-20 md:w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-300 ease-in-out hover:-translate-y-[3px]">
         <p>About</p>
       </Link>
 
-      {/* Profile */}
+      {/* Projects */}
       <Link
-        href="/profile"
+        href="/project"
         className="w-20 md:w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-300 ease-in-out hover:-translate-y-[3px]">
-        <p>Profile</p>
+        <p>Project</p>
       </Link>
 
-      {/* Cart */}
+      {/* Resume */}
       <Link
-        href="/cart"
+        href="/resume"
         className="w-20 md:w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-300 ease-in-out hover:-translate-y-[3px]">
-        <p>Cart</p>
+        <p>Resume</p>
       </Link>
     </nav>
   );

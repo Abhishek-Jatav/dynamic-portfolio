@@ -1,30 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  getGithubProfile,
-  getGithubRepos,
-  GithubProfile,
-  GithubRepo,
-} from "../../lib/api/github/github";
+import { getGithubProfile, GithubProfile } from "../../lib/api/github/github";
 
 export default function GithubStats() {
-  // ✅ FIXED
   const [profile, setProfile] = useState<GithubProfile | null>(null);
-  const [repos, setRepos] = useState<GithubRepo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchProfile() {
       try {
-        const [profileData, reposData] = await Promise.all([
-          getGithubProfile(),
-          getGithubRepos(),
-        ]);
-
+        const profileData = await getGithubProfile();
         setProfile(profileData);
-        setRepos(reposData);
       } catch (err: any) {
         setError(err.message || "Something went wrong");
       } finally {
@@ -32,7 +20,7 @@ export default function GithubStats() {
       }
     }
 
-    fetchData();
+    fetchProfile();
   }, []);
 
   if (loading) {
@@ -82,7 +70,6 @@ export default function GithubStats() {
           </a>
         </div>
       </div>
-
     </div>
   );
 }

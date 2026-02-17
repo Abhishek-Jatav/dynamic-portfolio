@@ -12,8 +12,8 @@ export default function ProjectSearch({ onSearchById, onSearchByName }: Props) {
   const [name, setName] = useState("");
 
   return (
-    <div className="bg-white shadow rounded p-6 space-y-4">
-      <h2 className="text-xl font-semibold">Search Project</h2>
+    <div className="bg-black shadow rounded p-6 space-y-4">
+      <h2 className="text-xl font-semibold text-gray-100">Search Project</h2>
 
       <div className="flex gap-3">
         <input
@@ -26,7 +26,7 @@ export default function ProjectSearch({ onSearchById, onSearchByName }: Props) {
         <button
           onClick={() => onSearchById(id)}
           className="bg-blue-600 text-white px-4 rounded">
-          Search
+          Search By ID
         </button>
       </div>
 
@@ -41,7 +41,7 @@ export default function ProjectSearch({ onSearchById, onSearchByName }: Props) {
         <button
           onClick={() => onSearchByName(name)}
           className="bg-green-600 text-white px-4 rounded">
-          Search
+          Search By Name
         </button>
       </div>
     </div>

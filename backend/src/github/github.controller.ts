@@ -9,9 +9,4 @@ export class GithubController {
   getProfile() {
     return this.githubService.getProfile();
   }
-
-  @Get('repos')
-  getRepos() {
-    return this.githubService.getRepos();
-  }
 }
