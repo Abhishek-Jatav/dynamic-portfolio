@@ -26,13 +26,10 @@ export default function LeetcodeStats() {
           cache: "no-store",
         });
 
-        if (!res.ok) {
-          throw new Error("Failed to fetch stats");
-        }
+        if (!res.ok) throw new Error("Failed to fetch stats");
 
         const json = await res.json();
 
-        // Ensure the URL is complete
         json.profileUrl =
           json.profileUrl || `https://leetcode.com/u/abhidel44/`;
 
@@ -47,64 +44,74 @@ export default function LeetcodeStats() {
     fetchStats();
   }, []);
 
-  if (loading) {
+  if (loading)
     return (
-      <div className="p-6 border rounded-xl shadow-md">
+      <div className="p-6 rounded-2xl border shadow-sm bg-white dark:bg-gray-900 animate-pulse">
         Loading LeetCode stats...
       </div>
     );
-  }
 
-  if (error) {
+  if (error)
     return (
-      <div className="p-6 border rounded-xl shadow-md text-red-500">
+      <div className="p-6 rounded-2xl border shadow-sm bg-white dark:bg-gray-900 text-red-500">
         Error: {error}
       </div>
     );
-  }
 
   if (!data) return null;
 
   return (
-    <div className="p-6 border rounded-2xl shadow-lg bg-white dark:bg-gray-900">
-      <h2 className="text-2xl font-bold">LeetCode</h2>
-      <p className="text-gray-500 mb-2">@{data.username}</p>
+    <div className="p-6 rounded-2xl shadow-lg border bg-white dark:bg-gray-900 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between">
+      <div>
+        <h2 className="text-xl sm:text-2xl font-bold">LeetCode</h2>
+        <p className="text-gray-500 text-sm mb-6">@{data.username}</p>
 
-      {/* One Row Layout */}
-      <div className="grid grid-cols-4 gap-4 text-center">
-        <div className="p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
-          <p className="text-sm font-semibold">Total</p>
-          <p className="text-xl font-bold">{data.totalSolved}</p>
-        </div>
-
-        <div className="p-3 bg-green-100 dark:bg-green-900 rounded-lg">
-          <p className="text-sm font-semibold">Easy</p>
-          <p className="text-xl font-bold">{data.easySolved}</p>
-        </div>
-
-        <div className="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
-          <p className="text-sm font-semibold">Medium</p>
-          <p className="text-xl font-bold">{data.mediumSolved}</p>
-        </div>
-
-        <div className="p-3 bg-red-100 dark:bg-red-900 rounded-lg">
-          <p className="text-sm font-semibold">Hard</p>
-          <p className="text-xl font-bold">{data.hardSolved}</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+          <StatBox
+            label="Total"
+            value={data.totalSolved}
+            bg="bg-gray-100 dark:bg-gray-800"
+          />
+          <StatBox
+            label="Easy"
+            value={data.easySolved}
+            bg="bg-green-100 dark:bg-green-900"
+          />
+          <StatBox
+            label="Medium"
+            value={data.mediumSolved}
+            bg="bg-yellow-100 dark:bg-yellow-900"
+          />
+          <StatBox
+            label="Hard"
+            value={data.hardSolved}
+            bg="bg-red-100 dark:bg-red-900"
+          />
         </div>
       </div>
 
-      {/* View LeetCode Profile - style matches GitHub link */}
-      <a
-        href={data.profileUrl}
-        target="_blank"
-        rel="noreferrer"
-        className="inline-block mt-3 text-blue-600 hover:underline text-sm">
-        View LeetCode Profile
-      </a>
+      <div className="mt-6">
+        <a
+          href={data.profileUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-block text-blue-600 hover:text-blue-700 font-medium text-sm transition">
+          View LeetCode Profile →
+        </a>
 
-      <p className="text-xs text-gray-500 mt-3">
-        Last updated: {new Date(data.lastUpdated).toLocaleString()}
-      </p>
+        <p className="text-xs text-gray-500 mt-3">
+          Last updated: {new Date(data.lastUpdated).toLocaleString()}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function StatBox({ label, value, bg }: any) {
+  return (
+    <div className={`p-4 rounded-xl ${bg}`}>
+      <p className="text-xs sm:text-sm font-medium">{label}</p>
+      <p className="text-lg sm:text-xl font-bold mt-1">{value}</p>
     </div>
   );
 }

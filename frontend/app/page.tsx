@@ -11,10 +11,10 @@ export default function Home() {
   return (
     <>
       {/* section 1 */}
-      <section className="w-full px-4 sm:px-8 lg:px-16 py-2 relative">
+      <section className="w-full px-4 sm:px-8 lg:px-16 py-6 relative">
         <HeroCarousel autoPlayDelay={4000} />
 
-        <div className="absolute bottom-4 right-4 z-50">
+        <div className="absolute bottom-6 right-6 z-50">
           <HomeVideoSection />
         </div>
       </section>
@@ -35,14 +35,16 @@ export default function Home() {
 
       {/* section 3 handles */}
       <section className="w-full px-4 sm:px-8 lg:px-16 py-14">
-        <div className="text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold">Handles</h2>
+        <div className="text-center max-w-2xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
+            Handles
+          </h2>
           <p className="mt-2 text-sm sm:text-base text-gray-500">
             Connect with me across platforms 🌐
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <LeetcodeStats />
           <GithubStats />
           <SocialHandlesColumn />
@@ -50,15 +52,19 @@ export default function Home() {
       </section>
 
       {/* section 4 */}
-      <section className="w-full px-4 sm:px-8 lg:px-16 py-14">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold">Contact Me</h2>
-          <p className="mt-2 text-sm sm:text-base text-gray-500">
+      <section className="w-full px-4 sm:px-8 lg:px-16 py-16">
+        <div className="text-center max-w-2xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
+            Contact Me
+          </h2>
+          <p className="mt-3 text-sm sm:text-base text-gray-500">
             Have a project idea or want to collaborate? Let’s talk 💬
           </p>
         </div>
 
-        <SubmitContactForm />
+        <div className="mt-12 max-w-3xl mx-auto">
+          <SubmitContactForm />
+        </div>
       </section>
     </>
   );

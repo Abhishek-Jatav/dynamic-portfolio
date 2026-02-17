@@ -20,7 +20,7 @@ export default function SubmitContactForm() {
 
     try {
       await submitContact(form);
-      setSuccess("Message submitted successfully!");
+      setSuccess("Message submitted successfully! ✅");
       setForm({ name: "", email: "", phone: "", message: "" });
     } catch (err: any) {
       alert(err.message);
@@ -30,75 +30,90 @@ export default function SubmitContactForm() {
   }
 
   return (
-    <div className="w-full">
-      <div className="w-full bg-indigo-50 rounded-lg shadow-lg flex flex-col justify-between p-6">
-        <form onSubmit={handleSubmit} className="text-indigo-500">
-          <fieldset className="border-4 border-dotted border-indigo-500 p-6 rounded-lg">
-            <legend className="px-2 italic -mx-2">Contact Me</legend>
+    <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-xl border p-6 sm:p-10 transition-all duration-300 hover:shadow-2xl">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Name + Email Row */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <InputField
+            label="Name"
+            type="text"
+            value={form.name}
+            onChange={(val: string) => setForm({ ...form, name: val })}
+          />
 
-            {/* Name */}
-            <label className="text-xs font-bold after:content-['*'] after:text-red-400">
-              Name
-            </label>
-            <input
-              type="text"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              required
-              className="w-full rounded-md border border-gray-400 bg-white px-3 py-2 mb-3 mt-1 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
-            />
+          <InputField
+            label="Email"
+            type="email"
+            value={form.email}
+            onChange={(val: string) => setForm({ ...form, email: val })}
+          />
+        </div>
 
-            {/* Email */}
-            <label className="text-xs font-bold after:content-['*'] after:text-red-400">
-              Email
-            </label>
-            <input
-              type="email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              required
-              className="w-full rounded-md border border-gray-400 bg-white px-3 py-2 mb-3 mt-1 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
-            />
+        {/* Phone */}
+        <InputField
+          label="Phone"
+          type="text"
+          value={form.phone}
+          onChange={(val: string) => setForm({ ...form, phone: val })}
+        />
 
-            {/* Phone */}
-            <label className="text-xs font-bold after:content-['*'] after:text-red-400">
-              Phone
-            </label>
-            <input
-              type="text"
-              value={form.phone}
-              onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              required
-              className="w-full rounded-md border border-gray-400 bg-white px-3 py-2 mb-3 mt-1 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
-            />
+        {/* Message */}
+        <div>
+          <label className="block text-sm font-medium mb-2">
+            Message <span className="text-red-500">*</span>
+          </label>
+          <textarea
+            value={form.message}
+            onChange={(e) => setForm({ ...form, message: e.target.value })}
+            required
+            rows={5}
+            className="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-4 py-3 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 transition"
+          />
+        </div>
 
-            {/* Message */}
-            <label className="text-xs font-bold after:content-['*'] after:text-red-400">
-              Message
-            </label>
-            <textarea
-              value={form.message}
-              onChange={(e) => setForm({ ...form, message: e.target.value })}
-              required
-              rows={5}
-              className="w-full rounded-md border border-gray-400 bg-white px-3 py-2 mb-4 mt-1 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
-            />
+        {/* Submit Button */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full sm:w-auto sm:px-10 rounded-xl bg-indigo-600 text-white py-3 font-semibold hover:bg-indigo-500 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed">
+          {loading ? "Sending..." : "Send Message"}
+        </button>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full rounded bg-indigo-500 text-indigo-50 p-3 font-bold hover:bg-indigo-400 transition">
-              {loading ? "Sending..." : "Send Message"}
-            </button>
+        {/* Success Message */}
+        {success && (
+          <div className="text-green-600 text-sm bg-green-50 dark:bg-green-900/30 p-3 rounded-lg">
+            {success}
+          </div>
+        )}
+      </form>
+    </div>
+  );
+}
 
-            {/* Success Message */}
-            {success && (
-              <p className="text-green-600 text-xs mt-3">{success}</p>
-            )}
-          </fieldset>
-        </form>
-      </div>
+/* Reusable Input Component */
+function InputField({
+  label,
+  type,
+  value,
+  onChange,
+}: {
+  label: string;
+  type: string;
+  value: string;
+  onChange: (val: string) => void;
+}) {
+  return (
+    <div>
+      <label className="block text-sm font-medium mb-2">
+        {label} <span className="text-red-500">*</span>
+      </label>
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required
+        className="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-4 py-3 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 transition"
+      />
     </div>
   );
 }

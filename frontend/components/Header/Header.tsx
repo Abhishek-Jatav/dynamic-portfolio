@@ -5,17 +5,27 @@ import ThemeToggle from "../common/Toggle/ThemeToggle";
 
 export default function Header() {
   return (
-    <section className="w-full p-6">
+    <header className="w-full px-6 sm:px-10 lg:px-16 py-6 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
       {/* Top Row */}
       <div className="flex items-center justify-between">
-        <div className="text-xl font-bold">Logo</div>
+        {/* Name */}
+        <div>
+          <h1 className="text-md sm:text-3xl lg:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
+            Abhishek Jatav
+          </h1>
+
+          <p className="text-xs sm:text-sm text-gray-500 mt-1">
+            Full Stack Developer
+          </p>
+        </div>
+
         <ThemeToggle />
       </div>
 
-      {/* Navbar Centered */}
-      <div className="mt-3 flex justify-center md:mt-0 md:-translate-y-10">
+      {/* Navbar */}
+      <div className="mt-6 flex justify-center">
         <Navbar />
       </div>
-    </section>
+    </header>
   );
 }

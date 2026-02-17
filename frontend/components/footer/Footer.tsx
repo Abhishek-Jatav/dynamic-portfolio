@@ -11,10 +11,10 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-10">
         {/* Brand Section */}
         <div>
-          <h2 className="text-2xl font-bold text-white mb-4">Abhishek.dev</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Abhishek Jatav</h2>
           <p className="text-sm text-gray-400 leading-relaxed">
             Full Stack Developer building scalable web applications with modern
-            technologies like Next.js, NestJS, and MongoDB.
+            technologies.
           </p>
         </div>
 
@@ -28,7 +28,7 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/projects" className="hover:text-white transition">
+              <Link href="/project" className="hover:text-white transition">
                 Projects
               </Link>
             </li>
@@ -38,8 +38,8 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="hover:text-white transition">
-                Contact
+              <Link href="/resume" className="hover:text-white transition">
+                Resume
               </Link>
             </li>
           </ul>
@@ -53,7 +53,7 @@ export default function Footer() {
 
           <div className="flex space-x-4 mb-4">
             <a
-              href="https://github.com/yourusername"
+              href="https://github.com/Abhishek-Jatav/"
               target="_blank"
               className="hover:text-white transition">
               <Github size={20} />
@@ -66,11 +66,11 @@ export default function Footer() {
               <Linkedin size={20} />
             </a>
 
-            <a
-              href="mailto:yourmail@gmail.com"
+            {/* <a
+              href="mailto:abhidel44@gmail.com"
               className="hover:text-white transition">
               <Mail size={20} />
-            </a>
+            </a> */}
           </div>
 
           <p className="text-sm text-gray-400">
@@ -81,7 +81,7 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-gray-800 text-center py-6 text-sm text-gray-500">
-        © {year} Abhishek.dev. All rights reserved.
+        © {year} Abhishek Jatav All rights reserved.
       </div>
     </footer>
   );
