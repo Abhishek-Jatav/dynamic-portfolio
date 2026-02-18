@@ -5,10 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { useAuth } from "@/lib/context/AuthContext";
 import Login from "@/components/login/AdminLogin";
-
-import CreateProjectForm from "../../components/projects/CreateProjectForm";
-import AdminProjectManager from "@/components/projects/AdminProjectManager";
-
+import ProjectSection from "@/components/projects/ProjectSection";
 import AdminHeroImagesManager from "../../components/HeroImage/AdminHeroImagesManager";
 
 // ✅ VIDEO MANAGER IMPORT
@@ -65,12 +62,7 @@ export default function AdminPage() {
       <div className="space-y-5">
         <h2 className="text-2xl font-bold">Projects</h2>
 
-        <CreateProjectForm
-          key={refresh}
-          onSuccess={() => setRefresh((prev) => prev + 1)}
-        />
-
-        <AdminProjectManager />
+        <ProjectSection />
       </div>
 
       {/* ================= VIDEOS SECTION ================= */}

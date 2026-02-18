@@ -1,70 +1,40 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { Folder, FolderSchema } from './folder.schema';
 
 export type ProjectDocument = Project & Document;
 
-// -------------------
-// File Schema
-// -------------------
-@Schema({ _id: false })
-export class ProjectFile {
-  @Prop({ required: true })
-  name: string;
-
-  @Prop({ required: true })
-  path: string; // ex: "src/components/Button.tsx"
-
-  @Prop()
-  type?: string; // ex: "file", "image", "pdf"
-}
-
-export const ProjectFileSchema = SchemaFactory.createForClass(ProjectFile);
-
-// -------------------
-// Folder Schema
-// -------------------
-@Schema({ _id: false })
-export class ProjectFolder {
-  @Prop({ required: true })
-  name: string;
-
-  @Prop({ required: true })
-  path: string; // ex: "src/components"
-
-  // Files inside this folder
-  @Prop({ type: [ProjectFileSchema], default: [] })
-  files: ProjectFile[];
-
-  // Subfolders (recursive)
-  @Prop({ type: [Object], default: [] })
-  subFolders: ProjectFolder[];
-}
-
-export const ProjectFolderSchema = SchemaFactory.createForClass(ProjectFolder);
-
-// -------------------
-// Project Schema
-// -------------------
-@Schema({ timestamps: true })
+@Schema({
+  collection: 'projects',
+  timestamps: true,
+})
 export class Project {
-  @Prop({ required: true, unique: true })
-  id: string;
-
-  @Prop({ required: true })
+  @Prop({ required: true, trim: true })
   name: string;
 
-  @Prop()
+  @Prop({ required: true })
   description: string;
 
+  @Prop({ required: true })
+  startDate: Date;
+
   @Prop()
-  startDate: string;
+  liveLink: string;
 
-  @Prop([String])
-  links: string[];
+  @Prop()
+  repoLink: string;
 
-  // ✅ Folder structure
-  @Prop({ type: [ProjectFolderSchema], default: [] })
-  folders: ProjectFolder[];
+  @Prop()
+  demoLink: string;
+
+  @Prop({ type: [FolderSchema], default: [] })
+  folderStructure: Folder[];
+
+  @Prop({ type: [String], default: [] })
+  techStack: string[];
+
+  @Prop({ default: false })
+  isFeatured: boolean;
 }
 
 export const ProjectSchema = SchemaFactory.createForClass(Project);

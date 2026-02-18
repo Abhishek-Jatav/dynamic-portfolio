@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ProjectsModule } from './projects/projects.module';
+import { ProjectModule } from './projects/projects.module';
 import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -24,7 +24,7 @@ import { VideosModule } from './videos/videos.module';
       }),
     }),
 
-    ProjectsModule,
+    ProjectModule,
     AuthModule,
     ContactModule,
     LeetcodeModule,

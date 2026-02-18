@@ -14,12 +14,12 @@ export default function Header() {
             Abhishek Jatav
           </h1>
 
-          <p className="text-xs sm:text-sm text-gray-500 mt-1">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
             Full Stack Developer
           </p>
         </div>
 
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
       </div>
 
       {/* Navbar */}

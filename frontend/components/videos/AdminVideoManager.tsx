@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAllVideos, createVideo, deleteVideo } from "../../lib/api/videos/videos";
+import {
+  getAllVideos,
+  createVideo,
+  deleteVideo,
+} from "../../lib/api/videos/videos";
 import { Video } from "../../lib/types/video";
 
 export default function AdminVideoManager() {
@@ -11,6 +15,9 @@ export default function AdminVideoManager() {
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // ✅ Track which video ID was copied
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   async function loadVideos() {
     try {
@@ -53,10 +60,22 @@ export default function AdminVideoManager() {
     loadVideos();
   }
 
+  async function handleCopy(youtubeId: string) {
+    try {
+      await navigator.clipboard.writeText(youtubeId);
+      setCopiedId(youtubeId);
+
+      setTimeout(() => {
+        setCopiedId(null);
+      }, 1200);
+    } catch (err) {
+      console.error("Copy failed:", err);
+      setError("Copy failed. Please try again.");
+    }
+  }
+
   return (
     <div className="max-w-5xl mx-auto p-6">
-      {/* <h1 className="text-2xl font-bold mb-6">Admin Video Manager</h1> */}
-
       {error && (
         <div className="bg-red-100 text-red-600 p-3 rounded mb-4">{error}</div>
       )}
@@ -110,8 +129,27 @@ export default function AdminVideoManager() {
                 />
 
                 <div className="flex-1">
-                  <h2 className="font-semibold">{video.title}</h2>
-                  <p className="text-sm text-gray-500">{video.description}</p>
+                  <h2 className="font-semibold text-lg">{video.title}</h2>
+
+                  {/* ✅ YouTube ID + Copy Button */}
+                  <div className="flex items-center gap-3 mt-1">
+                    <p className="text-sm text-gray-400">
+                      YouTube ID:{" "}
+                      <span className="font-mono text-gray-300">
+                        {video.youtubeId}
+                      </span>
+                    </p>
+
+                    <button
+                      onClick={() => handleCopy(video.youtubeId)}
+                      className="text-xs px-3 py-1 rounded bg-gray-800 text-white hover:bg-gray-700 transition">
+                      {copiedId === video.youtubeId ? "Copied!" : "Copy"}
+                    </button>
+                  </div>
+
+                  <p className="text-sm text-gray-500 mt-2">
+                    {video.description}
+                  </p>
                 </div>
 
                 <button

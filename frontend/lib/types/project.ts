@@ -1,42 +1,26 @@
-export type ProjectFile = {
+export interface Folder {
   name: string;
-  path: string;
-  type?: string;
-};
+  files: string[];
+  subFolders: Folder[];
+}
 
-export type ProjectFolder = {
+export interface Project {
+  _id: string;
+
   name: string;
-  path: string;
-  files?: ProjectFile[];
-  subFolders?: ProjectFolder[];
-};
+  description: string;
+  startDate: string;
 
-export type Project = {
-  _id?: string;
+  liveLink?: string;
+  repoLink?: string;
+  demoLink?: string;
 
-  id: string;
-  name: string;
+  folderStructure: Folder[];
 
-  description?: string;
-  status?: string;
-  startDate?: string;
+  techStack: string[];
 
-  owner: string;
+  isFeatured: boolean;
 
-  teamMembers?: string[];
-  tags?: string[];
-  progress?: number;
-  links?: string[];
-
-  folders?: ProjectFolder[];
-
-  createdAt?: string;
-  updatedAt?: string;
-};
-
-export type CreateProjectPayload = Omit<
-  Project,
-  "_id" | "createdAt" | "updatedAt"
->;
-
-export type UpdateProjectPayload = Partial<CreateProjectPayload>;
+  createdAt: string;
+  updatedAt: string;
+}

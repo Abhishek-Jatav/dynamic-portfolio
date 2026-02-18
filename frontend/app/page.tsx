@@ -1,13 +1,16 @@
 import React from "react";
 import HeroCarousel from "../components/HeroImage/HeroCarousel";
-import ProjectCarousel from "../components/projects/ProjectCarousel";
 import SubmitContactForm from "../components/contact/SubmitContactForm";
 import HomeVideoSection from "../components/videos/HomeVideoSection";
 import LeetcodeStats from "../components/leetcode/leetcode";
 import GithubStats from "../components/github/GithubStats";
 import SocialHandlesColumn from "../components/Handles/SocialHandlesColumn";
+import ProjectCarousel from "@/components/projects/ProjectCarousel";
 
 export default function Home() {
+  // ✅ Pass YouTube ID from here
+  const homeYoutubeId = "uOAV3SlY7do";
+
   return (
     <>
       {/* section 1 */}
@@ -15,15 +18,15 @@ export default function Home() {
         <HeroCarousel autoPlayDelay={4000} />
 
         <div className="absolute bottom-6 right-6 z-50">
-          <HomeVideoSection />
+          <HomeVideoSection youtubeId={homeYoutubeId} />
         </div>
       </section>
 
       {/* section 2 */}
       <section className="w-full px-4 sm:px-8 lg:px-16 py-14">
         <div className="text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold">My Projects</h2>
-          <p className="mt-2 text-sm sm:text-base text-gray-500">
+          <h2 className="text-3xl font-bold">My Projects</h2>
+          <p className="mt-2 text-gray-500">
             Some of my best work in Full Stack Development 🚀
           </p>
         </div>

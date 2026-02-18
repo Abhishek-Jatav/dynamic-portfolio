@@ -21,6 +21,14 @@ export async function getAllVideos(): Promise<Video[]> {
   return handleResponse(res);
 }
 
+// ✅ GET FEATURED VIDEO (HOME)
+export async function getFeaturedVideo(): Promise<Video> {
+  const res = await fetch(`${BASE_URL}/featured/home`, {
+    credentials: "include",
+  });
+  return handleResponse(res);
+}
+
 // GET ONE
 export async function getVideoById(id: string): Promise<Video> {
   const res = await fetch(`${BASE_URL}/${id}`, {

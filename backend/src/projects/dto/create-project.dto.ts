@@ -1,95 +1,48 @@
 import {
-  IsString,
-  IsOptional,
   IsArray,
-  IsNumber,
+  IsBoolean,
+  IsDateString,
+  IsOptional,
+  IsString,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { CreateFolderDto } from './create-folder.dto';
 
-// --------------------
-// File DTO
-// --------------------
-export class ProjectFileDto {
-  @IsString()
-  name: string;
-
-  @IsString()
-  path: string;
-
-  @IsString()
-  @IsOptional()
-  type?: string;
-}
-
-// --------------------
-// Folder DTO (recursive)
-// --------------------
-export class ProjectFolderDto {
-  @IsString()
-  name: string;
-
-  @IsString()
-  path: string;
-
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => ProjectFileDto)
-  @IsOptional()
-  files?: ProjectFileDto[];
-
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => ProjectFolderDto)
-  @IsOptional()
-  subFolders?: ProjectFolderDto[];
-}
-
-// --------------------
-// Create Project DTO
-// --------------------
 export class CreateProjectDto {
   @IsString()
-  id: string;
-
-  @IsString()
   name: string;
 
   @IsString()
-  @IsOptional()
-  description?: string;
+  description: string;
+
+  @IsDateString()
+  startDate: string;
 
   @IsString()
   @IsOptional()
-  status?: string;
+  liveLink?: string;
 
   @IsString()
   @IsOptional()
-  startDate?: string;
+  repoLink?: string;
 
   @IsString()
-  owner: string;
-
-  @IsArray()
   @IsOptional()
-  teamMembers?: string[];
+  demoLink?: string;
 
-  @IsArray()
-  @IsOptional()
-  tags?: string[];
-
-  @IsNumber()
-  @IsOptional()
-  progress?: number;
-
-  @IsArray()
-  @IsOptional()
-  links?: string[];
-
-  // ✅ NEW: Folder structure
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => ProjectFolderDto)
+  @Type(() => CreateFolderDto)
   @IsOptional()
-  folders?: ProjectFolderDto[];
+  folderStructure?: CreateFolderDto[];
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  techStack?: string[];
+
+  @IsBoolean()
+  @IsOptional()
+  isFeatured?: boolean;
 }
