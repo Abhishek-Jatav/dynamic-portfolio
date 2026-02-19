@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import TruckLoader from "./common/TruckLoader";
+import ServerWakeGame from "./ServerWakeGame";
 
-export default function Connecting() {
+export default function Connecting({ error }: { error: string | null }) {
   const [dots, setDots] = useState("");
 
   useEffect(() => {
@@ -15,29 +16,25 @@ export default function Connecting() {
   }, []);
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "16px",
-        textAlign: "center",
-      }}>
-      {/* 1️⃣ Truck Loader */}
-      <TruckLoader />
+    <div className="min-h-screen w-full flex flex-col items-center justify-center gap-5 px-4">
+      {/* Game */}
+      <ServerWakeGame />
 
-      {/* 2️⃣ Connecting text (text fixed, dots animate) */}
-      <div style={{ fontSize: "18px", fontWeight: 500 }}>
+
+      {/* Connecting text
+      <div className="text-[18px] font-medium text-white text-center">
         🔌 Connecting to backend
-        <span style={{ display: "inline-block", width: "24px" }}>{dots}</span>
+        <span className="inline-block w-[24px]">{dots}</span>
       </div>
 
-      {/* 3️⃣ Helper text */}
-      <div style={{ fontSize: "14px", opacity: 0.7 }}>
+      <div className="text-[14px] text-white/70 text-center max-w-sm">
         Backend is on Render so usually it takes 10–15 seconds
-      </div>
+      </div> */}
+
+      {/* Error */}
+      {error && (
+        <div className="text-[13px] text-red-300 text-center">{error}</div>
+      )}
     </div>
   );
 }
