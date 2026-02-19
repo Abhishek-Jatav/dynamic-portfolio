@@ -1,18 +1,19 @@
 import { BACKEND_URL } from "../../env";
-import { Project } from "../../types/project";
+import type { Project } from "../../types/project";
+import type { UpdateProjectDto } from "../../types/project.dto";
 
 export async function updateProject(
   id: string,
-  data: Partial<Project>,
+  dto: UpdateProjectDto,
   token: string,
-) {
+): Promise<Project> {
   const res = await fetch(`${BACKEND_URL}/projects/${id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(dto),
   });
 
   if (!res.ok) {

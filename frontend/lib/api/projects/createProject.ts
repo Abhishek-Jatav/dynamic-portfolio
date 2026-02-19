@@ -1,14 +1,18 @@
 import { BACKEND_URL } from "../../env";
-import { Project } from "../../types/project"; // adjust path if needed
+import type { Project } from "../../types/project";
+import type { CreateProjectDto } from "../../types/project.dto";
 
-export async function createProject(data: Partial<Project>, token: string) {
+export async function createProject(
+  dto: CreateProjectDto,
+  token: string,
+): Promise<Project> {
   const res = await fetch(`${BACKEND_URL}/projects`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(dto),
   });
 
   if (!res.ok) {

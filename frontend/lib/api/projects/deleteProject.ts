@@ -1,6 +1,7 @@
 import { BACKEND_URL } from "../../env";
 
-export async function deleteProjectById(id: string, token: string) {
+
+export async function deleteProject(id: string, token: string) {
   const res = await fetch(`${BACKEND_URL}/projects/${id}`, {
     method: "DELETE",
     headers: {

@@ -5,7 +5,7 @@ import HomeVideoSection from "../components/videos/HomeVideoSection";
 import LeetcodeStats from "../components/leetcode/leetcode";
 import GithubStats from "../components/github/GithubStats";
 import SocialHandlesColumn from "../components/Handles/SocialHandlesColumn";
-import ProjectCarousel from "@/components/projects/ProjectCarousel";
+import ProjectCarousel from "../components/projects/ProjectCarousel";
 
 export default function Home() {
   // ✅ Pass YouTube ID from here
@@ -23,10 +23,12 @@ export default function Home() {
       </section>
 
       {/* section 2 */}
-      <section className="w-full px-4 sm:px-8 lg:px-16 py-14">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold">My Projects</h2>
-          <p className="mt-2 text-gray-500">
+      <section className="w-full px-4 sm:px-6 md:px-10 lg:px-20 py-16 sm:py-20">
+        <div className="text-center max-w-3xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+            My Projects
+          </h2>
+          <p className="mt-4 text-sm sm:text-base md:text-lg text-gray-500">
             Some of my best work in Full Stack Development 🚀
           </p>
         </div>
