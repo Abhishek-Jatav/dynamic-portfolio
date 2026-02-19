@@ -5,16 +5,26 @@ import InstagramButton from "./Instagram";
 
 export default function SocialHandlesColumn() {
   return (
-    <div className="p-6 rounded-2xl shadow-lg border bg-white dark:bg-gray-900 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between">
-      <div>
-        <h2 className="text-xl sm:text-2xl font-bold text-center">
-          Social Handles
-        </h2>
-
-        <div className="flex justify-center items-center gap-6 mt-8 flex-wrap">
-          <LinkedInButton />
-          <InstagramButton />
+    <div className="h-full w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.35)] p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.07]">
+      <div className="flex items-start justify-between gap-4 min-w-0">
+        <div className="min-w-0">
+          <h2 className="text-xl sm:text-2xl font-semibold text-white tracking-tight">
+            Social
+          </h2>
+          <p className="text-sm text-white/60 mt-1 truncate">
+            Find me everywhere
+          </p>
         </div>
+
+        <div className="shrink-0 px-3 py-1 rounded-full bg-white/10 text-xs text-white/70 border border-white/10">
+          Links
+        </div>
+      </div>
+
+      {/* stacked always (prevents overlap) */}
+      <div className="mt-7 flex flex-col gap-4">
+        <LinkedInButton />
+        <InstagramButton />
       </div>
     </div>
   );

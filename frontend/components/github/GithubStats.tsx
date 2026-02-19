@@ -25,48 +25,82 @@ export default function GithubStats() {
 
   if (loading)
     return (
-      <div className="p-6 rounded-2xl border shadow-sm bg-white dark:bg-gray-900 animate-pulse">
-        Loading GitHub data...
-      </div>
+      <PremiumCard>
+        <div className="animate-pulse space-y-5">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-full bg-white/10" />
+            <div className="space-y-2">
+              <div className="h-4 w-32 rounded bg-white/10" />
+              <div className="h-3 w-44 rounded bg-white/10" />
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            <div className="h-14 rounded-xl bg-white/10" />
+            <div className="h-14 rounded-xl bg-white/10" />
+            <div className="h-14 rounded-xl bg-white/10" />
+          </div>
+        </div>
+      </PremiumCard>
     );
 
   if (error)
     return (
-      <div className="p-6 rounded-2xl border shadow-sm bg-white dark:bg-gray-900 text-red-500">
-        Error: {error}
-      </div>
+      <PremiumCard>
+        <p className="text-red-400 text-sm break-words">Error: {error}</p>
+      </PremiumCard>
     );
 
   if (!profile) return null;
 
   return (
-    <div className="p-6 rounded-2xl shadow-lg border bg-white dark:bg-gray-900 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between">
-      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+    <PremiumCard>
+      <div className="flex items-center gap-5 min-w-0">
         <img
           src={profile.avatar}
           alt={profile.username}
-          className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border object-cover"
+          className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-full border border-white/10 object-cover"
         />
 
-        <div>
-          <h2 className="text-xl sm:text-2xl font-bold">GitHub</h2>
-          <p className="text-gray-500 text-sm">@{profile.username}</p>
-
-          <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-4 text-sm">
-            <span>⭐ {profile.publicRepos} Repos</span>
-            <span>👥 {profile.followers} Followers</span>
-            <span>➡ {profile.following} Following</span>
-          </div>
-
-          <a
-            href={profile.profileUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-block mt-4 text-blue-600 hover:text-blue-700 font-medium text-sm transition">
-            View GitHub Profile →
-          </a>
+        <div className="min-w-0">
+          <h2 className="text-xl sm:text-2xl font-semibold text-white tracking-tight">
+            GitHub
+          </h2>
+          <p className="text-sm text-white/60 truncate">@{profile.username}</p>
         </div>
       </div>
+
+      <div className="mt-7 grid grid-cols-3 gap-4">
+        <MiniStat label="Repos" value={profile.publicRepos} />
+        <MiniStat label="Followers" value={profile.followers} />
+        <MiniStat label="Following" value={profile.following} />
+      </div>
+
+      <div className="mt-7">
+        <a
+          href={profile.profileUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="text-sm font-medium text-white hover:text-white/80 transition">
+          View Profile →
+        </a>
+      </div>
+    </PremiumCard>
+  );
+}
+
+function PremiumCard({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="h-full w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.35)] p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.07]">
+      {children}
+    </div>
+  );
+}
+
+function MiniStat({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-center overflow-hidden">
+      <p className="text-xs text-white/60 truncate">{label}</p>
+      <p className="text-lg font-semibold text-white mt-1 truncate">{value}</p>
     </div>
   );
 }

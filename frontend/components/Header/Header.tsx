@@ -1,30 +1,38 @@
 "use client";
 
 import Navbar from "../common/Navbar/Navbar";
-import ThemeToggle from "../common/Toggle/ThemeToggle";
 
 export default function Header() {
   return (
-    <header className="w-full px-6 sm:px-10 lg:px-16 py-6 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
-      {/* Top Row */}
-      <div className="flex items-center justify-between">
-        {/* Name */}
-        <div>
-          <h1 className="text-md sm:text-3xl lg:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-            Abhishek Jatav
-          </h1>
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200/60 dark:border-white/10 bg-white/70 dark:bg-black/50 backdrop-blur-xl">
+      <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-6">
+        {/* Top Row */}
+        <div className="flex items-center justify-between">
+          {/* Name */}
+          <div>
+            <h1 className="text-xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+              Abhishek Jatav
+            </h1>
 
-          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Full Stack Developer
-          </p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              Full Stack Developer
+            </p>
+          </div>
+
+          {/* Right Side (Optional Later: Theme Toggle / CTA) */}
+          <div className="hidden sm:flex items-center gap-3">
+            {/* <a
+              href="/resume"
+              className="px-4 py-2 rounded-xl text-sm font-medium bg-gray-900 text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 transition">
+              View Resume
+            </a> */}
+          </div>
         </div>
 
-        {/* <ThemeToggle /> */}
-      </div>
-
-      {/* Navbar */}
-      <div className="mt-6 flex justify-center">
-        <Navbar />
+        {/* Navbar */}
+        <div className="mt-6 flex justify-center">
+          <Navbar />
+        </div>
       </div>
     </header>
   );

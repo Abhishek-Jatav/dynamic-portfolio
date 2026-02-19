@@ -30,10 +30,10 @@ export default function SubmitContactForm() {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-xl border p-6 sm:p-10 transition-all duration-300 hover:shadow-2xl">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Name + Email Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div className="relative backdrop-blur-xl bg-white/70 dark:bg-gray-900/70 border border-white/20 dark:border-gray-700 rounded-3xl shadow-2xl p-6 sm:p-10 lg:p-14 transition-all duration-500 hover:shadow-indigo-500/20">
+      <form onSubmit={handleSubmit} className="space-y-8">
+        {/* Name + Email */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <InputField
             label="Name"
             type="text"
@@ -59,29 +59,32 @@ export default function SubmitContactForm() {
 
         {/* Message */}
         <div>
-          <label className="block text-sm font-medium mb-2">
+          <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
             Message <span className="text-red-500">*</span>
           </label>
+
           <textarea
             value={form.message}
             onChange={(e) => setForm({ ...form, message: e.target.value })}
             required
-            rows={5}
-            className="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-4 py-3 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 transition"
+            rows={6}
+            className="w-full rounded-2xl border border-gray-300 dark:border-gray-700 bg-white/60 dark:bg-gray-800/60 px-4 py-4 text-sm sm:text-base outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 dark:focus:ring-indigo-500/30 transition-all duration-300"
           />
         </div>
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full sm:w-auto sm:px-10 rounded-xl bg-indigo-600 text-white py-3 font-semibold hover:bg-indigo-500 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed">
-          {loading ? "Sending..." : "Send Message"}
-        </button>
+        {/* Button */}
+        <div className="flex justify-center md:justify-start">
+          <button
+            type="submit"
+            disabled={loading}
+            className="relative inline-flex items-center justify-center px-8 py-3 sm:px-10 sm:py-4 rounded-2xl font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed w-full md:w-auto">
+            {loading ? "Sending..." : "Send Message"}
+          </button>
+        </div>
 
         {/* Success Message */}
         {success && (
-          <div className="text-green-600 text-sm bg-green-50 dark:bg-green-900/30 p-3 rounded-lg">
+          <div className="text-green-600 text-sm sm:text-base bg-green-100 dark:bg-green-900/30 p-4 rounded-xl text-center animate-fadeIn">
             {success}
           </div>
         )}
@@ -90,7 +93,7 @@ export default function SubmitContactForm() {
   );
 }
 
-/* Reusable Input Component */
+/* Premium Input Component */
 function InputField({
   label,
   type,
@@ -103,16 +106,17 @@ function InputField({
   onChange: (val: string) => void;
 }) {
   return (
-    <div>
-      <label className="block text-sm font-medium mb-2">
+    <div className="group">
+      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
         {label} <span className="text-red-500">*</span>
       </label>
+
       <input
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required
-        className="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-4 py-3 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 transition"
+        className="w-full rounded-2xl border border-gray-300 dark:border-gray-700 bg-white/60 dark:bg-gray-800/60 px-4 py-3 sm:py-4 text-sm sm:text-base outline-none transition-all duration-300 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 dark:focus:ring-indigo-500/30 group-hover:shadow-md"
       />
     </div>
   );
