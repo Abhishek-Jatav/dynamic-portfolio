@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import TruckLoader from "./common/TruckLoader";
 import ServerWakeGame from "./ServerWakeGame";
 
 export default function Connecting({ error }: { error: string | null }) {
@@ -16,25 +15,25 @@ export default function Connecting({ error }: { error: string | null }) {
   }, []);
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center gap-5 px-4">
-      {/* Game */}
-      <ServerWakeGame />
+    <div className="relative min-h-screen bg-gray-900">
+      {/* Top Left Status Box */}
+      <div className="absolute top-3 left-3 bg-black text-white text-[11px] px-3 py-2 rounded-lg shadow-lg z-50 max-w-[220px]">
+        <div className="font-medium">
+          🔌 Connecting
+          <span className="inline-block w-[18px]">{dots}</span>
+        </div>
 
+        <div className="text-white/70 text-[10px] mt-1 leading-tight">
+          Backend is on Render. Usually takes 10–15 seconds.
+        </div>
 
-      {/* Connecting text
-      <div className="text-[18px] font-medium text-white text-center">
-        🔌 Connecting to backend
-        <span className="inline-block w-[24px]">{dots}</span>
+        {error && <div className="text-red-400 text-[10px] mt-1">{error}</div>}
       </div>
 
-      <div className="text-[14px] text-white/70 text-center max-w-sm">
-        Backend is on Render so usually it takes 10–15 seconds
-      </div> */}
-
-      {/* Error */}
-      {error && (
-        <div className="text-[13px] text-red-300 text-center">{error}</div>
-      )}
+      {/* Game Below */}
+      <div className="flex justify-center items-center min-h-screen">
+        <ServerWakeGame />
+      </div>
     </div>
   );
 }
