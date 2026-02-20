@@ -11,9 +11,11 @@ export default function Header() {
           {/* Name */}
           <div>
             <h1 className="text-xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
-              Abhishek Jatav
+              NexaBuild
             </h1>
-
+            <p className="text-sm text-white-600 dark:text-black-400 mt-1">
+              Abhishek Jatav
+            </p>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               Full Stack Developer
             </p>
