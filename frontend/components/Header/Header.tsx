@@ -13,12 +13,12 @@ export default function Header() {
             <h1 className="text-xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
               NexaBuild
             </h1>
-            <p className="text-sm text-white-600 dark:text-black-400 mt-1">
-              Abhishek Jatav
-            </p>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            <span className="text-sm text-white-600 dark:text-black-400 mt-1">
+              Abhishek Jatav&nbsp;&nbsp;
+            </span>
+            <span className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               Full Stack Developer
-            </p>
+            </span>
           </div>
 
           {/* Right Side (Optional Later: Theme Toggle / CTA) */}
