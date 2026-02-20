@@ -8,7 +8,7 @@ import Footer from "../components/footer/Footer";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
-  title: "Abhishek Jatav | Portfolio",
+  title: "NexaBuild | Abhishek Jatav",
   description: "Full Stack Developer portfolio built with Next.js",
 };
 
