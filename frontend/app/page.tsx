@@ -52,7 +52,9 @@ export default function Home() {
       {/* section 3 - HANDLES */}
       <section className="w-full px-4 sm:px-8 lg:px-16 py-16">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto">Platforms</div>
+          <div className="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white">
+            Platforms
+          </div>
 
           <div className="mt-12 grid grid-cols-1 xl:grid-cols-3 gap-10 items-stretch">
             <LeetcodeStats />
