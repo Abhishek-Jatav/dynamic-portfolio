@@ -6,7 +6,7 @@ export class GithubController {
   constructor(private readonly githubService: GithubService) {}
 
   @Get('profile')
-  getProfile() {
-    return this.githubService.getProfile();
+  async getProfile() {
+    return await this.githubService.getProfile();
   }
 }

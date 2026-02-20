@@ -13,14 +13,21 @@ export interface GithubProfile {
 }
 
 export async function getGithubProfile(): Promise<GithubProfile> {
-  const res = await fetch(`${BACKEND_URL}/github/profile`, {
-    method: "GET",
-    cache: "no-store",
-  });
+  try {
+    const res = await fetch(`${BACKEND_URL}/github/profile`, {
+      method: "GET",
+      cache: "no-store",
+    });
 
-  if (!res.ok) {
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error("Backend error:", errorText);
+      throw new Error(`Backend error: ${res.status}`);
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Fetch failed:", error);
     throw new Error("Failed to fetch GitHub profile");
   }
-
-  return res.json();
 }
