@@ -1,14 +1,14 @@
 "use client";
 
 import { ReactNode } from "react";
-import { useBackendStatus } from "@/hooks/useBackendStatus";
+import { useBackendWake } from "@/hooks/useBackendWake";
 import Connecting from "./Connecting";
 
 export default function BackendGate({ children }: { children: ReactNode }) {
-  const { connected, error } = useBackendStatus();
+  const serverAwake = useBackendWake();
 
-  if (!connected) {
-    return <Connecting error={error} />;
+  if (!serverAwake) {
+    return <Connecting error={null} />;
   }
 
   return <>{children}</>;

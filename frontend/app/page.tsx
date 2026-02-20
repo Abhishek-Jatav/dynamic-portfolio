@@ -51,19 +51,14 @@ export default function Home() {
 
       {/* section 3 - HANDLES */}
       <section className="w-full px-4 sm:px-8 lg:px-16 py-16">
-        <div className="text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
-            Handles
-          </h2>
-          <p className="mt-3 text-sm sm:text-base text-white/70">
-            Connect with me across platforms 🌐
-          </p>
-        </div>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto">...</div>
 
-        <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <LeetcodeStats />
-          <GithubStats />
-          <SocialHandlesColumn />
+          <div className="mt-12 grid grid-cols-1 xl:grid-cols-3 gap-10 items-stretch">
+            <LeetcodeStats />
+            <GithubStats />
+            <SocialHandlesColumn />
+          </div>
         </div>
       </section>
 

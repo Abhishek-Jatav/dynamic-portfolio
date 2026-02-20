@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { submitContact } from "../../lib/api/contact/submitContact";
+import toast from "react-hot-toast";
 
 export default function SubmitContactForm() {
   const [form, setForm] = useState({
@@ -12,7 +13,6 @@ export default function SubmitContactForm() {
   });
 
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -20,13 +20,25 @@ export default function SubmitContactForm() {
 
     try {
       await submitContact(form);
-      setSuccess("Message submitted successfully! ✅");
+
+      toast.success("Message submitted successfully! 🎉", {
+        style: {
+          background: "#16a34a",
+          color: "#fff",
+        },
+      });
+
       setForm({ name: "", email: "", phone: "", message: "" });
     } catch (err: any) {
-      alert(err.message);
+      toast.error(err.message || "Something went wrong ❌", {
+        style: {
+          background: "#dc2626",
+          color: "#fff",
+        },
+      });
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   }
 
   return (
@@ -81,13 +93,6 @@ export default function SubmitContactForm() {
             {loading ? "Sending..." : "Send Message"}
           </button>
         </div>
-
-        {/* Success Message */}
-        {success && (
-          <div className="text-green-600 text-sm sm:text-base bg-green-100 dark:bg-green-900/30 p-4 rounded-xl text-center animate-fadeIn">
-            {success}
-          </div>
-        )}
       </form>
     </div>
   );

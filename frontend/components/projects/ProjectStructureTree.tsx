@@ -1,6 +1,6 @@
 "use client";
 
-import type { Folder } from "@/lib/types/project";
+import type { Folder } from "../../lib/types/project";
 
 type Props = {
   folders: Folder[];

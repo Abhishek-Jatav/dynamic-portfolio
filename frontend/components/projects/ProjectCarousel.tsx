@@ -28,18 +28,24 @@ export default function ProjectCarousel() {
   };
 
   return (
-    <section className="relative flex justify-center items-center min-h-[450px] sm:min-h-[500px] px-2 sm:px-4">
-      <div
-        key={index}
-        className={`transition-all duration-500 ${
-          direction === "right"
-            ? "animate-slide-in-right"
-            : "animate-slide-in-left"
-        }`}>
-        <ProjectCard project={projects[index]} />
-      </div>
+    <section className="flex justify-center items-center min-h-[500px] px-4">
+      <div className="relative w-full max-w-7xl">
+        {/* Project Card */}
+        <div
+          key={index}
+          className={`transition-all duration-500 ${
+            direction === "right"
+              ? "animate-slide-in-right"
+              : "animate-slide-in-left"
+          }`}>
+          <ProjectCard project={projects[index]} />
+        </div>
 
-      <CarouselControls onPrev={prev} onNext={next} />
+        {/* Controls - Bottom Right of CARD */}
+        <div className="absolute  -bottom-10 right-17">
+          <CarouselControls onPrev={prev} onNext={next} />
+        </div>
+      </div>
     </section>
   );
 }

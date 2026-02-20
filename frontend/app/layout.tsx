@@ -5,6 +5,7 @@ import BackendGate from "../components/BackendGate";
 import Providers from "../lib/context/Providers";
 import Header from "../components/Header/Header";
 import Footer from "../components/footer/Footer";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Abhishek Jatav | Portfolio",
@@ -26,6 +27,17 @@ export default function RootLayout({
             <main className="flex-grow w-full">
               <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-10">
                 {children}
+                <Toaster
+                  position="top-right"
+                  toastOptions={{
+                    duration: 4000,
+                    style: {
+                      borderRadius: "12px",
+                      background: "#111827",
+                      color: "#fff",
+                    },
+                  }}
+                />
               </div>
             </main>
 

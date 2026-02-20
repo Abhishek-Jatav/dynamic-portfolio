@@ -69,7 +69,7 @@ export default function GithubStats() {
         </div>
       </div>
 
-      <div className="mt-7 grid grid-cols-3 gap-4">
+      <div className="mt-7 grid grid-cols-2 gap-4">
         <MiniStat label="Repos" value={profile.publicRepos} />
         <MiniStat label="Followers" value={profile.followers} />
         <MiniStat label="Following" value={profile.following} />

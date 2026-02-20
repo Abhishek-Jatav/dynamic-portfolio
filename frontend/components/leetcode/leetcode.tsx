@@ -87,7 +87,7 @@ export default function LeetcodeStats() {
         </div>
       </div>
 
-      <div className="mt-7 grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="mt-7 grid grid-cols-2 sm:grid-cols-2 gap-4">
         <StatBox label="Total" value={data.totalSolved} />
         <StatBox label="Easy" value={data.easySolved} tone="green" />
         <StatBox label="Medium" value={data.mediumSolved} tone="yellow" />

@@ -17,17 +17,17 @@ export default function Connecting({ error }: { error: string | null }) {
   return (
     <div className="relative min-h-screen bg-gray-900">
       {/* Top Left Status Box */}
-      <div className="absolute top-3 left-3 bg-black text-white text-[11px] px-3 py-2 rounded-lg shadow-lg z-50 max-w-[220px]">
+      <div className="absolute top-3 left-3 bg-black border border-white-700 text-white text-[11px] px-3 py-2 rounded-lg shadow-lg z-50 max-w-[220px]">
         <div className="font-medium">
-          🔌 Connecting
+          🔌 Connecting to server
           <span className="inline-block w-[18px]">{dots}</span>
         </div>
 
-        <div className="text-white/70 text-[10px] mt-1 leading-tight">
+        <div className="text-white/70 text-[8px] mt-1 leading-tight">
           Backend is on Render. Usually takes 10–15 seconds.
         </div>
 
-        {error && <div className="text-red-400 text-[10px] mt-1">{error}</div>}
+        {/* {error && <div className="text-red-400 text-[10px] mt-1">{error}</div>} */}
       </div>
 
       {/* Game Below */}
