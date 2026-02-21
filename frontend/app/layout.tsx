@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import BackendGate from "../components/BackendGate";
+import BackendGate from "../hooks/backendCheck/BackendGate";
 import Providers from "../lib/context/Providers";
 import Header from "../components/Header/Header";
 import Footer from "../components/footer/Footer";

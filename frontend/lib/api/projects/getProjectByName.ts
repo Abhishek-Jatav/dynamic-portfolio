@@ -3,7 +3,6 @@ import type { Project } from "../../types/project";
 
 export async function getProjectByName(name: string): Promise<Project> {
   const res = await fetch(`${BACKEND_URL}/projects/by-name/${name}`, {
-    method: "GET",
     cache: "no-store",
   });
 

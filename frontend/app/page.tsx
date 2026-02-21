@@ -28,7 +28,7 @@ export default function Home() {
               sm:bottom-6 sm:right-6
               lg:bottom-7 lg:right-7
             ">
-            <HomeVideoSection youtubeId={homeYoutubeId} />
+            <HomeVideoSection youtubeUrl="https://youtu.be/o-zgjQVR1to?si=AhXH_SWchOvQpU0G" />
           </div>
         </div>
       </section>

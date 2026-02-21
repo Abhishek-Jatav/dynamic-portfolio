@@ -10,8 +10,8 @@ type Props = {
 export default function ProjectStructureTree({ folders, level = 0 }: Props) {
   return (
     <ul className="space-y-1">
-      {folders.map((folder, index) => (
-        <li key={index}>
+      {folders.map((folder) => (
+        <li key={`${folder.name}-${level}`}>
           <div
             className="flex items-center gap-2 text-sm"
             style={{ paddingLeft: `${level * 16}px` }}>
@@ -21,18 +21,16 @@ export default function ProjectStructureTree({ folders, level = 0 }: Props) {
             </span>
           </div>
 
-          {/* Files */}
-          {folder.files?.map((file, i) => (
+          {folder.files.map((file) => (
             <div
-              key={i}
+              key={`${file}-${level}`}
               className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400"
               style={{ paddingLeft: `${(level + 1) * 16}px` }}>
               📄 {file}
             </div>
           ))}
 
-          {/* Subfolders (Recursive) */}
-          {folder.subFolders && folder.subFolders.length > 0 && (
+          {folder.subFolders.length > 0 && (
             <ProjectStructureTree
               folders={folder.subFolders}
               level={level + 1}

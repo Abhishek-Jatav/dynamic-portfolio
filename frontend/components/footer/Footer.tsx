@@ -80,7 +80,7 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-gray-200/60 dark:border-white/10 text-center py-6 text-sm text-gray-500 dark:text-gray-400">
-        © {year} Abhishek Jatav • Built with Next.js
+        © {year} Abhishek Jatav. All rights reserved.
       </div>
     </footer>
   );

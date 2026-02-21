@@ -12,25 +12,38 @@ export default function ProjectCarousel() {
   const [direction, setDirection] = useState<"left" | "right">("right");
 
   useEffect(() => {
-    getAllProjects().then(setProjects);
+    async function load() {
+      try {
+        const data = await getAllProjects();
+        setProjects(data);
+      } catch (err) {
+        console.error("Failed to load projects");
+      }
+    }
+    load();
   }, []);
 
-  if (!projects.length) return null;
+  if (!projects.length) {
+    return (
+      <div className="text-center py-20 text-gray-500">
+        No projects available.
+      </div>
+    );
+  }
 
   const prev = () => {
     setDirection("left");
-    setIndex((prev) => (prev === 0 ? projects.length - 1 : prev - 1));
+    setIndex((i) => (i === 0 ? projects.length - 1 : i - 1));
   };
 
   const next = () => {
     setDirection("right");
-    setIndex((prev) => (prev === projects.length - 1 ? 0 : prev + 1));
+    setIndex((i) => (i === projects.length - 1 ? 0 : i + 1));
   };
 
   return (
-    <section className="flex justify-center items-center min-h-[500px] px-4">
+    <section className="flex flex-col items-center min-h-[500px] px-4">
       <div className="relative w-full max-w-7xl">
-        {/* Project Card */}
         <div
           key={index}
           className={`transition-all duration-500 ${
@@ -41,8 +54,7 @@ export default function ProjectCarousel() {
           <ProjectCard project={projects[index]} />
         </div>
 
-        {/* Controls - Bottom Right of CARD */}
-        <div className="absolute  -bottom-10 right-17">
+        <div className="flex justify-end mt-8">
           <CarouselControls onPrev={prev} onNext={next} />
         </div>
       </div>

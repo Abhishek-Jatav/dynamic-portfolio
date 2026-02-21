@@ -10,14 +10,16 @@ export async function createProject(
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`, // ✅ explicit token
     },
     body: JSON.stringify(dto),
   });
 
+  const data = await res.json().catch(() => null);
+
   if (!res.ok) {
-    throw new Error("Failed to create project");
+    throw new Error(data?.message || "Something went wrong");
   }
 
-  return res.json();
+  return data;
 }

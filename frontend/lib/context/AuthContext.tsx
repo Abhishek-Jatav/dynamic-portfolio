@@ -21,20 +21,24 @@ type AuthContextType = {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  token: string | null;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [admin, setAdmin] = useState<Admin | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Restore admin from localStorage on client
+  // Restore session on reload
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const adminStr = localStorage.getItem("admin");
-    if (token && adminStr) {
-      setAdmin(JSON.parse(adminStr));
+    const storedToken = localStorage.getItem("token");
+    const storedAdmin = localStorage.getItem("admin");
+
+    if (storedToken && storedAdmin) {
+      setToken(storedToken);
+      setAdmin(JSON.parse(storedAdmin));
     }
   }, []);
 
@@ -44,8 +48,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const data = await loginApi(email, password);
 
       setAdmin(data.admin);
+      setToken(data.access_token);
+
       localStorage.setItem("token", data.access_token);
       localStorage.setItem("admin", JSON.stringify(data.admin));
+    } catch (error: any) {
+      throw new Error(error?.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -53,12 +61,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     setAdmin(null);
+    setToken(null);
     localStorage.removeItem("token");
     localStorage.removeItem("admin");
   };
 
   return (
-    <AuthContext.Provider value={{ admin, loading, login, logout }}>
+    <AuthContext.Provider value={{ admin, loading, login, logout, token }}>
       {children}
     </AuthContext.Provider>
   );

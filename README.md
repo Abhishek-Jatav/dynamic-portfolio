@@ -264,7 +264,7 @@ NEXT_PUBLIC_BACKEND_URL=your_backend_url
 
 * GitHub: [https://github.com/Abhishek-Jatav](https://github.com/Abhishek-Jatav)
 * Portfolio: [https://nexabuild-abhishek-jatav.netlify.app/](https://nexabuild-abhishek-jatav.netlify.app/)
-* Demo : 
+* LinkedIn: [https://www.linkedin.com/in/abhishek-jatav-067946261/](https://www.linkedin.com/in/abhishek-jatav-067946261/)
 
 ---
 

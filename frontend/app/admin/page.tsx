@@ -6,7 +6,7 @@ import { useAuth } from "@/lib/context/AuthContext";
 import Login from "@/components/login/AdminLogin";
 import AdminHeroImagesManager from "@/components/HeroImage/AdminHeroImagesManager";
 import AdminVideoManager from "@/components/videos/AdminVideoManager";
-import AdminProjects from "../../components/projects/admin/AdminProjects";
+import AdminProjectsPanel  from "@/components/projects/admin/AdminProjectsPanel";
 
 export default function AdminPage() {
   const { admin, logout } = useAuth();
@@ -61,7 +61,7 @@ export default function AdminPage() {
         </Section>
 
         <Section title="Projects">
-          <AdminProjects />
+          <AdminProjectsPanel />
         </Section>
 
         <Section title="Videos">

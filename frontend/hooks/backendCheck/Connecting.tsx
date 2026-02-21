@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ServerWakeGame from "./ServerWakeGame";
+import ReactionTestGame from "./game/reactionTest/reactionTestGame";
 
 export default function Connecting({ error }: { error: string | null }) {
   const [dots, setDots] = useState("");
@@ -32,7 +32,7 @@ export default function Connecting({ error }: { error: string | null }) {
 
       {/* Game Below */}
       <div className="flex justify-center items-center min-h-screen">
-        <ServerWakeGame />
+        <ReactionTestGame />
       </div>
     </div>
   );
