@@ -12,17 +12,25 @@ export default function AdminContactPage() {
 
   const [token, setToken] = useState("");
 
+  /* ================= GET TOKEN ================= */
   useEffect(() => {
     const t = localStorage.getItem("token");
     if (t) setToken(t);
   }, []);
 
-  if (!admin) {
-    return <p>Please login first</p>;
-  }
+  /* ================= AUTO REDIRECT IF LOGGED OUT ================= */
+  useEffect(() => {
+    if (!admin) {
+      toast.error("Session expired. Please login again.");
+      router.replace("/admin"); // redirect to login page
+    }
+  }, [admin, router]);
+
+  // Prevent UI flash while redirecting
+  if (!admin) return null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-h-screen bg-gradient-to-br from-neutral-100 via-white to-neutral-200 dark:from-black dark:via-neutral-950 dark:to-neutral-900 px-4 sm:px-6 lg:px-12 py-6 sm:py-10 transition-all duration-500">
       {/* ===== PREMIUM ADMIN INFO HEADER ===== */}
       <div className="rounded-3xl bg-white/70 dark:bg-neutral-900/60 backdrop-blur-2xl border border-white/30 dark:border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.1)] dark:shadow-[0_25px_60px_rgba(0,0,0,0.5)] p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 transition-all duration-500 hover:shadow-2xl">
         {/* Left Side */}
@@ -62,6 +70,7 @@ export default function AdminContactPage() {
               toast.success("Logged out successfully", {
                 id: "logout-contact",
               });
+              router.replace("/admin"); // 🔥 redirect after logout
             }}
             className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-red-500 text-white text-sm font-semibold shadow-lg hover:bg-red-600 hover:scale-105 active:scale-95 transition-all duration-300">
             Logout
