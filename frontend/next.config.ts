@@ -1,10 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  reactStrictMode: true,
+
+  // ✅ Static export
   output: "export",
 
+  // ✅ Required for static export when using next/image
   images: {
-    unoptimized: true, // ✅ REQUIRED for static export
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",

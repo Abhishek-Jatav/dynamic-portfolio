@@ -8,8 +8,10 @@ import Footer from "../components/footer/Footer";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
-  title: "NexaBuild | Abhishek Jatav",
-  description: "Full Stack Developer portfolio built with Next.js",
+  title: "NexaBuild Admin",
+  description: "Admin Panel",
+  manifest: "/manifest.json",
+  themeColor: "#000000",
 };
 
 export default function RootLayout({
@@ -27,6 +29,7 @@ export default function RootLayout({
             <main className="flex-grow w-full">
               <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-10">
                 {children}
+
                 <Toaster
                   position="top-right"
                   toastOptions={{
