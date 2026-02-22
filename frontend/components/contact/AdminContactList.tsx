@@ -18,11 +18,26 @@ export default function AdminContactList({ token }: { token: string }) {
   const [tab, setTab] = useState<TabType>("all");
   const [loading, setLoading] = useState(false);
 
+  // 🔵 Update App Badge Helper
+  function updateAppBadge(count: number) {
+    if ("setAppBadge" in navigator) {
+      if (count > 0) {
+        navigator.setAppBadge(count);
+      } else {
+        navigator.clearAppBadge();
+      }
+    }
+  }
+
   async function loadContacts() {
     try {
       setLoading(true);
       const data = await getAllContacts(token);
       setContacts(data);
+
+      // 🔥 Update badge immediately after fetching
+      const unreadCount = data.filter((c: Contact) => !c.isRead).length;
+      updateAppBadge(unreadCount);
     } catch (err) {
       console.error("Failed to load contacts:", err);
     } finally {
@@ -30,7 +45,7 @@ export default function AdminContactList({ token }: { token: string }) {
     }
   }
 
-  // Ask notification permission once
+  // Ask browser notification permission
   useEffect(() => {
     Notification.requestPermission();
   }, []);
@@ -45,14 +60,14 @@ export default function AdminContactList({ token }: { token: string }) {
     const socket: Socket = io(BACKEND_URL as string);
 
     socket.on("new-contact", (contact: Contact) => {
-      // Browser notification
+      // 🔔 Browser notification
       if (Notification.permission === "granted") {
         new Notification("New Contact Message", {
           body: `${contact.name} sent a message`,
         });
       }
 
-      loadContacts();
+      loadContacts(); // refresh + badge update
     });
 
     return () => {
@@ -76,22 +91,15 @@ export default function AdminContactList({ token }: { token: string }) {
     return contacts;
   }, [tab, contacts, readContacts, unreadContacts]);
 
-  // App icon badge
-  useEffect(() => {
-    if ("setAppBadge" in navigator) {
-      navigator.setAppBadge(unreadContacts.length);
-    }
-  }, [unreadContacts.length]);
-
   async function handleMarkRead(id: string) {
     await markAsRead(id, token);
-    await loadContacts();
+    await loadContacts(); // reload + update badge
   }
 
   async function handleDelete(id: string) {
     if (!confirm("Are you sure you want to delete?")) return;
     await deleteContact(id, token);
-    await loadContacts();
+    await loadContacts(); // reload + update badge
   }
 
   function handleCopy(value: string) {
