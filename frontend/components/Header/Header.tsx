@@ -1,6 +1,7 @@
 "use client";
 
 import Navbar from "../common/Navbar/Navbar";
+import ThemeToggle from "../common/Toggle/ThemeToggle";
 
 export default function Header() {
   return (
@@ -23,11 +24,7 @@ export default function Header() {
 
           {/* Right Side (Optional Later: Theme Toggle / CTA) */}
           <div className="hidden sm:flex items-center gap-3">
-            {/* <a
-              href="/resume"
-              className="px-4 py-2 rounded-xl text-sm font-medium bg-gray-900 text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 transition">
-              View Resume
-            </a> */}
+            {/* <ThemeToggle/> */}
           </div>
         </div>
 
