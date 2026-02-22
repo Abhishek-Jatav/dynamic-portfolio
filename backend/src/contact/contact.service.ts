@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Contact } from './schemas/contact.schema';
 import { CreateContactDto } from './dto/create-contact.dto';
+import { NotificationsGateway } from './notifications.gateway';
 
 const DAILY_MESSAGE_LIMIT = 10;
 
@@ -15,9 +16,9 @@ export class ContactService {
   constructor(
     @InjectModel(Contact.name)
     private readonly contactModel: Model<Contact>,
+    private readonly notificationsGateway: NotificationsGateway,
   ) {}
 
-  // Public: create contact message (24h limit)
   async create(data: CreateContactDto) {
     const last24Hours = new Date();
     last24Hours.setHours(last24Hours.getHours() - 24);
@@ -32,15 +33,18 @@ export class ContactService {
       );
     }
 
-    return this.contactModel.create(data);
+    const savedContact = await this.contactModel.create(data);
+
+    // 🔔 Emit real-time event
+    this.notificationsGateway.notifyNewContact(savedContact);
+
+    return savedContact;
   }
 
-  // Admin: get all messages
   findAll() {
     return this.contactModel.find().sort({ createdAt: -1 });
   }
 
-  // Admin: mark message as read
   async markAsRead(id: string) {
     const message = await this.contactModel.findByIdAndUpdate(
       id,
@@ -55,7 +59,6 @@ export class ContactService {
     return message;
   }
 
-  // Admin: delete message
   async remove(id: string) {
     const deleted = await this.contactModel.findByIdAndDelete(id);
 

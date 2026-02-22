@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { io, Socket } from "socket.io-client";
 import { getAllContacts } from "@/lib/api/contact/getAllContacts";
 import { markAsRead } from "@/lib/api/contact/markAsRead";
 import { deleteContact } from "@/lib/api/contact/deleteContact";
 import { Contact } from "@/lib/types/contact";
+import { BACKEND_URL } from "@/lib/env";
 
 import ContactTabs from "./ContactTabs";
 import ContactCard from "./ContactCard";
@@ -28,8 +30,34 @@ export default function AdminContactList({ token }: { token: string }) {
     }
   }
 
+  // Ask notification permission once
+  useEffect(() => {
+    Notification.requestPermission();
+  }, []);
+
+  // Initial load
   useEffect(() => {
     loadContacts();
+  }, []);
+
+  // Socket connection
+  useEffect(() => {
+    const socket: Socket = io(BACKEND_URL as string);
+
+    socket.on("new-contact", (contact: Contact) => {
+      // Browser notification
+      if (Notification.permission === "granted") {
+        new Notification("New Contact Message", {
+          body: `${contact.name} sent a message`,
+        });
+      }
+
+      loadContacts();
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   const unreadContacts = useMemo(
@@ -48,6 +76,13 @@ export default function AdminContactList({ token }: { token: string }) {
     return contacts;
   }, [tab, contacts, readContacts, unreadContacts]);
 
+  // App icon badge
+  useEffect(() => {
+    if ("setAppBadge" in navigator) {
+      navigator.setAppBadge(unreadContacts.length);
+    }
+  }, [unreadContacts.length]);
+
   async function handleMarkRead(id: string) {
     await markAsRead(id, token);
     await loadContacts();
@@ -63,7 +98,6 @@ export default function AdminContactList({ token }: { token: string }) {
     navigator.clipboard.writeText(value);
     alert("Copied successfully!");
   }
-
 
   function handleReadyToMail(contact: Contact) {
     const subject = encodeURIComponent("Reply to your message");

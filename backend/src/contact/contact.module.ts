@@ -3,12 +3,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ContactController } from './contact.controller';
 import { ContactService } from './contact.service';
 import { Contact, ContactSchema } from './schemas/contact.schema';
+import { NotificationsGateway } from './notifications.gateway';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Contact.name, schema: ContactSchema }]),
   ],
   controllers: [ContactController],
-  providers: [ContactService],
+  providers: [ContactService, NotificationsGateway],
 })
 export class ContactModule {}

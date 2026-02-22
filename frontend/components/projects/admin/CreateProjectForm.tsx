@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { createProject } from "../../../lib/api/projects/createProject";
 import type { CreateProjectDto } from "../../../lib/types/project.dto";
-import { useAuth } from "../../../lib/context/AuthContext"; // ✅ import auth
+import { useAuth } from "../../../lib/context/AuthContext";
 
 export default function CreateProjectForm() {
-  const { token } = useAuth(); // ✅ get token from context
+  const { token } = useAuth();
 
   const [techInput, setTechInput] = useState("");
   const [folderInput, setFolderInput] = useState("[]");
@@ -23,22 +24,14 @@ export default function CreateProjectForm() {
 
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prev) => ({ ...prev, isFeatured: e.target.checked }));
-  };
+  const inputStyle =
+    "w-full border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-gray-800 dark:text-gray-100 rounded-xl px-3 py-2 focus:ring-2 focus:ring-purple-500 outline-none transition";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!token) {
-      alert("You are not authenticated. Please login again.");
+      toast.error("You are not authenticated.");
       return;
     }
 
@@ -51,11 +44,10 @@ export default function CreateProjectForm() {
         folderStructure: folderInput ? JSON.parse(folderInput) : [],
       };
 
-      await createProject(payload, token); // ✅ pass token
+      await createProject(payload, token);
 
-      alert("Project created successfully ✅");
+      toast.success("Project created successfully ✅");
 
-      // Reset form
       setForm({
         name: "",
         description: "",
@@ -69,7 +61,7 @@ export default function CreateProjectForm() {
       setTechInput("");
       setFolderInput("[]");
     } catch (err: any) {
-      alert(err.message || "Invalid folderStructure JSON");
+      toast.error(err.message || "Invalid folderStructure JSON");
     } finally {
       setLoading(false);
     }
@@ -78,91 +70,84 @@ export default function CreateProjectForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 border p-6 rounded-lg bg-dark shadow">
-      <h2 className="text-xl font-bold">Create Project</h2>
-
+      className="space-y-5 p-6 rounded-3xl bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xl shadow-xl border border-white/20">
       <input
         name="name"
         placeholder="Project Name"
         value={form.name}
-        onChange={handleChange}
+        onChange={(e) => setForm({ ...form, name: e.target.value })}
         required
-        className="w-full border p-2 rounded"
+        className={inputStyle}
       />
 
       <textarea
         name="description"
         placeholder="Project Description"
         value={form.description}
-        onChange={handleChange}
+        onChange={(e) => setForm({ ...form, description: e.target.value })}
         required
-        className="w-full border p-2 rounded"
+        className={inputStyle}
       />
 
       <input
         type="date"
         name="startDate"
         value={form.startDate}
-        onChange={handleChange}
+        onChange={(e) => setForm({ ...form, startDate: e.target.value })}
         required
-        className="w-full border p-2 rounded"
+        className={inputStyle}
       />
 
       <input
         name="liveLink"
         placeholder="Live Link"
         value={form.liveLink}
-        onChange={handleChange}
-        className="w-full border p-2 rounded"
+        onChange={(e) => setForm({ ...form, liveLink: e.target.value })}
+        className={inputStyle}
       />
 
       <input
         name="repoLink"
         placeholder="Repository Link"
         value={form.repoLink}
-        onChange={handleChange}
-        className="w-full border p-2 rounded"
+        onChange={(e) => setForm({ ...form, repoLink: e.target.value })}
+        className={inputStyle}
       />
 
       <input
         name="demoLink"
         placeholder="Demo (YouTube) Link"
         value={form.demoLink}
-        onChange={handleChange}
-        className="w-full border p-2 rounded"
+        onChange={(e) => setForm({ ...form, demoLink: e.target.value })}
+        className={inputStyle}
       />
 
       <input
         placeholder="Tech Stack (comma separated)"
         value={techInput}
         onChange={(e) => setTechInput(e.target.value)}
-        className="w-full border p-2 rounded"
+        className={inputStyle}
       />
 
-      <label className="flex items-center gap-2">
+      <label className="flex items-center gap-2 text-gray-700 dark:text-gray-200">
         <input
           type="checkbox"
           checked={form.isFeatured}
-          onChange={handleCheckbox}
+          onChange={(e) => setForm({ ...form, isFeatured: e.target.checked })}
         />
         Mark as Featured
       </label>
 
-      <div>
-        <label className="block mb-1 font-medium">
-          Folder Structure (JSON format)
-        </label>
-        <textarea
-          value={folderInput}
-          onChange={(e) => setFolderInput(e.target.value)}
-          className="w-full border p-2 rounded h-40 font-mono text-sm"
-        />
-      </div>
+      <textarea
+        value={folderInput}
+        onChange={(e) => setFolderInput(e.target.value)}
+        className={`${inputStyle} h-40 font-mono text-sm`}
+      />
 
       <button
         type="submit"
         disabled={loading}
-        className="bg-purple-600 text-white px-4 py-2 rounded">
+        className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-2.5 rounded-xl shadow-lg hover:scale-105 transition disabled:opacity-60">
         {loading ? "Creating..." : "Create Project"}
       </button>
     </form>

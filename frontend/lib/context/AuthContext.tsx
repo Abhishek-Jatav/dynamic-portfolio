@@ -5,6 +5,7 @@ import {
   useContext,
   useState,
   useEffect,
+  useRef,
   ReactNode,
 } from "react";
 import { login as loginApi } from "../api/auth/login";
@@ -31,17 +32,54 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Restore session on reload
+  const logoutTimer = useRef<NodeJS.Timeout | null>(null);
+
+  // ✅ Logout
+  const logout = () => {
+    setAdmin(null);
+    setToken(null);
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("admin");
+    localStorage.removeItem("expiry");
+
+    if (logoutTimer.current) {
+      clearTimeout(logoutTimer.current);
+    }
+  };
+
+  // ✅ Schedule auto logout
+  const scheduleAutoLogout = (expiryTime: number) => {
+    const currentTime = Date.now();
+    const remainingTime = expiryTime - currentTime;
+
+    if (remainingTime <= 0) {
+      logout();
+    } else {
+      logoutTimer.current = setTimeout(logout, remainingTime);
+    }
+  };
+
+  // ✅ Restore session on reload
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     const storedAdmin = localStorage.getItem("admin");
+    const storedExpiry = localStorage.getItem("expiry");
 
-    if (storedToken && storedAdmin) {
-      setToken(storedToken);
-      setAdmin(JSON.parse(storedAdmin));
+    if (storedToken && storedAdmin && storedExpiry) {
+      const expiryTime = parseInt(storedExpiry);
+
+      if (Date.now() < expiryTime) {
+        setToken(storedToken);
+        setAdmin(JSON.parse(storedAdmin));
+        scheduleAutoLogout(expiryTime);
+      } else {
+        logout();
+      }
     }
   }, []);
 
+  // ✅ Login
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
@@ -50,20 +88,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setAdmin(data.admin);
       setToken(data.access_token);
 
+      // backend sends expiresIn in seconds
+      const expiryTime = Date.now() + data.expiresIn * 1000;
+
       localStorage.setItem("token", data.access_token);
       localStorage.setItem("admin", JSON.stringify(data.admin));
+      localStorage.setItem("expiry", expiryTime.toString());
+
+      scheduleAutoLogout(expiryTime);
     } catch (error: any) {
       throw new Error(error?.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
-  };
-
-  const logout = () => {
-    setAdmin(null);
-    setToken(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("admin");
   };
 
   return (

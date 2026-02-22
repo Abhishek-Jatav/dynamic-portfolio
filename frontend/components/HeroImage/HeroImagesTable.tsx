@@ -18,16 +18,16 @@ export default function HeroImagesTable({
 }: Props) {
   if (!items.length) {
     return (
-      <div className="bg-white rounded-2xl shadow p-5">
+      <div className="bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xl rounded-3xl shadow-xl p-6">
         <p>No hero images found.</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-black rounded-2xl shadow p-5 overflow-x-auto">
+    <div className="bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xl border border-white/20 shadow-2xl rounded-3xl p-6 overflow-x-auto">
       <table className="w-full text-sm">
-        <thead>
+        <thead className="text-gray-600 dark:text-gray-300">
           <tr className="text-left border-b">
             <th className="py-3">Preview</th>
             <th>Title</th>
@@ -72,19 +72,19 @@ export default function HeroImagesTable({
               <td className="text-right space-x-2">
                 <button
                   onClick={() => onEdit(img)}
-                  className="px-3 py-1 rounded-lg border">
+                  className="px-3 py-1 rounded-lg border hover:bg-gray-100 dark:hover:bg-neutral-800 transition">
                   Edit
                 </button>
 
                 <button
                   onClick={() => onToggle(img._id)}
-                  className="px-3 py-1 rounded-lg border">
+                  className="px-3 py-1 rounded-lg border hover:bg-gray-100 dark:hover:bg-neutral-800 transition">
                   Toggle
                 </button>
 
                 <button
                   onClick={() => onDelete(img._id)}
-                  className="px-3 py-1 rounded-lg border text-red-600">
+                  className="px-3 py-1 rounded-lg border text-red-600 hover:bg-red-50 transition">
                   Delete
                 </button>
               </td>

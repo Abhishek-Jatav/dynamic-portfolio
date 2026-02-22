@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { CreateHeroImageDto } from "../../lib/types/hero-image";
 
 type Props = {
@@ -26,7 +27,6 @@ export default function HeroImageForm({
 
   const [loading, setLoading] = useState(false);
 
-  // when selecting edit item
   useEffect(() => {
     if (initial) {
       setForm({
@@ -47,7 +47,7 @@ export default function HeroImageForm({
     e.preventDefault();
 
     if (!form.imageUrl.trim()) {
-      alert("Image URL is required");
+      toast.error("Image URL is required");
       return;
     }
 
@@ -55,7 +55,6 @@ export default function HeroImageForm({
     try {
       await onSubmit(form);
 
-      // reset only if not editing
       if (!initial) {
         setForm({
           imageUrl: "",
@@ -73,7 +72,7 @@ export default function HeroImageForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-black rounded-2xl shadow p-5 space-y-4">
+      className="bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xl border border-white/20 shadow-2xl rounded-3xl p-6 sm:p-8 space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">
           {initial ? "Edit Hero Image" : "Add Hero Image"}
@@ -89,44 +88,27 @@ export default function HeroImageForm({
         )}
       </div>
 
-      <div>
-        <label className="text-sm font-medium">Image URL *</label>
-        <input
-          value={form.imageUrl}
-          onChange={(e) => handleChange("imageUrl", e.target.value)}
-          className="w-full border rounded-xl px-3 py-2 mt-1"
-          placeholder="Paste Cloudinary image URL"
-        />
-      </div>
+      {["imageUrl", "title", "subtitle"].map((field) => (
+        <div key={field}>
+          <label className="text-sm font-medium capitalize">
+            {field === "imageUrl" ? "Image URL *" : field}
+          </label>
+          <input
+            value={(form as any)[field]}
+            onChange={(e) => handleChange(field as any, e.target.value)}
+            className="w-full border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 rounded-xl px-3 py-2 mt-1 focus:ring-2 focus:ring-blue-500 outline-none transition"
+          />
+        </div>
+      ))}
 
-      <div>
-        <label className="text-sm font-medium">Title</label>
-        <input
-          value={form.title}
-          onChange={(e) => handleChange("title", e.target.value)}
-          className="w-full border rounded-xl px-3 py-2 mt-1"
-          placeholder="Optional title"
-        />
-      </div>
-
-      <div>
-        <label className="text-sm font-medium">Subtitle</label>
-        <input
-          value={form.subtitle}
-          onChange={(e) => handleChange("subtitle", e.target.value)}
-          className="w-full border rounded-xl px-3 py-2 mt-1"
-          placeholder="Optional subtitle"
-        />
-      </div>
-
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1">
           <label className="text-sm font-medium">Order</label>
           <input
             type="number"
             value={form.order}
             onChange={(e) => handleChange("order", Number(e.target.value))}
-            className="w-full border rounded-xl px-3 py-2 mt-1"
+            className="w-full border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 rounded-xl px-3 py-2 mt-1 focus:ring-2 focus:ring-blue-500 outline-none transition"
           />
         </div>
 
@@ -142,7 +124,7 @@ export default function HeroImageForm({
 
       <button
         disabled={loading}
-        className="bg-black text-white px-4 py-2 rounded-xl border border-white disabled:opacity-60">
+        className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2.5 rounded-xl shadow-lg hover:scale-105 transition disabled:opacity-60">
         {loading ? "Saving..." : submitText}
       </button>
     </form>

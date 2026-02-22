@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 import HeroImageForm from "./HeroImageForm";
 import HeroImagesTable from "./HeroImagesTable";
@@ -8,7 +9,6 @@ import HeroImagesTable from "./HeroImagesTable";
 import { HeroImage } from "@/lib/types/hero-image";
 import { CreateHeroImageDto, UpdateHeroImageDto } from "@/lib/types/hero-image";
 
-// ✅ Your API functions
 import { getHeroImages } from "@/lib/api/hero-images/getHeroImages";
 import { createHeroImage } from "../../lib/api/hero-images/createHeroImage";
 import { updateHeroImage } from "../../lib/api/hero-images/updateHeroImage";
@@ -18,18 +18,15 @@ import { deleteHeroImage } from "../../lib/api/hero-images/deleteHeroImage";
 export default function AdminHeroImagesManager() {
   const [items, setItems] = useState<HeroImage[]>([]);
   const [loading, setLoading] = useState(true);
-
   const [editing, setEditing] = useState<HeroImage | null>(null);
 
-  // ================= FETCH =================
   const fetchHeroImages = async () => {
     setLoading(true);
     try {
       const data = await getHeroImages();
       setItems(data);
     } catch (err) {
-      console.error(err);
-      alert("Failed to fetch hero images");
+      toast.error("Failed to fetch hero images");
     } finally {
       setLoading(false);
     }
@@ -39,71 +36,83 @@ export default function AdminHeroImagesManager() {
     fetchHeroImages();
   }, []);
 
-  // Helper: token
   const getToken = () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Token missing. Please login again.");
+      toast.error("Session expired. Please login again.");
       throw new Error("Token missing");
     }
     return token;
   };
 
-  // ================= CREATE =================
   const handleCreate = async (payload: CreateHeroImageDto) => {
     try {
       const token = getToken();
       await createHeroImage(payload, token);
+      toast.success("Hero image created");
       await fetchHeroImages();
-    } catch (err) {
-      console.error(err);
+    } catch {
+      toast.error("Failed to create hero image");
     }
   };
 
-  // ================= UPDATE =================
   const handleUpdate = async (payload: CreateHeroImageDto) => {
     if (!editing) return;
 
-    const updatePayload: UpdateHeroImageDto = payload;
-
     try {
       const token = getToken();
-      await updateHeroImage(editing._id, updatePayload, token);
+      await updateHeroImage(editing._id, payload, token);
+      toast.success("Hero image updated");
       setEditing(null);
       await fetchHeroImages();
-    } catch (err) {
-      console.error(err);
+    } catch {
+      toast.error("Failed to update hero image");
     }
   };
 
-  // ================= TOGGLE =================
   const handleToggle = async (id: string) => {
     try {
       const token = getToken();
       await toggleHeroImage(id, token);
+      toast.success("Status updated");
       await fetchHeroImages();
-    } catch (err) {
-      console.error(err);
+    } catch {
+      toast.error("Failed to update status");
     }
   };
 
-  // ================= DELETE =================
   const handleDelete = async (id: string) => {
-    const ok = confirm("Are you sure you want to delete this hero image?");
-    if (!ok) return;
-
-    try {
-      const token = getToken();
-      await deleteHeroImage(id, token);
-      await fetchHeroImages();
-    } catch (err) {
-      console.error(err);
-    }
+    toast((t) => (
+      <div className="flex flex-col gap-3">
+        <span>Delete this hero image?</span>
+        <div className="flex gap-2">
+          <button
+            className="px-3 py-1 bg-red-500 text-white rounded"
+            onClick={async () => {
+              toast.dismiss(t.id);
+              try {
+                const token = getToken();
+                await deleteHeroImage(id, token);
+                toast.success("Deleted successfully");
+                await fetchHeroImages();
+              } catch {
+                toast.error("Delete failed");
+              }
+            }}>
+            Yes
+          </button>
+          <button
+            className="px-3 py-1 border rounded"
+            onClick={() => toast.dismiss(t.id)}>
+            Cancel
+          </button>
+        </div>
+      </div>
+    ));
   };
 
   return (
     <div className="space-y-8">
-      {/* FORM */}
       <HeroImageForm
         initial={
           editing
@@ -121,10 +130,9 @@ export default function AdminHeroImagesManager() {
         onCancelEdit={() => setEditing(null)}
       />
 
-      {/* TABLE */}
       {loading ? (
-        <div className="bg-white rounded-2xl shadow p-5">
-          <p>Loading hero images...</p>
+        <div className="bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xl rounded-2xl shadow-xl p-6">
+          <p className="animate-pulse">Loading hero images...</p>
         </div>
       ) : (
         <HeroImagesTable

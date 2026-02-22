@@ -20,7 +20,7 @@ export class AuthService implements OnModuleInit {
     const adminEmail = process.env.ADMIN_EMAIL;
     const adminPassword = process.env.ADMIN_PASSWORD;
     const adminName = process.env.ADMIN_NAME;
-    const adminRole = process.env.ADMIN_ROLE
+    const adminRole = process.env.ADMIN_ROLE;
 
     if (!adminEmail || !adminPassword || !adminName) {
       throw new Error(
@@ -58,11 +58,14 @@ export class AuthService implements OnModuleInit {
 
     // ✅ Create JWT payload
     const payload = { sub: admin._id, email: admin.email, role: 'admin' };
-    const token = this.jwtService.sign(payload, { expiresIn: '1d' });
-
+    const expiresInSeconds = 60 * 60 * 24; // 1 day
+    const token = this.jwtService.sign(payload, {
+      expiresIn: expiresInSeconds,
+    });
     // ✅ Return token + admin details
     return {
       access_token: token,
+      expiresIn: expiresInSeconds, // in seconds
       admin: {
         _id: admin._id,
         name: admin.name,
