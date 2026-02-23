@@ -2,6 +2,9 @@
 
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import LeetcodeStats from "../leetcode/leetcode";
+import GithubStats from "../github/GithubStats";
+import SocialHandlesColumn from "../Handles/SocialHandlesColumn";
 
 export default function AboutSection() {
   useEffect(() => {
@@ -33,6 +36,18 @@ export default function AboutSection() {
             thinking clearly, and improving consistently.
           </p>
         </div>
+
+        {/* HANDLES */}
+              <section className="w-full px-4 sm:px-8 lg:px-16 py-16">
+                <div className="max-w-6xl mx-auto">
+                  <div className="mt-12 grid grid-cols-1 xl:grid-cols-3 gap-10 items-stretch">
+                    <LeetcodeStats />
+                    <GithubStats />
+                    <SocialHandlesColumn />
+                  </div>
+                </div>
+              </section>
+        
 
         {/* Main Content */}
         <div className="grid md:grid-cols-2 gap-8 sm:gap-12">

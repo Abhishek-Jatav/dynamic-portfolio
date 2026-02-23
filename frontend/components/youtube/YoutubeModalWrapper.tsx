@@ -38,7 +38,7 @@ export default function YoutubeModalWrapper({ videoUrl, children }: Props) {
         fixed inset-0 z-[999999]
         flex items-center justify-center
         bg-black/90 backdrop-blur-md
-        p-4 sm:p-6 md:p-10
+        p-10 sm:p-6 md:p-10
       ">
       {/* Close Button */}
       <button
@@ -48,7 +48,7 @@ export default function YoutubeModalWrapper({ videoUrl, children }: Props) {
           sm:top-6 sm:right-6
           text-white text-2xl sm:text-3xl
           font-bold
-          bg-white/10 hover:bg-white/20
+          bg-red-500 hover:bg-green-500
           w-10 h-10 sm:w-12 sm:h-12
           rounded-full flex items-center justify-center
           transition

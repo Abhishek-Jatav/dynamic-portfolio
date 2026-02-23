@@ -8,8 +8,8 @@ import Footer from "../components/footer/Footer";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
-  title: "NexaBuild Admin",
-  description: "Admin Panel",
+  title: "NexaBuild | Abhishek Jatav",
+  description: "A portfolio website showcasing the projects and skills of Abhishek Jatav, a passionate developer and designer.",
   manifest: "/manifest.json",
   themeColor: "#000000",
 };
