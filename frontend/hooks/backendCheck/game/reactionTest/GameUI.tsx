@@ -1,7 +1,6 @@
 "use client";
 
 type Props = {
-  serverAwake: boolean;
   gameState: "waiting" | "ready" | "clicked" | "tooSoon";
   reactionTime: number | null;
   bestScore: number | null;
@@ -10,7 +9,6 @@ type Props = {
 };
 
 export default function GameUI({
-  serverAwake,
   gameState,
   reactionTime,
   bestScore,
@@ -18,8 +16,6 @@ export default function GameUI({
   onClick,
 }: Props) {
   const getBackground = () => {
-    if (serverAwake) return "bg-gradient-to-br from-teal-500 to-emerald-700";
-
     switch (gameState) {
       case "waiting":
         return "bg-gradient-to-br from-gray-900 to-gray-700";
@@ -35,8 +31,6 @@ export default function GameUI({
   };
 
   const getMessage = () => {
-    if (serverAwake) return "🚀 Server is Awake!";
-
     switch (gameState) {
       case "waiting":
         return "Wait for green...";
@@ -63,7 +57,7 @@ export default function GameUI({
           ⚡ Reaction Speed Test
         </h1>
 
-        {gameState === "waiting" && !serverAwake && (
+        {gameState === "waiting" && (
           <div className="w-16 h-16 mx-auto rounded-full bg-white/20 animate-pulse" />
         )}
 

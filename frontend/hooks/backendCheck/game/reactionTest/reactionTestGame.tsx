@@ -9,7 +9,6 @@ export default function ReactionTestGame() {
 
   return (
     <GameUI
-      serverAwake={true}
       gameState={gameState}
       reactionTime={reactionTime}
       bestScore={bestScore}

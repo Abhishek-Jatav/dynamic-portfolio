@@ -9,17 +9,20 @@ export function useBackendWake() {
   useEffect(() => {
     if (!BACKEND_URL) return;
 
-    const interval = setInterval(async () => {
+    const checkBackend = async () => {
       try {
         const res = await fetch(`${BACKEND_URL}/ping`);
-        if (res.ok) {
-          setServerAwake(true);
-          clearInterval(interval);
-        }
+        setServerAwake(res.ok);
       } catch {
-        // ignore errors
+        setServerAwake(false);
       }
-    }, 3000);
+    };
+
+    // Check immediately
+    checkBackend();
+
+    // Keep polling every 3 seconds (never stops)
+    const interval = setInterval(checkBackend, 3000);
 
     return () => clearInterval(interval);
   }, []);
