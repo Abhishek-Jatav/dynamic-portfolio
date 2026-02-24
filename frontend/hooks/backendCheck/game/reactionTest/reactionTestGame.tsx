@@ -1,18 +1,15 @@
 "use client";
 
-import { useBackendWake } from "@/hooks/backendCheck/useBackendWake";
 import { useReactionGame } from "@/hooks/backendCheck/game/reactionTest/useReactionGame";
 import GameUI from "./GameUI";
 
 export default function ReactionTestGame() {
-  const serverAwake = useBackendWake();
-
   const { gameState, reactionTime, bestScore, streak, handleClick } =
-    useReactionGame(serverAwake);
+    useReactionGame();
 
   return (
     <GameUI
-      serverAwake={serverAwake}
+      serverAwake={true}
       gameState={gameState}
       reactionTime={reactionTime}
       bestScore={bestScore}

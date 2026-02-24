@@ -19,7 +19,7 @@ export function useBackendWake() {
       } catch {
         // ignore errors
       }
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);

@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { useBackendWake } from "@/hooks/backendCheck/useBackendWake";
+import { useBackendWake } from "./useBackendWake";
 import Connecting from "../backendCheck/Connecting";
 
 export default function BackendGate({ children }: { children: ReactNode }) {

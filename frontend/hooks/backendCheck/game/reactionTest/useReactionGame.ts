@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 type GameState = "waiting" | "ready" | "clicked" | "tooSoon";
 
-export function useReactionGame(disabled: boolean) {
+export function useReactionGame() {
   const [gameState, setGameState] = useState<GameState>("waiting");
   const [reactionTime, setReactionTime] = useState<number | null>(null);
   const [bestScore, setBestScore] = useState<number | null>(null);
@@ -26,8 +26,6 @@ export function useReactionGame(disabled: boolean) {
   }, []);
 
   const startGame = () => {
-    if (disabled) return;
-
     setReactionTime(null);
     setGameState("waiting");
 
@@ -40,8 +38,6 @@ export function useReactionGame(disabled: boolean) {
   };
 
   const handleClick = () => {
-    if (disabled) return;
-
     if (gameState === "waiting") {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       setGameState("tooSoon");
@@ -66,13 +62,11 @@ export function useReactionGame(disabled: boolean) {
   };
 
   useEffect(() => {
-    if (disabled) return;
-
     if (gameState === "clicked" || gameState === "tooSoon") {
       const restart = setTimeout(startGame, 1200);
       return () => clearTimeout(restart);
     }
-  }, [gameState, disabled]);
+  }, [gameState]);
 
   useEffect(() => {
     startGame();
