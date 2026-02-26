@@ -1,16 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
+
+export type GitHubDocument = HydratedDocument<GitHub>;
 
 @Schema({
   collection: 'github',
   timestamps: true,
 })
-export class GitHub extends Document {
-  // We store only profile, so type will always be "profile"
+export class GitHub {
   @Prop({ required: true, unique: true })
   type: string;
 
-  // Store the profile data in one object
   @Prop({ type: Object, required: true })
   data: {
     username: string;
@@ -24,7 +24,6 @@ export class GitHub extends Document {
     joinedAt: string;
   };
 
-  // Used for checking 24h cache expiry
   @Prop({ required: true })
   lastFetchedAt: Date;
 }

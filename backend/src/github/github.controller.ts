@@ -7,6 +7,6 @@ export class GithubController {
 
   @Get('profile')
   async getProfile() {
-    return await this.githubService.getProfile();
+    return this.githubService.getProfile();
   }
 }
