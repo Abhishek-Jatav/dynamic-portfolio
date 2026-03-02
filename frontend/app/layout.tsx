@@ -11,11 +11,11 @@ export const metadata: Metadata = {
   title: "NexaBuild | Abhishek Jatav",
   description:
     "A portfolio website showcasing the projects and skills of Abhishek Jatav, a passionate developer and designer.",
-  manifest: "/manifest.json", // keep this
+  manifest: "/manifest.json",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000000", // ✅ moved here
+  themeColor: "#000000", // Always dark
 };
 
 export default function RootLayout({
@@ -24,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
+    <html lang="en" className="dark">
+      <body className="min-h-screen flex flex-col bg-black text-white">
         <Providers>
           <BackendGate>
             <Header />
