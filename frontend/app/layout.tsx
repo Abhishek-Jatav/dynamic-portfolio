@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 import BackendGate from "../hooks/backendCheck/BackendGate";
@@ -9,9 +9,13 @@ import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "NexaBuild | Abhishek Jatav",
-  description: "A portfolio website showcasing the projects and skills of Abhishek Jatav, a passionate developer and designer.",
-  manifest: "/manifest.json",
-  themeColor: "#000000",
+  description:
+    "A portfolio website showcasing the projects and skills of Abhishek Jatav, a passionate developer and designer.",
+  manifest: "/manifest.json", // keep this
+};
+
+export const viewport: Viewport = {
+  themeColor: "#000000", // ✅ moved here
 };
 
 export default function RootLayout({
