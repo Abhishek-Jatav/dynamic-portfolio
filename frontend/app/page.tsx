@@ -6,9 +6,11 @@ import LeetcodeStats from "../components/leetcode/leetcode";
 import GithubStats from "../components/github/GithubStats";
 import SocialHandlesColumn from "../components/Handles/SocialHandlesColumn";
 import ProjectCarousel from "../components/projects/ProjectCarousel";
+import { getIntroductionVideoUrl } from "../lib/api/introductionVideo/introductionVideo.api";
 
 export default function Home() {
-  const homeYoutubeId = "uOAV3SlY7do";
+  // ✅ Get video URL from environment variable
+  const introductionVideoUrl = getIntroductionVideoUrl();
 
   return (
     <main className="w-full">
@@ -28,7 +30,7 @@ export default function Home() {
               sm:bottom-6 sm:right-6
               lg:bottom-7 lg:right-7
             ">
-            <HomeVideoSection youtubeUrl="https://youtu.be/o-zgjQVR1to?si=AhXH_SWchOvQpU0G" />
+            <HomeVideoSection youtubeUrl={introductionVideoUrl} />
           </div>
         </div>
       </section>
