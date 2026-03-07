@@ -18,4 +18,14 @@ export class AppController {
       time: new Date().toISOString(),
     };
   }
+
+  @Get('health')
+  health() {
+    return {
+      status: 'healthy',
+      uptime: Math.floor(process.uptime()),
+      timestamp: new Date().toISOString(),
+      service: 'dynamic-portfolio-backend',
+    };
+  }
 }
