@@ -3,20 +3,13 @@ import axios from 'axios';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import {
-  LeetcodeDSA,
-  LeetcodeDSADocument,
-} from './leetcode-dsa.schema';
+import { LeetcodeDSA, LeetcodeDSADocument } from './leetcode-dsa.schema';
 
-import {
-  LeetcodeSQL,
-  LeetcodeSQLDocument,
-} from './leetcode-sql.schema';
+import { LeetcodeSQL, LeetcodeSQLDocument } from './leetcode-sql.schema';
 
 @Injectable()
 export class LeetcodeService {
   private readonly username = 'abhidel44';
-  private readonly CACHE_DURATION = 24 * 60 * 60 * 1000; // 24h
 
   constructor(
     @InjectModel(LeetcodeDSA.name)
@@ -27,17 +20,7 @@ export class LeetcodeService {
   ) {}
 
   // =========================
-  // Cache checker
-  // =========================
-
-  private isCacheExpired(lastFetchedAt?: Date): boolean {
-    if (!lastFetchedAt) return true;
-
-    return Date.now() - new Date(lastFetchedAt).getTime() > this.CACHE_DURATION;
-  }
-
-  // =========================
-  // FETCH DSA DATA
+  // FETCH DSA DATA FROM API
   // =========================
 
   private async fetchDSA() {
@@ -69,7 +52,7 @@ export class LeetcodeService {
     const matchedUser = response.data?.data?.matchedUser;
 
     if (!matchedUser) {
-      throw new InternalServerErrorException('LeetCode user not found');
+      throw new Error('User not found');
     }
 
     const stats = matchedUser.submitStatsGlobal.acSubmissionNum;
@@ -87,65 +70,59 @@ export class LeetcodeService {
     };
   }
 
+  // =========================
+  // GET DSA STATS
+  // =========================
+
   async getDSAStats() {
-    let doc = await this.dsaModel.findOne({ type: 'dsa' }).exec();
+    try {
+      const freshData = await this.fetchDSA();
 
-    if (!doc || this.isCacheExpired(doc.lastFetchedAt)) {
-      try {
-        const freshData = await this.fetchDSA();
+      await this.dsaModel.findOneAndUpdate(
+        { type: 'dsa' },
+        {
+          type: 'dsa',
+          data: freshData,
+          lastFetchedAt: new Date(),
+        },
+        { upsert: true },
+      );
 
-        doc = await this.dsaModel
-          .findOneAndUpdate(
-            { type: 'dsa' },
-            {
-              type: 'dsa',
-              data: freshData,
-              lastFetchedAt: new Date(),
-            },
-            { upsert: true, new: true },
-          )
-          .exec();
+      return freshData;
+    } catch (error) {
+      console.error('LeetCode API failed:', error);
 
-        if (!doc) {
-          throw new InternalServerErrorException(
-            'Failed to update LeetCode DSA stats',
-          );
-        }
+      const cached = await this.dsaModel.findOne({ type: 'dsa' }).exec();
 
-        return doc.data;
-      } catch (error) {
-        console.error('LeetCode DSA API failed:', error);
-
-        if (doc) return doc.data;
-
-        throw new InternalServerErrorException(
-          'LeetCode API failed and no cached DSA data available',
-        );
+      if (cached) {
+        return cached.data;
       }
-    }
 
-    return doc.data;
+      throw new InternalServerErrorException(
+        'API failed and no cached DSA data available',
+      );
+    }
   }
 
   // =========================
-  // FETCH SQL DATA
+  // FETCH SQL DATA FROM API
   // =========================
 
   private async fetchSQL() {
     const query = `
-    query sqlProblems {
-      problemsetQuestionList(
-        categorySlug: ""
-        limit: 200
-        skip: 0
-        filters: { tags: ["database"] }
-      ) {
-        questions {
-          difficulty
+      query sqlProblems {
+        problemsetQuestionList(
+          categorySlug: ""
+          limit: 200
+          skip: 0
+          filters: { tags: ["database"] }
+        ) {
+          questions {
+            difficulty
+          }
         }
       }
-    }
-  `;
+    `;
 
     const response = await axios.post(
       'https://leetcode.com/graphql',
@@ -175,43 +152,37 @@ export class LeetcodeService {
     };
   }
 
+  // =========================
+  // GET SQL STATS
+  // =========================
+
   async getSQLStats() {
-    let doc = await this.sqlModel.findOne({ type: 'sql' }).exec();
+    try {
+      const freshData = await this.fetchSQL();
 
-    if (!doc || this.isCacheExpired(doc.lastFetchedAt)) {
-      try {
-        const freshData = await this.fetchSQL();
+      await this.sqlModel.findOneAndUpdate(
+        { type: 'sql' },
+        {
+          type: 'sql',
+          data: freshData,
+          lastFetchedAt: new Date(),
+        },
+        { upsert: true },
+      );
 
-        doc = await this.sqlModel
-          .findOneAndUpdate(
-            { type: 'sql' },
-            {
-              type: 'sql',
-              data: freshData,
-              lastFetchedAt: new Date(),
-            },
-            { upsert: true, new: true },
-          )
-          .exec();
+      return freshData;
+    } catch (error) {
+      console.error('LeetCode SQL API failed:', error);
 
-        if (!doc) {
-          throw new InternalServerErrorException(
-            'Failed to update LeetCode SQL stats',
-          );
-        }
+      const cached = await this.sqlModel.findOne({ type: 'sql' }).exec();
 
-        return doc.data;
-      } catch (error) {
-        console.error('LeetCode SQL API failed:', error);
-
-        if (doc) return doc.data;
-
-        throw new InternalServerErrorException(
-          'LeetCode API failed and no cached SQL data available',
-        );
+      if (cached) {
+        return cached.data;
       }
-    }
 
-    return doc.data;
+      throw new InternalServerErrorException(
+        'API failed and no cached SQL data available',
+      );
+    }
   }
 }
