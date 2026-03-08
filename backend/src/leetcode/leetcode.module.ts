@@ -1,13 +1,18 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { LeetcodeService } from './leetcode.service';
+
 import { LeetcodeController } from './leetcode.controller';
-import { Leetcode, LeetcodeSchema } from './leetcode.schema';
+import { LeetcodeService } from './leetcode.service';
+
+import { LeetcodeDSA, LeetcodeDSASchema } from './leetcode-dsa.schema';
+
+import { LeetcodeSQL, LeetcodeSQLSchema } from './leetcode-sql.schema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: Leetcode.name, schema: LeetcodeSchema },
+      { name: LeetcodeDSA.name, schema: LeetcodeDSASchema },
+      { name: LeetcodeSQL.name, schema: LeetcodeSQLSchema },
     ]),
   ],
   controllers: [LeetcodeController],

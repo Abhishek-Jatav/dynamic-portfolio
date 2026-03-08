@@ -2,7 +2,11 @@
 
 import { BACKEND_URL } from "../../env";
 
-export interface LeetcodeStats {
+/* =============================
+   DSA TYPES
+============================= */
+
+export interface LeetcodeDSAStats {
   username: string;
   totalSolved: number;
   easySolved: number;
@@ -11,21 +15,56 @@ export interface LeetcodeStats {
   lastUpdated: string;
 }
 
-export async function leetcodeStats(): Promise<LeetcodeStats> {
+/* =============================
+   SQL TYPES
+============================= */
+
+export interface LeetcodeSQLStats {
+  username: string;
+  sqlSolved: number;
+  lastUpdated: string;
+}
+
+/* =============================
+   FETCH DSA STATS
+============================= */
+
+export async function fetchLeetcodeDSA(): Promise<LeetcodeDSAStats> {
   try {
-    const res = await fetch(`${BACKEND_URL}/leetcode/stats`, {
+    const res = await fetch(`${BACKEND_URL}/leetcode/dsa`, {
       method: "GET",
-      cache: "no-store", // always fetch fresh data
+      cache: "no-store",
     });
 
     if (!res.ok) {
-      throw new Error("Failed to fetch LeetCode stats");
+      throw new Error("Failed to fetch LeetCode DSA stats");
     }
 
-    const data = await res.json();
-    return data;
+    return await res.json();
   } catch (error) {
-    console.error("LeetCode API Error:", error);
+    console.error("LeetCode DSA API Error:", error);
+    throw error;
+  }
+}
+
+/* =============================
+   FETCH SQL STATS
+============================= */
+
+export async function fetchLeetcodeSQL(): Promise<LeetcodeSQLStats> {
+  try {
+    const res = await fetch(`${BACKEND_URL}/leetcode/sql`, {
+      method: "GET",
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch LeetCode SQL stats");
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("LeetCode SQL API Error:", error);
     throw error;
   }
 }

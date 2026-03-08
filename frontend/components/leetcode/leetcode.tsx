@@ -1,39 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BACKEND_URL } from "../../lib/env";
-
-interface LeetcodeStats {
-  username: string;
-  totalSolved: number;
-  easySolved: number;
-  mediumSolved: number;
-  hardSolved: number;
-  lastUpdated: string;
-  profileUrl?: string;
-}
+import { fetchLeetcodeDSA, LeetcodeDSAStats } from "../../lib/api/leetcode/leetcode";
 
 export default function LeetcodeStats() {
-  const [data, setData] = useState<LeetcodeStats | null>(null);
+  const [data, setData] = useState<LeetcodeDSAStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchStats() {
+    async function loadStats() {
       try {
-        const res = await fetch(`${BACKEND_URL}/leetcode/stats`, {
-          method: "GET",
-          cache: "no-store",
-        });
-
-        if (!res.ok) throw new Error("Failed to fetch stats");
-
-        const json = await res.json();
-
-        json.profileUrl =
-          json.profileUrl || `https://leetcode.com/u/abhidel44/`;
-
-        setData(json);
+        const stats = await fetchLeetcodeDSA();
+        setData(stats);
       } catch (err: any) {
         setError(err.message || "Something went wrong");
       } finally {
@@ -41,7 +20,7 @@ export default function LeetcodeStats() {
       }
     }
 
-    fetchStats();
+    loadStats();
   }, []);
 
   if (loading)
@@ -83,11 +62,11 @@ export default function LeetcodeStats() {
         </div>
 
         <div className="shrink-0 px-3 py-1 rounded-full bg-white/10 text-xs text-white/70 border border-white/10">
-          Stats
+          DSA
         </div>
       </div>
 
-      <div className="mt-7 grid grid-cols-2 sm:grid-cols-2 gap-4">
+      <div className="mt-7 grid grid-cols-2 gap-4">
         <StatBox label="Total" value={data.totalSolved} />
         <StatBox label="Easy" value={data.easySolved} tone="green" />
         <StatBox label="Medium" value={data.mediumSolved} tone="yellow" />
@@ -96,7 +75,7 @@ export default function LeetcodeStats() {
 
       <div className="mt-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <a
-          href={data.profileUrl}
+          href={`https://leetcode.com/u/${data.username}/`}
           target="_blank"
           rel="noreferrer"
           className="text-sm font-medium text-white hover:text-white/80 transition">

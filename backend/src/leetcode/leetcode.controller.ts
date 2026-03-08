@@ -5,8 +5,13 @@ import { LeetcodeService } from './leetcode.service';
 export class LeetcodeController {
   constructor(private readonly leetcodeService: LeetcodeService) {}
 
-  @Get('stats')
-  async getLeetcodeStats() {
-    return this.leetcodeService.getStats();
+  @Get('dsa')
+  async getDSAStats() {
+    return this.leetcodeService.getDSAStats();
+  }
+
+  @Get('sql')
+  async getSQLStats() {
+    return this.leetcodeService.getSQLStats();
   }
 }
