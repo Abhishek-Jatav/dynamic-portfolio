@@ -11,12 +11,22 @@ export class AppController {
   }
 
   @Get('ping')
-  ping() {
-    return {
-      status: 'ok',
-      message: 'pong 🏓',
-      time: new Date().toISOString(),
-    };
+  async ping() {
+    const dbAlive = await this.appService.isDatabaseAlive();
+
+    if (dbAlive) {
+      return {
+        status: 'ok',
+        message: 'pong 🏓',
+        time: new Date().toISOString(),
+      };
+    } else {
+      return {
+        status: 'error',
+        message: 'Database not reachable',
+        time: new Date().toISOString(),
+      };
+    }
   }
 
   @Get('health')

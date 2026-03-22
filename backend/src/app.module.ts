@@ -30,7 +30,7 @@ import { VideosModule } from './videos/videos.module';
     LeetcodeModule,
     GithubModule,
     HeroImagesModule,
-    VideosModule
+    VideosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
