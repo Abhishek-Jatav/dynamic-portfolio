@@ -34,7 +34,7 @@ export default function Connecting({ error }: { error: string | null }) {
   }, [timeLeft]);
 
   return (
-    <div className="relative min-h-screen bg-gray-900 text-white">
+    <div className="relative min-h-screen w-screen bg-gray-900 text-white overflow-x-hidden">
       {/* Status Box */}
       <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md border border-white/20 px-4 py-3 rounded-xl shadow-xl z-50 w-[260px]">
         <div className="font-semibold text-sm">
