@@ -16,7 +16,7 @@ export default function Connecting({ error }: { error: string | null }) {
     return () => clearInterval(interval);
   }, []);
 
-  // Timer countdown (fixed)
+  // Timer countdown
   useEffect(() => {
     if (timeLeft <= 0) return;
 
@@ -33,46 +33,63 @@ export default function Connecting({ error }: { error: string | null }) {
     return () => clearInterval(timer);
   }, [timeLeft]);
 
-  return (
-    <div className="relative min-h-screen w-screen bg-gray-900 text-white overflow-x-hidden">
-      {/* Status Box */}
-      <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md border border-white/20 px-4 py-3 rounded-xl shadow-xl z-50 w-[260px]">
-        <div className="font-semibold text-sm">
-          🔌 Connecting to server
-          <span className="inline-block w-[18px]">{dots}</span>
-        </div>
+return (
+  <div className="fixed inset-0 w-full h-full bg-[#020617] text-white overflow-hidden z-[9999]">
+    {/* Game */}
+    <div className="flex justify-center items-center h-full w-full">
+      <ReactionTestGame />
+    </div>
 
-        {/* Apology + explanation */}
-        <div className="text-white/70 text-[11px] mt-2 leading-snug">
-          This app is hosted on a free server, so it may take a moment to wake
-          up.
-          <br />
-          <span className="text-white/90">Sorry for the wait 🙏</span>
-        </div>
+    {/* Floating Card */}
+    <div className="absolute top-4 left-1/2 -translate-x-1/2 w-full px-4 sm:px-6 md:px-8 flex justify-center">
+      <div className="w-full bg-[#0b1220]/90 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_10px_60px_rgba(0,0,0,0.9)] p-6 relative">
+        {/* Grid */}
+        <div className="grid grid-cols-[1fr_auto] gap-6 items-center">
+          {/* Text Section */}
+          <div>
+            <div className="font-bold text-base flex items-center gap-2 text-white">
+              🔌 Connecting to server
+              <span className="animate-pulse text-blue-400">{dots}</span>
+            </div>
 
-        {/* Timer */}
-        <div className="mt-3">
-          <div className="flex items-center justify-between text-[11px] mb-1">
-            <span>Waking server...</span>
-            <span className="font-mono">{timeLeft}s</span>
+            <div className="text-white text-sm mt-2 leading-relaxed font-medium">
+              This app is hosted on a free server, so it may take a moment to
+              wake up. {"     "}
+              <span className="font-semibold text-white ml-4">
+                Sorry for the wait 🙏
+              </span>
+            </div>
+          </div>
+
+          {/* Countdown */}
+          <div className="row-span-2 flex flex-col items-center justify-center min-w-[100px]">
+            <div className="text-5xl font-extrabold font-mono text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+              {timeLeft}
+            </div>
+            <div className="text-xs text-white/70 uppercase tracking-wide mt-1">
+              seconds
+            </div>
           </div>
 
           {/* Progress Bar */}
-          <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-all duration-1000 ease-linear"
-              style={{ width: `${(timeLeft / 50) * 100}%` }}
-            />
+          <div className="col-start-1 mt-1">
+            <div className="w-full h-3 bg-white/15 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transition-all duration-1000 ease-linear"
+                style={{ width: `${(timeLeft / 50) * 100}%` }}
+              />
+            </div>
           </div>
         </div>
 
-        {error && <div className="text-red-400 text-[10px] mt-2">{error}</div>}
-      </div>
-
-      {/* Center Game */}
-      <div className="flex justify-center items-center min-h-screen">
-        <ReactionTestGame />
+        {/* Error */}
+        {error && (
+          <div className="text-red-400 text-sm mt-3 text-center font-semibold">
+            {error}
+          </div>
+        )}
       </div>
     </div>
-  );
+  </div>
+);
 }
