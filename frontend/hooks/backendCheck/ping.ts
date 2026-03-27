@@ -1,11 +1,9 @@
-import { BACKEND_URL } from "../../lib/env";
-
 export async function pingBackend(): Promise<boolean> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 5000);
 
   try {
-    const res = await fetch(`${BACKEND_URL}/ping`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/ping`, {
       method: "GET",
       credentials: "include",
       cache: "no-store",
@@ -18,7 +16,6 @@ export async function pingBackend(): Promise<boolean> {
 
     return true;
   } catch (error: any) {
-    // Optional: differentiate abort error
     if (error.name === "AbortError") {
       throw new Error("Backend timeout");
     }

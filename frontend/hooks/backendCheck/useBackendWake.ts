@@ -1,19 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { pingBackend } from "./ping"; // adjust path if needed
+import { pingBackend } from "./ping";
 
 export function useBackendWake() {
   const [serverAwake, setServerAwake] = useState(false);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-
     const checkBackend = async () => {
       try {
         await pingBackend();
         setServerAwake(true);
-        clearInterval(interval); // stop polling once awake
       } catch {
         setServerAwake(false);
       }
@@ -22,8 +19,8 @@ export function useBackendWake() {
     // Initial check
     checkBackend();
 
-    // Poll every 3 sec until awake
-    interval = setInterval(checkBackend, 3000);
+    // Keep polling every 3 sec (never stops)
+    const interval = setInterval(checkBackend, 3000);
 
     return () => clearInterval(interval);
   }, []);
