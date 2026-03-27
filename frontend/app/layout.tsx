@@ -27,7 +27,7 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col bg-black text-white">
         <Providers>
-          <BackendGate>
+          {/* <BackendGate> */}
             <Header />
 
             <main className="flex-grow w-full">
@@ -49,7 +49,7 @@ export default function RootLayout({
             </main>
 
             <Footer />
-          </BackendGate>
+          {/* </BackendGate> */}
         </Providers>
       </body>
     </html>
