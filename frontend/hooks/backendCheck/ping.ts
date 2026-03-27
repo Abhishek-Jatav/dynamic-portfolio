@@ -5,28 +5,31 @@ export async function pingBackend(): Promise<boolean> {
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   if (!BACKEND_URL) {
-    throw new Error("Backend URL not defined in env");
+    console.error("❌ Backend URL missing");
+    return false;
   }
 
   try {
     const res = await fetch(`${BACKEND_URL}/ping`, {
       method: "GET",
-      credentials: "include",
       cache: "no-store",
       signal: controller.signal,
     });
 
     if (!res.ok) {
-      throw new Error(`Ping failed: ${res.status}`);
+      console.error("❌ Ping failed:", res.status);
+      return false;
     }
 
     return true;
   } catch (error: any) {
     if (error.name === "AbortError") {
-      throw new Error("Backend timeout");
+      console.error("⏱ Backend timeout");
+    } else {
+      console.error("❌ Backend unreachable");
     }
 
-    throw new Error("Backend unreachable");
+    return false;
   } finally {
     clearTimeout(timeoutId);
   }
