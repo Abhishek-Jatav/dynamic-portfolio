@@ -7,22 +7,27 @@ export function useBackendWake() {
   const [serverAwake, setServerAwake] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
+
     const checkBackend = async () => {
       try {
         await pingBackend();
-        setServerAwake(true);
+        if (isMounted) setServerAwake(true);
       } catch {
-        setServerAwake(false);
+        if (isMounted) setServerAwake(false);
       }
     };
 
     // Initial check
     checkBackend();
 
-    // Keep polling every 3 sec (never stops)
-    const interval = setInterval(checkBackend, 3000);
+    // ✅ Slower interval (better for Render cold start)
+    const interval = setInterval(checkBackend, 5000);
 
-    return () => clearInterval(interval);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
   }, []);
 
   return serverAwake;
