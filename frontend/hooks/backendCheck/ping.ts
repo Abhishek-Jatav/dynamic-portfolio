@@ -2,8 +2,14 @@ export async function pingBackend(): Promise<boolean> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 5000);
 
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  if (!BACKEND_URL) {
+    throw new Error("Backend URL not defined in env");
+  }
+
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/ping`, {
+    const res = await fetch(`${BACKEND_URL}/ping`, {
       method: "GET",
       credentials: "include",
       cache: "no-store",

@@ -2,13 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
-function normalizeOrigins(origins?: string) {
-  if (!origins) return [];
-
-  return origins
-    .split(',')
-    .map((o) => o.trim().toLowerCase().replace(/\/$/, ''))
-    .filter(Boolean);
+function normalize(origin?: string) {
+  return origin?.toLowerCase().replace(/\/$/, '');
 }
 
 async function bootstrap() {
@@ -23,35 +18,34 @@ async function bootstrap() {
     }),
   );
 
-  // ✅ Allowed origins from ENV
+  // ✅ Allowed origins
   const allowedOrigins = [
-    ...normalizeOrigins(process.env.FRONTEND_URI_PROD),
-    ...normalizeOrigins(process.env.FRONTEND_URI_DEV),
-  ];
+    normalize(process.env.FRONTEND_URI_PROD),
+    normalize(process.env.FRONTEND_URI_DEV),
+  ].filter(Boolean);
 
   console.log('✅ Allowed CORS Origins:', allowedOrigins);
 
-  // ✅ CORS setup
+  // ✅ CORS
   app.enableCors({
     origin: (origin, callback) => {
-      // allow server-to-server / postman
+      // allow Postman / server-to-server
       if (!origin) return callback(null, true);
 
-      const normalizedOrigin = origin.toLowerCase().replace(/\/$/, '');
+      const normalizedOrigin = normalize(origin);
 
       if (allowedOrigins.includes(normalizedOrigin)) {
         return callback(null, true);
       }
 
       console.error('❌ Blocked CORS origin:', origin);
-      return callback(new Error('Not allowed by CORS'));
+      return callback(new Error(`CORS blocked: ${origin}`));
     },
     credentials: true,
   });
 
   // ✅ PORT
-  const port = process.env.PORT || 4000;
-
+  const port = process.env.PORT || 3000;
   await app.listen(port);
 
   console.log(`🚀 Backend running on port ${port}`);
