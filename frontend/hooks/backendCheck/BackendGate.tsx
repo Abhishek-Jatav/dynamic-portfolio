@@ -19,7 +19,7 @@ export default function BackendGate({ children }: { children: ReactNode }) {
 
         {/* 🎮 Game (80%) */}
         <div className="h-[80vh] w-full flex justify-center items-center">
-          <ReactionTestGame />
+          {/* <ReactionTestGame /> */}
           {/* <DinoGame /> */}
         </div>
       </div>
