@@ -20,7 +20,7 @@ export function useBackendWake() {
     checkBackend();
 
     // Keep polling every 3 sec (never stops)
-    const interval = setInterval(checkBackend, 3000);
+    const interval = setInterval(checkBackend, 60000);
 
     return () => clearInterval(interval);
   }, []);
