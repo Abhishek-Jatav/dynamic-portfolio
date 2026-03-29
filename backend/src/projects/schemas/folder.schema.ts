@@ -8,6 +8,7 @@ export class Folder {
   @Prop({ type: [String], default: [] })
   files: string[];
 
+  // ✅ IMPORTANT: keep flexible to support existing DB data
   @Prop({ type: [Object], default: [] })
   subFolders: Folder[];
 }

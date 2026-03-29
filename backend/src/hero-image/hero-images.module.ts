@@ -7,10 +7,14 @@ import { HeroImage, HeroImageSchema } from './schema/hero-image.schema';
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: HeroImage.name, schema: HeroImageSchema },
+      {
+        name: HeroImage.name,
+        schema: HeroImageSchema,
+      },
     ]),
   ],
   controllers: [HeroImagesController],
   providers: [HeroImagesService],
+  exports: [HeroImagesService],
 })
 export class HeroImagesModule {}

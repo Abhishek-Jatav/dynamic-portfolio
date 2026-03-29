@@ -13,26 +13,31 @@ export class ProjectService {
   ) {}
 
   async create(createProjectDto: CreateProjectDto) {
-    const project = new this.projectModel(createProjectDto);
-    return project.save();
+    const project = new this.projectModel({
+      ...createProjectDto,
+      startDate: new Date(createProjectDto.startDate),
+    });
+
+    return await project.save();
   }
 
   async findAll() {
-    return this.projectModel.find().sort({ createdAt: -1 });
+    // ✅ IMPORTANT: lean() to avoid schema parsing issues
+    return await this.projectModel.find().sort({ createdAt: -1 }).lean().exec();
   }
 
   async findOne(id: string) {
-    const project = await this.projectModel.findById(id);
+    const project = await this.projectModel.findById(id).lean().exec();
+
     if (!project) {
       throw new NotFoundException('Project not found');
     }
+
     return project;
   }
 
   async findByName(name: string) {
-    const project = await this.projectModel.findOne({
-      name: name,
-    });
+    const project = await this.projectModel.findOne({ name }).lean().exec();
 
     if (!project) {
       throw new NotFoundException('Project not found');
@@ -42,11 +47,14 @@ export class ProjectService {
   }
 
   async update(id: string, updateProjectDto: UpdateProjectDto) {
-    const project = await this.projectModel.findByIdAndUpdate(
-      id,
-      updateProjectDto,
-      { new: true },
-    );
+    if (updateProjectDto.startDate) {
+      updateProjectDto.startDate = new Date(updateProjectDto.startDate) as any;
+    }
+
+    const project = await this.projectModel
+      .findByIdAndUpdate(id, updateProjectDto, { new: true })
+      .lean()
+      .exec();
 
     if (!project) {
       throw new NotFoundException('Project not found');
@@ -56,7 +64,7 @@ export class ProjectService {
   }
 
   async remove(id: string) {
-    const project = await this.projectModel.findByIdAndDelete(id);
+    const project = await this.projectModel.findByIdAndDelete(id).exec();
 
     if (!project) {
       throw new NotFoundException('Project not found');
@@ -66,7 +74,10 @@ export class ProjectService {
   }
 
   async deleteByName(name: string) {
-    const deleted = await this.projectModel.findOneAndDelete({ name });
+    const deleted = await this.projectModel
+      .findOneAndDelete({ name })
+      .lean()
+      .exec();
 
     if (!deleted) {
       throw new NotFoundException(`Project with name "${name}" not found`);

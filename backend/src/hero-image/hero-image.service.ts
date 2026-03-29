@@ -12,54 +12,64 @@ export class HeroImagesService {
     private readonly heroImageModel: Model<HeroImage>,
   ) {}
 
-  // 🔓 PUBLIC
+  // 🔓 PUBLIC — fetch only active images
   async getHeroImages() {
-    return this.heroImageModel
+    const images = await this.heroImageModel
       .find({ isActive: true })
       .sort({ order: 1 })
       .lean();
+
+    return images;
   }
 
-  // 🔐 ADMIN
+  // 🔐 ADMIN — create image
   async create(dto: CreateHeroImageDto) {
-    const created = await this.heroImageModel.create({
+    const created = new this.heroImageModel({
       ...dto,
       order: dto.order ?? 0,
       isActive: dto.isActive ?? true,
     });
 
-    return created;
+    return await created.save();
   }
 
-  // 🔐 ADMIN
+  // 🔐 ADMIN — update
   async update(id: string, dto: UpdateHeroImageDto) {
     const updated = await this.heroImageModel.findByIdAndUpdate(
       id,
       { $set: dto },
-      { new: true },
+      {
+        new: true,
+        runValidators: true,
+      },
     );
 
     if (!updated) throw new NotFoundException('Hero image not found');
+
     return updated;
   }
 
-  // 🔐 ADMIN — toggle active/inactive
+  // 🔐 ADMIN — toggle active
   async toggleActive(id: string) {
     const heroImage = await this.heroImageModel.findById(id);
 
     if (!heroImage) throw new NotFoundException('Hero image not found');
 
     heroImage.isActive = !heroImage.isActive;
+
     await heroImage.save();
 
     return heroImage;
   }
 
-  // 🔐 ADMIN
+  // 🔐 ADMIN — delete
   async delete(id: string) {
     const deleted = await this.heroImageModel.findByIdAndDelete(id);
 
     if (!deleted) throw new NotFoundException('Hero image not found');
-    return { message: 'Hero image deleted successfully' };
+
+    return {
+      message: 'Hero image deleted successfully',
+    };
   }
 }

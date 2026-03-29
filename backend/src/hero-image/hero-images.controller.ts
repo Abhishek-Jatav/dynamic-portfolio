@@ -19,41 +19,41 @@ import { Roles } from '../auth/decorators/roles.decorator';
 export class HeroImagesController {
   constructor(private readonly heroImagesService: HeroImagesService) {}
 
-  // 🔓 PUBLIC — frontend uses this
+  // 🔓 PUBLIC — used by frontend
   @Get()
-  getAllPublic() {
-    return this.heroImagesService.getHeroImages();
+  async getAllPublic() {
+    return await this.heroImagesService.getHeroImages();
   }
 
-  // 🔐 ADMIN — add hero image
+  // 🔐 ADMIN — create
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Post('admin')
-  create(@Body() body: CreateHeroImageDto) {
-    return this.heroImagesService.create(body);
+  async create(@Body() body: CreateHeroImageDto) {
+    return await this.heroImagesService.create(body);
   }
 
-  // 🔐 ADMIN — update hero image (title, subtitle, order, url)
+  // 🔐 ADMIN — update
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Patch('admin/:id')
-  update(@Param('id') id: string, @Body() body: UpdateHeroImageDto) {
-    return this.heroImagesService.update(id, body);
+  async update(@Param('id') id: string, @Body() body: UpdateHeroImageDto) {
+    return await this.heroImagesService.update(id, body);
   }
 
-  // 🔐 ADMIN — toggle active/inactive
+  // 🔐 ADMIN — toggle
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Patch('admin/:id/toggle')
-  toggle(@Param('id') id: string) {
-    return this.heroImagesService.toggleActive(id);
+  async toggle(@Param('id') id: string) {
+    return await this.heroImagesService.toggleActive(id);
   }
 
-  // 🔐 ADMIN — delete hero image
+  // 🔐 ADMIN — delete
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Delete('admin/:id')
-  delete(@Param('id') id: string) {
-    return this.heroImagesService.delete(id);
+  async delete(@Param('id') id: string) {
+    return await this.heroImagesService.delete(id);
   }
 }

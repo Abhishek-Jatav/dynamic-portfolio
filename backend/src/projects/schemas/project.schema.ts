@@ -18,13 +18,13 @@ export class Project {
   @Prop({ required: true })
   startDate: Date;
 
-  @Prop()
+  @Prop({ default: '' })
   liveLink: string;
 
-  @Prop()
+  @Prop({ default: '' })
   repoLink: string;
 
-  @Prop()
+  @Prop({ default: '' })
   demoLink: string;
 
   @Prop({ type: [FolderSchema], default: [] })
