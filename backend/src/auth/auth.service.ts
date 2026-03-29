@@ -20,7 +20,7 @@ export class AuthService implements OnModuleInit {
     const adminEmail = process.env.ADMIN_EMAIL;
     const adminPassword = process.env.ADMIN_PASSWORD;
     const adminName = process.env.ADMIN_NAME;
-    const adminRole = process.env.ADMIN_ROLE;
+    const adminRole = process.env.ADMIN_ROLE || 'admin';
 
     if (!adminEmail || !adminPassword || !adminName) {
       throw new Error(
@@ -28,19 +28,27 @@ export class AuthService implements OnModuleInit {
       );
     }
 
-    const adminExists = await this.adminModel.findOne({ email: adminEmail });
-    if (!adminExists) {
-      const hashedPassword = await bcrypt.hash(adminPassword, 10);
-      const admin = new this.adminModel({
+    const existingAdmin = await this.adminModel.findOne({ email: adminEmail });
+
+    const hashedPassword = await bcrypt.hash(adminPassword, 10);
+
+    if (!existingAdmin) {
+      await this.adminModel.create({
         name: adminName,
         email: adminEmail,
         password: hashedPassword,
         role: adminRole,
       });
-      await admin.save();
-      console.log('Admin user created from ENV');
+
+      console.log('✅ Admin created');
     } else {
-      console.log('Admin already exists');
+      // 🔥 Always sync password + role with ENV
+      existingAdmin.password = hashedPassword;
+      existingAdmin.role = adminRole;
+
+      await existingAdmin.save();
+
+      console.log('♻️ Admin updated from ENV');
     }
   }
 
@@ -50,22 +58,32 @@ export class AuthService implements OnModuleInit {
 
   async adminLogin(email: string, password: string) {
     const admin = await this.findByEmail(email);
-    if (!admin) throw new UnauthorizedException('Invalid email or password');
+
+    if (!admin) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
 
     const isPasswordValid = await bcrypt.compare(password, admin.password);
-    if (!isPasswordValid)
-      throw new UnauthorizedException('Invalid email or password');
 
-    // ✅ Create JWT payload
-    const payload = { sub: admin._id, email: admin.email, role: 'admin' };
-    const expiresInSeconds = 60 * 60 * 24; // 1 day
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    const payload = {
+      sub: admin._id,
+      email: admin.email,
+      role: admin.role, // ✅ FIXED
+    };
+
+    const expiresInSeconds = 60 * 60 * 24;
+
     const token = this.jwtService.sign(payload, {
       expiresIn: expiresInSeconds,
     });
-    // ✅ Return token + admin details
+
     return {
       access_token: token,
-      expiresIn: expiresInSeconds, // in seconds
+      expiresIn: expiresInSeconds,
       admin: {
         _id: admin._id,
         name: admin.name,
