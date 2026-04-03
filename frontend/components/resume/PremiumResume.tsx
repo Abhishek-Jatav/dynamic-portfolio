@@ -42,14 +42,12 @@ export default function PremiumResume() {
         <div>
           <h1 className="text-4xl font-bold tracking-tight">Abhishek Jatav</h1>
           <p className="text-neutral-600 dark:text-neutral-400 mt-2">
-            Full Stack Developer • AI Enthusiast • Problem Solver
+            Full Stack Developer • AI Engineer • Computer Vision Enthusiast
           </p>
           <p className="text-sm mt-3 text-neutral-500">
             (+91) 8285127250 • abhidel44@gmail.com
           </p>
-          <p className="text-sm text-neutral-500">
-            Delhi Technological University (2022–2026)
-          </p>
+          <p className="text-sm text-neutral-500">Delhi, India</p>
         </div>
 
         <button
@@ -60,25 +58,34 @@ export default function PremiumResume() {
         </button>
       </div>
 
-      {/* ================= EDUCATION ================= */}
+      {/* ================= SUMMARY ================= */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Education</h2>
+        <h2 className="text-2xl font-semibold mb-4">Professional Summary</h2>
+        <p className="text-neutral-700 dark:text-neutral-300">
+          Full Stack & AI Engineer building low-latency, real-time systems using
+          Next.js, FastAPI, and computer vision. Strong experience in scalable
+          API design, WebSocket pipelines, and end-to-end product deployment.
+        </p>
+      </section>
 
-        <div className="space-y-4 text-neutral-700 dark:text-neutral-300">
-          <div>
-            <p className="font-semibold">B.Tech – Mechanical Engineering</p>
-            <p>Delhi Technological University, Delhi (2022 – 2026)</p>
-          </div>
+      {/* ================= SKILLS ================= */}
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">Technical Skills</h2>
 
-          <div>
-            <p className="font-semibold">CBSE – Class XII</p>
-            <p>SBBM Govt., Delhi (2021) – 84.4%</p>
-          </div>
-
-          <div>
-            <p className="font-semibold">CBSE – Class X</p>
-            <p>SBBM Govt., Delhi (2019) – 79%</p>
-          </div>
+        <div className="space-y-3 text-neutral-700 dark:text-neutral-300">
+          <p>
+            Next.js, React.js, TypeScript, Tailwind CSS, HTML5, CSS3, JavaScript
+          </p>
+          <p>
+            FastAPI, Node.js, NestJS, Express.js, REST APIs, WebSockets, JWT
+          </p>
+          <p>MongoDB, Firebase (Realtime DB, Firestore)</p>
+          <p>
+            Python, MediaPipe, OpenCV, NumPy, Pandas, Computer Vision, EAR
+            Algorithm
+          </p>
+          <p>Git, GitHub, Vercel, Postman, Agile/Scrum</p>
+          <p>System Design, Microservices, Real-time Systems, API Design</p>
         </div>
       </section>
 
@@ -92,15 +99,17 @@ export default function PremiumResume() {
               Web Developer Intern – PeakForce Reality
             </h3>
             <p className="text-sm text-neutral-500">
-              June 2025 – July 2025 | Delhi, India
+              Jun 2025 – Jul 2025 | Delhi
             </p>
             <ul className="list-disc list-inside mt-3 space-y-2 text-neutral-700 dark:text-neutral-300">
               <li>
-                Built and optimized 12+ responsive web pages using React.js,
-                Next.js, and TypeScript.
+                Built and optimized 12+ responsive web applications using
+                Next.js, React, and TypeScript with strong performance and
+                accessibility.
               </li>
               <li>
-                Integrated 5+ RESTful APIs reducing page load time by 30%.
+                Integrated 5+ third-party APIs reducing load time by 30% and
+                contributed to Agile development, debugging, and code reviews.
               </li>
             </ul>
           </div>
@@ -110,11 +119,17 @@ export default function PremiumResume() {
               Frontend Developer Intern – PeakForce Reality
             </h3>
             <p className="text-sm text-neutral-500">
-              June 2024 – July 2024 | Delhi, India
+              Jun 2024 – Jul 2024 | Delhi
             </p>
             <ul className="list-disc list-inside mt-3 space-y-2 text-neutral-700 dark:text-neutral-300">
-              <li>Developed 20+ reusable UI components using HTML, CSS, JS.</li>
-              <li>Improved performance by 18% (PageSpeed Insights).</li>
+              <li>
+                Developed 20+ reusable UI components improving scalability and
+                design consistency.
+              </li>
+              <li>
+                Improved performance by 18% via lazy loading, code splitting,
+                and optimization.
+              </li>
             </ul>
           </div>
         </div>
@@ -127,71 +142,59 @@ export default function PremiumResume() {
         <div className="space-y-6 text-neutral-700 dark:text-neutral-300">
           <div>
             <p className="font-semibold">
-              NexaBuild – Full-Stack Developer Portfolio
+              JustBlink – AI Vision Document Control
             </p>
             <p>
-              Built production-ready platform with JWT auth, admin panel, GitHub
-              & LeetCode stats integration.
+              Built real-time hands-free document navigation using MediaPipe,
+              EAR algorithm, and WebSockets with sub-100ms latency.
             </p>
           </div>
 
           <div>
             <p className="font-semibold">
-              JustBlink – AI Vision Document Control
+              NexaBuild – Full-Stack Portfolio Platform
             </p>
             <p>
-              Built AI-powered blink-based document control using MediaPipe,
-              WebSockets & FastAPI.
+              Developed full-stack CMS with JWT authentication, admin panel,
+              REST APIs, and scalable architecture using NestJS and MongoDB.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= EDUCATION ================= */}
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">Education</h2>
+
+        <div className="space-y-4 text-neutral-700 dark:text-neutral-300">
+          <div>
+            <p className="font-semibold">B.Tech – Mechanical Engineering</p>
+            <p>Delhi Technological University (2022 – 2026)</p>
+            <p className="text-sm text-neutral-500">CGPA: 6.2</p>
           </div>
 
           <div>
-            <p className="font-semibold">Cab Booking System (Freelance)</p>
-            <p>
-              Developed real-time booking system with dashboards and analytics.
-            </p>
+            <p className="font-semibold">CBSE Class XII</p>
+            <p>2021 – 84.4%</p>
           </div>
         </div>
       </section>
 
-      {/* ================= SKILLS ================= */}
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Technical Skills</h2>
-
-        <div className="space-y-3 text-neutral-700 dark:text-neutral-300">
-          <p>
-            <span className="font-semibold">Frontend:</span> Next.js, React,
-            TypeScript, Tailwind CSS, Responsive UI
-          </p>
-          <p>
-            <span className="font-semibold">Backend:</span> Node.js, NestJS,
-            Express, FastAPI, MongoDB, Firebase, REST APIs, JWT, WebSockets
-          </p>
-          <p>
-            <span className="font-semibold">Machine Learning:</span> Python,
-            MediaPipe, Pandas, NumPy, scikit-learn
-          </p>
-          <p>
-            <span className="font-semibold">Soft Skills:</span> Problem Solving
-            (250+ DSA), System Design, Debugging, Agile Collaboration
-          </p>
-        </div>
-      </section>
-
-      {/* ================= ACHIEVEMENTS ================= */}
+      {/* ================= EXTRA ================= */}
       <section>
         <h2 className="text-2xl font-semibold mb-4">
-          Achievements & Activities
+          Extra Curricular & Activities
         </h2>
 
         <ul className="list-disc list-inside space-y-2 text-neutral-700 dark:text-neutral-300">
           <li>
-            Event Manager – ASHRAE DTU (Organized 3+ workshops, 250+
-            participants)
+            Built and deployed multiple production-grade applications including
+            AI systems and real-time platforms.
           </li>
-          <li>Hackathon Finalist – Smart India Hackathon 2024</li>
-          <li>Completed 100 Days of Code (250+ DSA problems solved)</li>
-          <li>Active volunteer in tech fests and community drives</li>
+          <li>
+            Active learner exploring LLM APIs, AI apps, and modern system
+            design.
+          </li>
         </ul>
       </section>
     </div>
