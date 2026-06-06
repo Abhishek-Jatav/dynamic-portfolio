@@ -1,20 +1,21 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-export type LeetcodeSQLDocument = HydratedDocument<LeetcodeSQL>;
+export type HackerRankDocument = HydratedDocument<HackerRank>;
 
 @Schema({
-  collection: 'leetcodeSQL',
+  collection: 'hackerrank',
   timestamps: true,
 })
-export class LeetcodeSQL {
+export class HackerRank {
   @Prop({ required: true, unique: true })
   type: string;
 
   @Prop({ type: Object, required: true })
   data: {
     username: string;
-    sqlSolved: number;
+    badges: number;
+    stars: number;
     lastUpdated: string;
   };
 
@@ -22,4 +23,4 @@ export class LeetcodeSQL {
   lastFetchedAt: Date;
 }
 
-export const LeetcodeSQLSchema = SchemaFactory.createForClass(LeetcodeSQL);
+export const HackerRankSchema = SchemaFactory.createForClass(HackerRank);

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { submitContact } from "../../lib/api/contact/submitContact";
 import toast from "react-hot-toast";
+import { Mail, User, Phone, MessageSquare, Send } from "lucide-react";
 
 export default function SubmitContactForm() {
   const [form, setForm] = useState({
@@ -21,57 +22,60 @@ export default function SubmitContactForm() {
     try {
       await submitContact(form);
 
-      toast.success("Message submitted successfully! 🎉", {
-        style: {
-          background: "#16a34a",
-          color: "#fff",
-        },
-      });
-
+      toast.success("Message sent! I'll get back to you soon 🎉");
       setForm({ name: "", email: "", phone: "", message: "" });
     } catch (err: any) {
-      toast.error(err.message || "Something went wrong ❌", {
-        style: {
-          background: "#dc2626",
-          color: "#fff",
-        },
-      });
+      toast.error(err.message || "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="relative backdrop-blur-xl bg-white/70 dark:bg-gray-900/70 border border-white/20 dark:border-gray-700 rounded-3xl shadow-2xl p-6 sm:p-10 lg:p-14 transition-all duration-500 hover:shadow-indigo-500/20">
-      <form onSubmit={handleSubmit} className="space-y-8">
-        {/* Name + Email */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <InputField
+    <div
+      className="glass-card rounded-3xl p-8 sm:p-10 lg:p-12"
+      style={{ background: "var(--bg-card)" }}
+    >
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Name + Email row */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <PremiumInputField
             label="Name"
             type="text"
             value={form.name}
-            onChange={(val: string) => setForm({ ...form, name: val })}
+            onChange={(val) => setForm({ ...form, name: val })}
+            icon={<User size={15} />}
+            placeholder="Your full name"
           />
-
-          <InputField
+          <PremiumInputField
             label="Email"
             type="email"
             value={form.email}
-            onChange={(val: string) => setForm({ ...form, email: val })}
+            onChange={(val) => setForm({ ...form, email: val })}
+            icon={<Mail size={15} />}
+            placeholder="you@example.com"
           />
         </div>
 
         {/* Phone */}
-        <InputField
+        <PremiumInputField
           label="Phone"
           type="text"
           value={form.phone}
-          onChange={(val: string) => setForm({ ...form, phone: val })}
+          onChange={(val) => setForm({ ...form, phone: val })}
+          icon={<Phone size={15} />}
+          placeholder="+91 00000 00000"
         />
 
         {/* Message */}
-        <div>
-          <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
+        <div className="space-y-2">
+          <label
+            className="flex items-center gap-2 text-sm font-medium"
+            style={{ color: "var(--text-secondary)", fontFamily: "var(--font-body)" }}
+          >
+            <span style={{ color: "var(--accent)" }}>
+              <MessageSquare size={15} />
+            </span>
             Message <span className="text-red-500">*</span>
           </label>
 
@@ -80,39 +84,69 @@ export default function SubmitContactForm() {
             onChange={(e) => setForm({ ...form, message: e.target.value })}
             required
             rows={6}
-            className="w-full rounded-2xl border border-gray-300 dark:border-gray-700 bg-white/60 dark:bg-gray-800/60 px-4 py-4 text-sm sm:text-base outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 dark:focus:ring-indigo-500/30 transition-all duration-300"
+            placeholder="Tell me about your project or idea..."
+            className="premium-input resize-none"
+            style={{ lineHeight: 1.7 }}
           />
         </div>
 
-        {/* Button */}
-        <div className="flex justify-center md:justify-start">
+        {/* Submit */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 pt-2">
           <button
             type="submit"
             disabled={loading}
-            className="relative inline-flex items-center justify-center px-8 py-3 sm:px-10 sm:py-4 rounded-2xl font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed w-full md:w-auto">
-            {loading ? "Sending..." : "Send Message"}
+            className="btn-primary flex items-center gap-2 w-full sm:w-auto justify-center"
+            style={{ opacity: loading ? 0.65 : 1, cursor: loading ? "not-allowed" : "pointer" }}
+          >
+            {loading ? (
+              <>
+                <span
+                  className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"
+                />
+                Sending...
+              </>
+            ) : (
+              <>
+                <Send size={15} />
+                Send Message
+              </>
+            )}
           </button>
+
+          <p
+            className="text-xs text-center sm:text-left"
+            style={{ color: "var(--text-muted)" }}
+          >
+            I'll respond within 24–48 hours.
+          </p>
         </div>
       </form>
     </div>
   );
 }
 
-/* Premium Input Component */
-function InputField({
+function PremiumInputField({
   label,
   type,
   value,
   onChange,
+  icon,
+  placeholder,
 }: {
   label: string;
   type: string;
   value: string;
   onChange: (val: string) => void;
+  icon?: React.ReactNode;
+  placeholder?: string;
 }) {
   return (
-    <div className="group">
-      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
+    <div className="space-y-2">
+      <label
+        className="flex items-center gap-2 text-sm font-medium"
+        style={{ color: "var(--text-secondary)", fontFamily: "var(--font-body)" }}
+      >
+        {icon && <span style={{ color: "var(--accent)" }}>{icon}</span>}
         {label} <span className="text-red-500">*</span>
       </label>
 
@@ -121,7 +155,8 @@ function InputField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required
-        className="w-full rounded-2xl border border-gray-300 dark:border-gray-700 bg-white/60 dark:bg-gray-800/60 px-4 py-3 sm:py-4 text-sm sm:text-base outline-none transition-all duration-300 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 dark:focus:ring-indigo-500/30 group-hover:shadow-md"
+        placeholder={placeholder}
+        className="premium-input"
       />
     </div>
   );

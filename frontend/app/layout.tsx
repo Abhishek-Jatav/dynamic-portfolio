@@ -25,13 +25,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col bg-black text-white">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body className="min-h-screen flex flex-col" style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
         <Providers>
           <BackendGate>
             <Header />
 
             <main className="flex-grow w-full">
-              <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-10">
+              <div className="max-w-[1200px] mx-auto px-6 sm:px-10 lg:px-16 py-10">
                 {children}
 
                 <Toaster
@@ -40,8 +44,12 @@ export default function RootLayout({
                     duration: 4000,
                     style: {
                       borderRadius: "12px",
-                      background: "#111827",
-                      color: "#fff",
+                      background: "var(--bg-card)",
+                      color: "var(--text-primary)",
+                      border: "1px solid var(--border-card)",
+                      backdropFilter: "blur(20px)",
+                      boxShadow: "var(--shadow-card)",
+                      fontFamily: "var(--font-body)",
                     },
                   }}
                 />

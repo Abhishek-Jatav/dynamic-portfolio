@@ -5,8 +5,6 @@ import { Model } from 'mongoose';
 
 import { LeetcodeDSA, LeetcodeDSADocument } from './leetcode-dsa.schema';
 
-import { LeetcodeSQL, LeetcodeSQLDocument } from './leetcode-sql.schema';
-
 @Injectable()
 export class LeetcodeService {
   private readonly username = 'abhidel44';
@@ -14,13 +12,10 @@ export class LeetcodeService {
   constructor(
     @InjectModel(LeetcodeDSA.name)
     private readonly dsaModel: Model<LeetcodeDSADocument>,
-
-    @InjectModel(LeetcodeSQL.name)
-    private readonly sqlModel: Model<LeetcodeSQLDocument>,
   ) {}
 
   // =========================
-  // FETCH DSA DATA FROM API
+  // FETCH DSA DATA
   // =========================
 
   private async fetchDSA() {
@@ -45,7 +40,9 @@ export class LeetcodeService {
         variables: { username: this.username },
       },
       {
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
     );
 
@@ -92,7 +89,9 @@ export class LeetcodeService {
     } catch (error) {
       console.error('LeetCode API failed:', error);
 
-      const cached = await this.dsaModel.findOne({ type: 'dsa' }).exec();
+      const cached = await this.dsaModel.findOne({
+        type: 'dsa',
+      });
 
       if (cached) {
         return cached.data;
@@ -100,88 +99,6 @@ export class LeetcodeService {
 
       throw new InternalServerErrorException(
         'API failed and no cached DSA data available',
-      );
-    }
-  }
-
-  // =========================
-  // FETCH SQL DATA FROM API
-  // =========================
-
-  private async fetchSQL() {
-    const query = `
-      query sqlProblems {
-        problemsetQuestionList(
-          categorySlug: ""
-          limit: 200
-          skip: 0
-          filters: { tags: ["database"] }
-        ) {
-          questions {
-            difficulty
-          }
-        }
-      }
-    `;
-
-    const response = await axios.post(
-      'https://leetcode.com/graphql',
-      { query },
-      { headers: { 'Content-Type': 'application/json' } },
-    );
-
-    const questions = response.data.data.problemsetQuestionList.questions;
-
-    let easy = 0;
-    let medium = 0;
-    let hard = 0;
-
-    for (const q of questions) {
-      if (q.difficulty === 'Easy') easy++;
-      if (q.difficulty === 'Medium') medium++;
-      if (q.difficulty === 'Hard') hard++;
-    }
-
-    return {
-      username: this.username,
-      totalSolved: easy + medium + hard,
-      easySolved: easy,
-      mediumSolved: medium,
-      hardSolved: hard,
-      lastUpdated: new Date().toISOString(),
-    };
-  }
-
-  // =========================
-  // GET SQL STATS
-  // =========================
-
-  async getSQLStats() {
-    try {
-      const freshData = await this.fetchSQL();
-
-      await this.sqlModel.findOneAndUpdate(
-        { type: 'sql' },
-        {
-          type: 'sql',
-          data: freshData,
-          lastFetchedAt: new Date(),
-        },
-        { upsert: true },
-      );
-
-      return freshData;
-    } catch (error) {
-      console.error('LeetCode SQL API failed:', error);
-
-      const cached = await this.sqlModel.findOne({ type: 'sql' }).exec();
-
-      if (cached) {
-        return cached.data;
-      }
-
-      throw new InternalServerErrorException(
-        'API failed and no cached SQL data available',
       );
     }
   }

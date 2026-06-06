@@ -1,23 +1,39 @@
+"use client";
+
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 type Props = {
   onPrev: () => void;
   onNext: () => void;
 };
 
 export default function CarouselControls({ onPrev, onNext }: Props) {
+  const btnStyle = {
+    background: "var(--bg-glass)",
+    border: "1px solid var(--border-card)",
+    color: "var(--text-primary)",
+    backdropFilter: "blur(8px)",
+    WebkitBackdropFilter: "blur(8px)",
+  };
+
   return (
-    <div className="flex gap-4">
+    <div className="flex items-center gap-3">
       <button
-        aria-label="Previous Project"
         onClick={onPrev}
-        className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-xl flex items-center justify-center hover:scale-110 active:scale-95 transition">
-        <span className="text-lg sm:text-xl">←</span>
+        className="flex items-center justify-center w-11 h-11 rounded-2xl transition-all duration-250 hover:-translate-y-0.5 hover:shadow-lg"
+        style={btnStyle}
+        aria-label="Previous project"
+      >
+        <ChevronLeft size={18} />
       </button>
 
       <button
-        aria-label="Next Project"
         onClick={onNext}
-        className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-xl flex items-center justify-center hover:scale-110 active:scale-95 transition">
-        <span className="text-lg sm:text-xl">→</span>
+        className="flex items-center justify-center w-11 h-11 rounded-2xl transition-all duration-250 hover:-translate-y-0.5 hover:shadow-lg"
+        style={btnStyle}
+        aria-label="Next project"
+      >
+        <ChevronRight size={18} />
       </button>
     </div>
   );

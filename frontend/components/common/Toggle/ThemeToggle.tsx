@@ -11,7 +11,14 @@ export default function ThemeToggle() {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted) {
+    return (
+      <div
+        className="w-10 h-10 rounded-xl"
+        style={{ background: "var(--bg-glass)", border: "1px solid var(--border-card)" }}
+      />
+    );
+  }
 
   const currentTheme = theme === "system" ? systemTheme : theme;
   const isDark = currentTheme === "dark";
@@ -20,10 +27,19 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="px-4 py-2 rounded-lg border transition-colors duration-300
-                 bg-white text-black border-gray-300
-                 dark:bg-gray-900 dark:text-white dark:border-gray-700">
-      {isDark ? "☀️ Light Mode" : "🌙 Dark Mode"}
+      className="relative flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-300 group"
+      style={{
+        background: "var(--bg-glass)",
+        border: "1px solid var(--border-card)",
+        color: "var(--text-secondary)",
+        backdropFilter: "blur(8px)",
+      }}
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+    >
+      <span className="text-base transition-transform duration-300 group-hover:scale-110">
+        {isDark ? "☀️" : "🌙"}
+      </span>
     </button>
   );
 }

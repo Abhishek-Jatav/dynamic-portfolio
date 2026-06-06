@@ -6,13 +6,13 @@ import { LeetcodeService } from './leetcode.service';
 
 import { LeetcodeDSA, LeetcodeDSASchema } from './leetcode-dsa.schema';
 
-import { LeetcodeSQL, LeetcodeSQLSchema } from './leetcode-sql.schema';
-
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: LeetcodeDSA.name, schema: LeetcodeDSASchema },
-      { name: LeetcodeSQL.name, schema: LeetcodeSQLSchema },
+      {
+        name: LeetcodeDSA.name,
+        schema: LeetcodeDSASchema,
+      },
     ]),
   ],
   controllers: [LeetcodeController],

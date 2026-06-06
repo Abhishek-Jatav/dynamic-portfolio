@@ -6,6 +6,15 @@ import LeetcodeStats from "../leetcode/leetcode";
 import GithubStats from "../github/GithubStats";
 import SocialHandlesColumn from "../Handles/SocialHandlesColumn";
 
+const skills = [
+  { cat: "Frontend", icon: "⚛️", items: ["React", "Next.js", "TypeScript", "Tailwind CSS"] },
+  { cat: "Backend", icon: "🔐", items: ["Node.js", "NestJS", "FastAPI", "REST APIs"] },
+  { cat: "Database", icon: "🗄️", items: ["MongoDB", "PostgreSQL", "Redis"] },
+  { cat: "Languages", icon: "💻", items: ["TypeScript", "Python", "C++", "JavaScript"] },
+  { cat: "DSA & Systems", icon: "🧩", items: ["LeetCode 250+", "Data Structures", "Algorithms", "OOP"] },
+  { cat: "Tools & AI", icon: "🚀", items: ["Git", "Docker", "MediaPipe", "OpenCV"] },
+];
+
 export default function AboutSection() {
   useEffect(() => {
     toast.success("Welcome to my journey ✨");
@@ -13,153 +22,187 @@ export default function AboutSection() {
 
   return (
     <section
-      className="relative py-20 sm:py-24 px-6 sm:px-10 lg:px-16 
-      bg-gradient-to-br 
-      from-white via-neutral-100 to-white 
-      dark:from-black dark:via-neutral-900 dark:to-black
-      text-neutral-900 dark:text-white 
-      transition-colors duration-500 overflow-hidden">
-      {/* Soft Glow Background */}
-      <div className="absolute -top-40 -left-40 w-96 h-96 bg-purple-500/20 dark:bg-purple-600/20 blur-3xl rounded-full -z-10"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/20 dark:bg-blue-600/20 blur-3xl rounded-full -z-10"></div>
+      className="relative py-16 sm:py-20 overflow-hidden"
+      style={{ background: "var(--bg-primary)" }}
+    >
+      {/* Background dots */}
+      <div
+        className="absolute inset-0 bg-dot-grid pointer-events-none"
+        style={{ opacity: 0.4 }}
+      />
 
-      <div className="relative max-w-6xl mx-auto">
+      {/* Decorative blobs */}
+      <div
+        className="absolute -top-32 -left-32 w-80 h-80 rounded-full blur-3xl pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, var(--accent-glow), transparent)",
+        }}
+      />
+      <div
+        className="absolute -bottom-32 -right-32 w-80 h-80 rounded-full blur-3xl pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(139,92,246,0.12), transparent)",
+        }}
+      />
+
+      <div className="relative max-w-[1200px] mx-auto">
         {/* Header */}
-        <div className="text-center mb-16 sm:mb-20">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            👋 About Me
+        <div className="mb-16">
+          <span className="section-label animate-fade-up" style={{ animationFillMode: "both" }}>
+            / About Me
+          </span>
+          <h1
+            className="mt-4 text-4xl sm:text-6xl font-bold animate-fade-up"
+            style={{
+              fontFamily: "var(--font-display)",
+              color: "var(--text-primary)",
+              animationDelay: "0.1s",
+              animationFillMode: "both",
+            }}
+          >
+            Building software
+            <br />
+            <span className="gradient-text">with intention.</span>
           </h1>
-
-          <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-            I genuinely enjoy building with technology 💻. For me, coding is not
-            just about writing functions — it’s about solving real problems,
-            thinking clearly, and improving consistently.
+          <p
+            className="mt-6 text-base sm:text-lg max-w-2xl leading-relaxed animate-fade-up"
+            style={{
+              color: "var(--text-secondary)",
+              animationDelay: "0.2s",
+              animationFillMode: "both",
+            }}
+          >
+            I'm a Full Stack Developer and Mechanical Engineering student at DTU, Delhi.
+            Coding, for me, is about solving real problems — thinking clearly, improving consistently,
+            and writing systems that last.
           </p>
         </div>
 
-        {/* HANDLES */}
-              <section className="w-full px-4 sm:px-8 lg:px-16 py-16">
-                <div className="max-w-6xl mx-auto">
-                  <div className="mt-12 grid grid-cols-1 xl:grid-cols-3 gap-10 items-stretch">
-                    <LeetcodeStats />
-                    <GithubStats />
-                    <SocialHandlesColumn />
-                  </div>
-                </div>
-              </section>
-        
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-16">
+          <LeetcodeStats />
+          <GithubStats />
+          <SocialHandlesColumn />
+        </div>
 
-        {/* Main Content */}
-        <div className="grid md:grid-cols-2 gap-8 sm:gap-12">
-          {/* Dedication Card */}
+        {/* Philosophy cards */}
+        <div className="grid md:grid-cols-2 gap-6 mb-16">
+          {/* Discipline */}
           <div
-            className="bg-white/70 dark:bg-white/5 
-            backdrop-blur-xl 
-            border border-neutral-200 dark:border-white/10 
-            rounded-3xl p-8 sm:p-10 
-            shadow-xl 
-            hover:scale-[1.03] transition-all duration-500">
-            <h2 className="text-2xl font-semibold mb-5">
-              💪 Discipline & Consistency
-            </h2>
+            className="glass-card rounded-3xl p-8 sm:p-10 stat-card-border-top"
+            style={{ background: "var(--bg-card)" }}
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-2xl">💪</span>
+              <h2
+                className="text-xl font-bold"
+                style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)" }}
+              >
+                Discipline & Consistency
+              </h2>
+            </div>
 
-            <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
-              I believe real growth in tech comes from showing up every single
-              day 📈. Solving problems, strengthening fundamentals, and staying
-              curious — even when things feel complex or uncomfortable.
-            </p>
-
-            <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed mt-4">
-              I enjoy diving into system design 🏗️, improving performance ⚡,
-              debugging deeply, and writing clean, maintainable code. The
-              journey of refining systems excites me as much as delivering them.
-            </p>
-
-            <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed mt-4">
-              My mindset is long-term. No shortcuts — just steady improvement,
-              strong foundations, and continuous evolution.
-            </p>
+            <div
+              className="space-y-4 text-sm sm:text-base leading-relaxed"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              <p>
+                Real growth in tech comes from showing up every day — solving problems, strengthening
+                fundamentals, and staying curious even when things feel complex.
+              </p>
+              <p>
+                I enjoy diving into system design, improving performance, debugging deeply, and writing
+                clean, maintainable code. The journey of refining systems excites me as much as delivering them.
+              </p>
+              <p>
+                My mindset is long-term. No shortcuts — just steady improvement, strong foundations, and
+                continuous evolution.
+              </p>
+            </div>
           </div>
 
-          {/* Skills Card */}
+          {/* Skills */}
           <div
-            className="bg-white/70 dark:bg-white/5 
-            backdrop-blur-xl 
-            border border-neutral-200 dark:border-white/10 
-            rounded-3xl p-8 sm:p-10 
-            shadow-xl 
-            hover:scale-[1.03] transition-all duration-500">
-            <h2 className="text-2xl font-semibold mb-5">
-              🧠 Technical Strength
-            </h2>
+            className="glass-card rounded-3xl p-8 sm:p-10 stat-card-border-top"
+            style={{ background: "var(--bg-card)" }}
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-2xl">🧠</span>
+              <h2
+                className="text-xl font-bold"
+                style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)" }}
+              >
+                Technical Strength
+              </h2>
+            </div>
 
-            <ul className="space-y-4 text-neutral-700 dark:text-neutral-300">
-              <li>
-                <span className="font-semibold text-neutral-900 dark:text-white">
-                  ⚛️ Frontend Engineering:
-                </span>{" "}
-                Crafting scalable, responsive interfaces with structured
-                component architecture.
-              </li>
-
-              <li>
-                <span className="font-semibold text-neutral-900 dark:text-white">
-                  🔐 Backend & APIs:
-                </span>{" "}
-                Designing secure authentication flows and reliable server-side
-                logic.
-              </li>
-
-              <li>
-                <span className="font-semibold text-neutral-900 dark:text-white">
-                  🗄️ Databases & Performance:
-                </span>{" "}
-                Writing optimized queries and building systems that scale
-                smoothly.
-              </li>
-
-              <li>
-                <span className="font-semibold text-neutral-900 dark:text-white">
-                  🧩 Problem Solving:
-                </span>{" "}
-                Strong analytical thinking and structured approach to complex
-                challenges.
-              </li>
-
-              <li>
-                <span className="font-semibold text-neutral-900 dark:text-white">
-                  🚀 Continuous Learning:
-                </span>{" "}
-                Exploring AI, system design, and emerging technologies to keep
-                evolving.
-              </li>
-            </ul>
+            <div className="grid grid-cols-2 gap-3">
+              {skills.map((s) => (
+                <div
+                  key={s.cat}
+                  className="rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1"
+                  style={{
+                    background: "var(--bg-glass)",
+                    border: "1px solid var(--border-subtle)",
+                  }}
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-sm">{s.icon}</span>
+                    <span
+                      className="text-xs font-semibold"
+                      style={{ color: "var(--accent)", fontFamily: "var(--font-mono)" }}
+                    >
+                      {s.cat}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {s.items.map((item) => (
+                      <span
+                        key={item}
+                        className="text-[10px] px-2 py-0.5 rounded-full"
+                        style={{
+                          background: "var(--accent-glow)",
+                          color: "var(--text-secondary)",
+                          border: "1px solid var(--border-subtle)",
+                        }}
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Closing Section */}
-        <div className="mt-16 sm:mt-20 text-center">
+        {/* Motivations banner */}
+        <div
+          className="glass-card rounded-3xl p-10 sm:p-14 text-center"
+          style={{
+            background: "var(--bg-card)",
+            borderImage: "linear-gradient(135deg, var(--accent), var(--accent-2)) 1",
+          }}
+        >
+          <span className="text-4xl mb-6 block">🌟</span>
+          <h3
+            className="text-2xl sm:text-3xl font-bold mb-6 gradient-text"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            What Drives Me
+          </h3>
+
           <div
-            className="bg-gradient-to-r 
-            from-purple-500/10 to-blue-500/10 
-            dark:from-purple-600/20 dark:to-blue-600/20 
-            border border-neutral-200 dark:border-white/10 
-            rounded-3xl p-8 sm:p-12 
-            backdrop-blur-xl shadow-xl">
-            <h3 className="text-2xl sm:text-3xl font-semibold mb-6">
-              🌟 What Drives Me
-            </h3>
-
-            <p className="text-neutral-700 dark:text-neutral-300 max-w-3xl mx-auto leading-relaxed text-base sm:text-lg">
-              I am motivated by meaningful progress. Whether it’s improving code
-              quality ✨, learning a new concept 📚, or optimizing a system ⚙️ —
-              I take pride in steady, measurable growth.
+            className="space-y-4 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            <p>
+              I'm motivated by meaningful progress — whether it's improving code quality, learning a new
+              concept, or optimizing a system for speed and clarity.
             </p>
-
-            <p className="text-neutral-700 dark:text-neutral-300 max-w-3xl mx-auto leading-relaxed text-base sm:text-lg mt-6">
-              My goal is to become a dependable, thoughtful engineer who builds
-              efficient, scalable, and impactful solutions. I care deeply about
-              craftsmanship, clarity, and long-term excellence.
+            <p>
+              My goal is to become a dependable, thoughtful engineer who builds efficient, scalable, and
+              impactful solutions. I care deeply about craftsmanship, clarity, and long-term excellence.
             </p>
           </div>
         </div>

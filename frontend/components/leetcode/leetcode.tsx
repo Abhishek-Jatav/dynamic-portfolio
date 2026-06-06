@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { fetchLeetcodeDSA, LeetcodeDSAStats } from "../../lib/api/leetcode/leetcode";
+import { Code } from "lucide-react";
 
 export default function LeetcodeStats() {
   const [data, setData] = useState<LeetcodeDSAStats | null>(null);
@@ -19,108 +20,151 @@ export default function LeetcodeStats() {
         setLoading(false);
       }
     }
-
     loadStats();
   }, []);
 
-  if (loading)
-    return (
-      <PremiumCard>
-        <div className="animate-pulse space-y-5">
-          <div className="h-5 w-32 rounded bg-white/10" />
-          <div className="h-3 w-44 rounded bg-white/10" />
-          <div className="grid grid-cols-2 gap-4">
-            <div className="h-16 rounded-xl bg-white/10" />
-            <div className="h-16 rounded-xl bg-white/10" />
-            <div className="h-16 rounded-xl bg-white/10" />
-            <div className="h-16 rounded-xl bg-white/10" />
-          </div>
-          <div className="h-3 w-40 rounded bg-white/10" />
+  if (loading) return (
+    <PlatformCard>
+      <div className="animate-pulse space-y-5">
+        <div className="h-5 w-28 rounded-lg" style={{ background: "var(--border-card)" }} />
+        <div className="grid grid-cols-2 gap-3">
+          {[1,2,3,4].map(i => (
+            <div key={i} className="h-16 rounded-2xl" style={{ background: "var(--border-card)" }} />
+          ))}
         </div>
-      </PremiumCard>
-    );
+      </div>
+    </PlatformCard>
+  );
 
-  if (error)
-    return (
-      <PremiumCard>
-        <p className="text-red-400 text-sm break-words">Error: {error}</p>
-      </PremiumCard>
-    );
+  if (error) return (
+    <PlatformCard>
+      <p className="text-red-400 text-sm">{error}</p>
+    </PlatformCard>
+  );
 
   if (!data) return null;
 
+  const statBoxes = [
+    { label: "Total", value: data.totalSolved, color: "var(--accent)" },
+    { label: "Easy", value: data.easySolved, color: "#10b981" },
+    { label: "Medium", value: data.mediumSolved, color: "#f59e0b" },
+    { label: "Hard", value: data.hardSolved, color: "#ef4444" },
+  ];
+
+  // Solve rate for total
+  const maxKnown = 3000;
+  const percent = Math.min(Math.round((data.totalSolved / maxKnown) * 100), 100);
+
   return (
-    <PremiumCard>
-      <div className="flex items-start justify-between gap-4 min-w-0">
-        <div className="min-w-0">
-          <h2 className="text-xl sm:text-2xl font-semibold text-white tracking-tight">
-            LeetCode
-          </h2>
-          <p className="text-sm text-white/60 mt-1 truncate">
-            @{data.username}
-          </p>
+    <PlatformCard>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-7">
+        <div className="flex items-center gap-3">
+          <div
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-lg"
+            style={{
+              background: "rgba(234,179,8,0.15)",
+              border: "1px solid rgba(234,179,8,0.3)",
+            }}
+          >
+            <Code size={18} style={{ color: "#eab308" }} />
+          </div>
+          <div>
+            <h2
+              className="text-lg font-bold"
+              style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)" }}
+            >
+              LeetCode
+            </h2>
+            <p
+              className="text-xs"
+              style={{ color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}
+            >
+              @{data.username}
+            </p>
+          </div>
         </div>
 
-        <div className="shrink-0 px-3 py-1 rounded-full bg-white/10 text-xs text-white/70 border border-white/10">
+        <span
+          className="px-3 py-1 rounded-full text-[10px] font-semibold"
+          style={{
+            background: "rgba(234,179,8,0.1)",
+            border: "1px solid rgba(234,179,8,0.3)",
+            color: "#eab308",
+            fontFamily: "var(--font-mono)",
+          }}
+        >
           DSA
+        </span>
+      </div>
+
+      {/* Progress bar */}
+      <div className="mb-6">
+        <div className="flex justify-between text-xs mb-2" style={{ color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>
+          <span>Solved {data.totalSolved}+ problems</span>
+          <span>{percent}%</span>
+        </div>
+        <div
+          className="h-1.5 rounded-full overflow-hidden"
+          style={{ background: "var(--border-card)" }}
+        >
+          <div
+            className="h-full rounded-full transition-all duration-700"
+            style={{
+              width: `${percent}%`,
+              background: "linear-gradient(90deg, var(--accent), var(--accent-2))",
+            }}
+          />
         </div>
       </div>
 
-      <div className="mt-7 grid grid-cols-2 gap-4">
-        <StatBox label="Total" value={data.totalSolved} />
-        <StatBox label="Easy" value={data.easySolved} tone="green" />
-        <StatBox label="Medium" value={data.mediumSolved} tone="yellow" />
-        <StatBox label="Hard" value={data.hardSolved} tone="red" />
+      {/* Stats grid */}
+      <div className="grid grid-cols-2 gap-3 mb-7">
+        {statBoxes.map((s) => (
+          <div
+            key={s.label}
+            className="rounded-2xl p-4 text-center transition-all duration-300 hover:-translate-y-0.5"
+            style={{
+              background: "var(--bg-glass)",
+              border: "1px solid var(--border-subtle)",
+            }}
+          >
+            <p
+              className="text-xs mb-1"
+              style={{ color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}
+            >
+              {s.label}
+            </p>
+            <p
+              className="text-xl font-bold"
+              style={{ color: s.color, fontFamily: "var(--font-display)" }}
+            >
+              {s.value}
+            </p>
+          </div>
+        ))}
       </div>
 
-      <div className="mt-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <a
-          href={`https://leetcode.com/u/${data.username}/`}
-          target="_blank"
-          rel="noreferrer"
-          className="text-sm font-medium text-white hover:text-white/80 transition">
-          View Profile →
-        </a>
-
-        <p className="text-xs text-white/50 break-words">
-          Updated: {new Date(data.lastUpdated).toLocaleString()}
-        </p>
-      </div>
-    </PremiumCard>
+      <a
+        href={`https://leetcode.com/u/${data.username}/`}
+        target="_blank"
+        rel="noreferrer"
+        className="inline-flex items-center gap-2 text-sm font-semibold transition-all duration-200 hover:gap-3"
+        style={{ color: "var(--accent)" }}
+      >
+        View Profile <span>→</span>
+      </a>
+    </PlatformCard>
   );
 }
 
-function PremiumCard({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="h-full w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.35)] p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.07]">
-      {children}
-    </div>
-  );
-}
-
-function StatBox({
-  label,
-  value,
-  tone = "neutral",
-}: {
-  label: string;
-  value: number;
-  tone?: "neutral" | "green" | "yellow" | "red";
-}) {
-  const toneMap: Record<string, string> = {
-    neutral: "bg-white/5 border-white/10",
-    green: "bg-emerald-500/10 border-emerald-400/20",
-    yellow: "bg-yellow-500/10 border-yellow-400/20",
-    red: "bg-red-500/10 border-red-400/20",
-  };
-
+function PlatformCard({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className={`rounded-xl border p-4 text-center ${toneMap[tone]} transition overflow-hidden`}>
-      <p className="text-xs sm:text-sm text-white/60 truncate">{label}</p>
-      <p className="text-lg sm:text-xl font-semibold text-white mt-1 truncate">
-        {value}
-      </p>
+      className="h-full w-full glass-card rounded-3xl p-6 sm:p-7 stat-card-border-top"
+      style={{ background: "var(--bg-card)" }}
+    >
+      {children}
     </div>
   );
 }

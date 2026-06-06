@@ -9,9 +9,4 @@ export class LeetcodeController {
   async getDSAStats() {
     return this.leetcodeService.getDSAStats();
   }
-
-  @Get('sql')
-  async getSQLStats() {
-    return this.leetcodeService.getSQLStats();
-  }
 }
